@@ -8,13 +8,13 @@
   "scripts": {
     "clean": "rimraf dist && tsc",
     "build": "tsc",
-    "build-check": "tsc && npm run check-page-scripts && npm run check-libraries",
     "test": "jest",
     "lint": "eslint '_common/gameModel' --ext '.ts'",
     "format": "prettier --write _common/gameModel/**/*.[tj]s",
     "checkFormat": "prettier --check _common/gameModel/**/*.[tj]s",
     "check-page-scripts": "node checkImports/checkPageScripts.js",
-    "check-libraries": "node checkLibraries/checkLibraries.js"
+    "check-libraries": "node checkLibraries/checkLibraries.js",
+    "check-all": "tsc && npm run check-page-scripts && npm run check-libraries"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.174",

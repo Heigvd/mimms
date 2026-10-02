@@ -37,7 +37,7 @@ export function getActivableLayerStyle(feature: any): LayerStyleObject {
   const interfaceColor = getInterfaceColor(currentActorUid);
   const selectionActive = getTypedMapState()?.mapSelect === true;
 
-  const { id, buildStatus, binding } = feature?.getProperties();
+  const { id, buildStatus, binding } = feature.getProperties();
   let isHighlighted = false;
   let isSelected = false;
 
@@ -108,19 +108,7 @@ function getIconBackgroundStyle(feature: any, colors: MapColorConfig): LayerStyl
     };
     return { image: iconStyle };
   }
-
-  // fallback
-  const stroke: StrokeStyleObject = {
-    type: 'StrokeStyle',
-    color: colors.color,
-    width: 40,
-    lineJoin: 'round',
-  };
-  const fill: FillStyleObject = {
-    type: 'FillStyle',
-    color: colors.color,
-  };
-  return { stroke, fill };
+  return getUnsupportedFeatureStyle(feature, colors);
 }
 
 function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
@@ -142,56 +130,19 @@ function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
 
     const text = getTextStyle(feature, colors, 30);
 
-    /*
-  OLD CODE for phylactère / Speech scroll
-    if (selectionActive && rotation === undefined) {
-      iconStyle.src = `/maps/mapIcons/${icon}_choice.svg`;
-      iconStyle.color = colors.highlight;
-      iconStyle.opacity = isSelected ? 1 : colors.unselectedOpacity;
-
-      textStyle.text = getLetterRepresentationOfIndex(parseInt(index, 10));
-      textStyle.offsetX = 12 + offsetX;
-      textStyle.offsetY = -38 + offsetY;
-      textStyle.scale = 1.6;
-      textStyle.opacity = isSelected ? 1 : colors.unselectedOpacity;
-      textStyle.fill = {
-        type: 'FillStyle',
-        color: 'white',
-      };
-    }
-*/
     // Arrowheads
-    // TODO specifically designed for access and egress (text on arrow heads)
-    // should be thought again (text centered on middle of feature instead ?)
-    // TODO we should rather emit a triangle when building the features
     if (rotation !== undefined) {
       iconStyle.rotation = rotation;
       iconStyle.displacement = [0, 0];
       iconStyle.color = colors.color;
       iconStyle.opacity = colors.opacity;
-
-      /*textStyle.text = label;
-      textStyle.offsetX = 0.5 + offsetX;
-      textStyle.offsetY = -18 + offsetY;
-      textStyle.scale = 1.6;
-      textStyle.fill = {
-        type: 'FillStyle',
-        color: '#ffffff',
-      };
-      textStyle.stroke = {
-        type: 'StrokeStyle',
-        width: 3,
-        color: colors.color,
-        lineCap: 'round',
-        lineJoin: 'round',
-      };*/
       return { image: iconStyle };
     }
 
     return { image: iconStyle, text: text };
   }
 
-  return {}; // TODO Add fallback style for scenarist ?
+  return getUnsupportedFeatureStyle(feature, colors);
 }
 
 function getLineStringStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
