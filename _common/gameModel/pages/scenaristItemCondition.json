@@ -397,7 +397,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getTriggersOptions } from \"./edition/UIfacade/dataFetcher\";\n  getTriggersOptions((trigger: FlatTrigger) => { return trigger.uid !== getSelected('trigger')?.uid });",
+                  "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getTriggersOptions } from \"./edition/UIfacade/dataFetcher\";\n  getTriggersOptions((trigger: FlatTrigger) => { return trigger.uid !== getSelected('trigger', true)?.uid });",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
