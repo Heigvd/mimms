@@ -112,11 +112,12 @@ export abstract class StartEndAction extends ActionBase {
   protected abstract dispatchEndedEvents(state: MainSimulationState): void;
 
   public update(state: MainSimulationState): void {
-    const simTime = state.getSimTime();
 
     if (this.status === 'Completed') {
       return;
     }
+
+    const simTime = state.getSimTime();
 
     if (this.status === 'Uninitialized' && simTime >= this.startTime) {
       this.logger.debug('dispatching start events...');
