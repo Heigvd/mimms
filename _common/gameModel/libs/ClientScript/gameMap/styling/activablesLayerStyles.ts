@@ -6,7 +6,7 @@ import { floatToHexByte } from '../../tools/helper';
 import { getAvailableActionTemplateById, isChoiceTemplate } from '../../UIfacade/actionFacade';
 import { getActor, isCurrentActorAtLocation } from '../../UIfacade/actorFacade';
 
-export const DEFAULT_SELECTED_COLOR = '#3CA3CC';
+export const DEFAULT_SELECTED_COLOR = '#1591C2';
 export const DEFAULT_UNSELECTED_COLOR = '#323739';
 
 export interface MapColorConfig {
@@ -100,7 +100,7 @@ function getIconBackgroundStyle(feature: any, colors: MapColorConfig): LayerStyl
       anchorYUnits: 'fraction',
       src: `/maps/mapIcons/${icon}.svg`,
       scale: 0.05,
-      opacity: 0.9,
+      opacity: 1,
       color: colors.color,
     };
     return { image: iconStyle };
