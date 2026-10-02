@@ -112,7 +112,6 @@ export abstract class StartEndAction extends ActionBase {
   protected abstract dispatchEndedEvents(state: MainSimulationState): void;
 
   public update(state: MainSimulationState): void {
-
     if (this.status === 'Completed') {
       return;
     }
