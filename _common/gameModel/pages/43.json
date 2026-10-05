@@ -1174,7 +1174,7 @@
                                   },
                                   "type" : "PageLoader"
                                 } ],
-                                "className" : "fullWidth fullHeight evacuation-modal",
+                                "className" : "fullWidth fullHeight flow-modal evacuation-modal",
                                 "hideIf" : {
                                   "@class" : "Script",
                                   "content" : "!Context.interfaceState?.state?.showEvacuationModal;",
@@ -1488,7 +1488,7 @@
                                                       },
                                                       "type" : "Text"
                                                     } ],
-                                                    "className" : "resourcesSelectionAssignment",
+                                                    "className" : "smallGap",
                                                     "layout" : {
                                                       "alignItems" : "center"
                                                     },
@@ -1513,7 +1513,7 @@
                                                   },
                                                   "type" : "Text"
                                                 } ],
-                                                "className" : "actionHeader resourcesSelectionAssignment interactive",
+                                                "className" : "actionHeader smallGap interactive",
                                                 "disableIf" : {
                                                   "@class" : "Script",
                                                   "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nimport { isRadioSchemaActivated } from \"./UIfacade/flagsFacade\";\n !canPlanAction() || (!isRadioSchemaActivated() && !isCurrentActorAtLocation(Context.overlayItem.id));",
@@ -1951,7 +1951,7 @@
                                               "type" : "Icon"
                                             }, {
                                               "props" : {
-                                                "className" : "incoming-resources__counter",
+                                                "className" : "incoming-flow__counter",
                                                 "layoutClassName" : "noPadding",
                                                 "layoutStyle" : { },
                                                 "name" : "number",
@@ -1964,7 +1964,7 @@
                                               },
                                               "type" : "Text"
                                             } ],
-                                            "className" : "incoming-resources",
+                                            "className" : "incoming-flow incoming-flow--resources",
                                             "hideIf" : {
                                               "@class" : "Script",
                                               "content" : "Context.overlayItem.comingTo.length < 1;",

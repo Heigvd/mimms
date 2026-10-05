@@ -126,9 +126,8 @@ const PATIENT_FLOW_GRID_CLASS_NAMES: Partial<Record<LOCATION_ENUM, string>> = {
 };
 
 /**
- * @returns The CSS class placing the given location in the Patient flow overlay grid
- * (see .patient-flow__unactivables-overlay in patient.css), or an empty string for a
- * location that has no dedicated slot in that grid
+ * @returns The CSS class placing the given location in the Patient flow overlay grid,
+ * or an empty string for a location that has no dedicated slot in that grid
  */
 export function getPatientFlowGridClassName(location: LOCATION_ENUM): string {
   return PATIENT_FLOW_GRID_CLASS_NAMES[location] ?? '';

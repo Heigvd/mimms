@@ -1,3 +1,4 @@
+/*  G E N E R I C  M O D A L S */
 .modal {
   width: 40rem;
   padding: 3rem;
@@ -37,4 +38,63 @@
   justify-content: center;
   gap: 2rem;
   padding-top: 2rem;
+}
+
+
+/* - - - - -  F L O W  M O D A L S  - - - */
+
+/* display */
+/* ugly selector because for some reason, the wegas
+container element does not actually wrap the content */
+#globalInterfaceId > div:has(.flow-modal) {
+  padding: 0;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.flow-modal {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom right, #D0E9F380 0%, #D0E9F333 100%);
+  backdrop-filter: blur(12px);
+  border-radius: 0;
+  pointer-events: auto;
+}
+
+/* text */
+.flow-modal__title {
+  font-size: var(--L_text);
+  font-weight: var(--blackWeight);
+  color: var(--grey_80);
+  opacity: 75%;
+}
+
+/* buttons */
+.flow-modal .flow-modal__close svg {
+  color: var(--grey_80);
+  opacity: 75%;
+}
+
+
+/* - - - - -  L O C A T I O N   C A R D S  - - - */
+
+/* text */
+.unactivables-overlay__title {
+  font-size: var(--SM_text);
+  font-weight: var(--blackWeight);
+  color: var(--grey_60);
+}
+
+/* icon */
+.unactivables-overlay__icon-container {
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  transform: translate(-50%, .5rem);
+}
+
+.unactivables-overlay__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
 }

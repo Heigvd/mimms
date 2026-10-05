@@ -105,3 +105,56 @@
   background-color: rgba(253, 80, 80, .2);
   border-radius: var(--XXS_borderRadius);
 }
+
+
+/* - - - - -  I N C O M I N G  F L O W S  - - - */
+
+/* counter on the right of a fixed entity (map, resources flow modal) or of a patient flow arrow */
+.incoming-flow {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-left: 1rem;
+  transform: translateY(-50%);
+}
+
+.incoming-flow svg {
+  height: 14px;
+  color: var(--grey_80);
+}
+
+.incoming-flow__counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -.25rem;
+  left: -.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_80);
+  background-color: var(--grey-white);
+  border: 1.5px solid var(--grey_80);
+  border-radius: var(--S_borderRadius);
+}
+
+/* resources on their way: dashed arrow pointing to the fixed entity */
+.incoming-flow--resources {
+  width: 2.5rem;
+  padding-bottom: .75rem;
+  border-bottom: 2px dashed var(--grey_80);
+}
+
+.incoming-flow--resources::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  bottom: -5px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-right: 6px solid var(--grey_80);
+}

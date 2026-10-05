@@ -6,7 +6,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "close-generic-fixed-entity",
+                "className" : "flow-modal__close close-generic-fixed-entity",
                 "icon" : "times",
                 "label" : {
                   "@class" : "Script",
@@ -28,7 +28,7 @@
               "type" : "Button"
             }, {
               "props" : {
-                "className" : "noMargin resources-management__title",
+                "className" : "noMargin flow-modal__title",
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "Resources flow",
@@ -309,7 +309,7 @@
                                                   "props" : {
                                                     "children" : [ {
                                                       "props" : {
-                                                        "className" : "unactivables-overlay__button",
+                                                        "className" : "resource-type__button",
                                                         "disableIf" : {
                                                           "@class" : "Script",
                                                           "content" : "import { canRemoveRessourceType } from \"./UIfacade/resourceOrdersFacade\";\n!canRemoveRessourceType(Context.task.Uid, Context.resourceType.enum);",
@@ -336,7 +336,7 @@
                                                       "type" : "Button"
                                                     }, {
                                                       "props" : {
-                                                        "className" : "unactivables-overlay__input",
+                                                        "className" : "resource-type__input",
                                                         "layoutClassName" : "noPadding",
                                                         "layoutStyle" : { },
                                                         "name" : "input",
@@ -367,7 +367,7 @@
                                                       "type" : "Number input"
                                                     }, {
                                                       "props" : {
-                                                        "className" : "unactivables-overlay__button",
+                                                        "className" : "resource-type__button",
                                                         "disableIf" : {
                                                           "@class" : "Script",
                                                           "content" : "import { canAddRessourceType } from \"./UIfacade/resourceOrdersFacade\";\n!canAddRessourceType(Context.task.Uid, Context.resourceType.enum);",
@@ -393,7 +393,7 @@
                                                       },
                                                       "type" : "Button"
                                                     } ],
-                                                    "className" : "resourcesSelectionAssignment",
+                                                    "className" : "smallGap",
                                                     "hideIf" : {
                                                       "@class" : "Script",
                                                       "content" : "import { isTaskValidSource } from \"./UIfacade/resourceOrdersFacade\";\n!isTaskValidSource(Context.overlayItem.id, Context.task.Uid)",
@@ -570,7 +570,7 @@
                                           },
                                           "type" : "Text"
                                         } ],
-                                        "className" : "resourcesSelectionAssignment",
+                                        "className" : "smallGap",
                                         "layout" : {
                                           "alignItems" : "center"
                                         },
@@ -595,7 +595,7 @@
                                       },
                                       "type" : "Text"
                                     } ],
-                                    "className" : "actionHeader resourcesSelectionAssignment interactive",
+                                    "className" : "actionHeader smallGap interactive",
                                     "conditionnalClassNames" : [ {
                                       "applyOn" : "Inside",
                                       "className" : "actionHeaderDisabled",
@@ -953,7 +953,7 @@
                               "type" : "Icon"
                             }, {
                               "props" : {
-                                "className" : "incoming-resources__counter",
+                                "className" : "incoming-flow__counter",
                                 "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
                                 "name" : "number",
@@ -966,7 +966,7 @@
                               },
                               "type" : "Text"
                             } ],
-                            "className" : "incoming-resources",
+                            "className" : "incoming-flow incoming-flow--resources",
                             "hideIf" : {
                               "@class" : "Script",
                               "content" : "Context.overlayItem.comingTo.length < 1;",
@@ -1081,20 +1081,6 @@
                             }
                           },
                           "type" : "For each"
-                        }, {
-                          "props" : {
-                            "className" : "unactivables-overlay__icon",
-                            "layoutClassName" : "noPadding unactivables-overlay__icon-container",
-                            "layoutStyle" : { },
-                            "name" : "Icon",
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "`/maps/mapIcons/${Context.overlayItem.icon}.svg`",
-                              "language" : "TypeScript"
-                            },
-                            "style" : { }
-                          },
-                          "type" : "Image"
                         } ],
                         "conditionnalClassNames" : [ {
                           "applyOn" : "Outside",
@@ -1136,7 +1122,7 @@
                   },
                   "type" : "FlexList"
                 } ],
-                "className" : "fullHeight unactivables-overlay__container",
+                "className" : "fullHeight resources-flow__grid",
                 "exposeAs" : "overlayItem",
                 "getItemsFn" : {
                   "@class" : "Script",
