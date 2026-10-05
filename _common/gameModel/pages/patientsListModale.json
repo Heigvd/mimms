@@ -207,7 +207,7 @@
         "className" : "noPadding noMargin",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { getPatientsForLocation } from \"./UIfacade/patientFacade\";\n getPatientsForLocation(LOCATION_ENUM.PMA).length === 0;",
+          "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getPretriagedPatientsForLocation } from \"./UIfacade/patientFacade\";\n getPretriagedPatientsForLocation(getTypedInterfaceState().patientModalLocation!).length === 0;",
           "language" : "typescript"
         },
         "layout" : {
