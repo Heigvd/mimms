@@ -47,13 +47,13 @@ export function unselect(itemType: SuperTypeNames): void {
   getCurrentController()?.unselect(itemType);
 }
 
-export function getSelectedReadOnly(itemType: SuperTypeNames): FlatTypes | undefined {
-  return getCurrentController()?.getSelected(itemType, true);
+export function getSelectedReadOnly(itemType: SuperTypeNames): Readonly<FlatTypes> | undefined {
+  return getCurrentController()?.getSelected(itemType);
 }
 
 export function getSelectedTypedReadOnly<S extends SuperTypeNames>(
   superType: S
-): FlatTypeBySuperType[S] | undefined {
+): Readonly<FlatTypeBySuperType[S]> | undefined {
   return getSelectedReadOnly(superType) as FlatTypeBySuperType[S];
 }
 

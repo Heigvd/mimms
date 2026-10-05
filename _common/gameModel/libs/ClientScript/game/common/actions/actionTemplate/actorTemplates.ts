@@ -3,10 +3,7 @@ import { Actor, InterventionRole } from '../../actors/actor';
 import { ActionType } from '../../actionType';
 import { FullEvent } from '../../events/eventUtils';
 import { AppointActorEvent, MoveActorEvent, StandardActionEvent } from '../../events/eventTypes';
-import {
-  getAvailableMapActivables,
-  LOCATION_ENUM,
-} from '../../simulationState/locationState';
+import { getAvailableMapActivables, LOCATION_ENUM } from '../../simulationState/locationState';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import * as ActionLogic from '../actionLogic';
 import { SimFlag, StartEndTemplate } from './actionTemplateBase';
