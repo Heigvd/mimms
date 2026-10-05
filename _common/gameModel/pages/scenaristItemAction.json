@@ -219,7 +219,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nconst newRoles = { ...Context.item.availableToRoles }\nnewRoles[Context.role.value] = !Context.item.availableToRoles[Context.role.value];\nupdateItem<FlatActionTemplate>(Context.item.uid, { availableToRoles: newRoles });\n\n",
+                    "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nconst newRoles = Helpers.cloneDeep(Context.item.availableToRoles)\nnewRoles[Context.role.value] = !Context.item.availableToRoles[Context.role.value];\nupdateItem<FlatActionTemplate>(Context.item.uid, { availableToRoles: newRoles });\n\n",
                     "language" : "TypeScript"
                   }
                 },

@@ -47,22 +47,22 @@ export function unselect(itemType: SuperTypeNames): void {
   getCurrentController()?.unselect(itemType);
 }
 
-export function getSelected(itemType: SuperTypeNames, readonly: boolean = false): FlatTypes | undefined {
-  return getCurrentController()?.getSelected(itemType, readonly);
+export function getSelectedReadOnly(itemType: SuperTypeNames): FlatTypes | undefined {
+  return getCurrentController()?.getSelected(itemType, true);
 }
 
-export function getSelectedTyped<S extends SuperTypeNames>(
+export function getSelectedTypedReadOnly<S extends SuperTypeNames>(
   superType: S
 ): FlatTypeBySuperType[S] | undefined {
-  return getSelected(superType, false) as FlatTypeBySuperType[S];
+  return getSelectedReadOnly(superType) as FlatTypeBySuperType[S];
 }
 
 export function isSelected(itemType: SuperTypeNames, uid: Uid): boolean {
-  return getSelected(itemType, true)?.uid === uid;
+  return getSelectedReadOnly(itemType)?.uid === uid;
 }
 
 export function isSomethingSelected(itemType: SuperTypeNames): boolean {
-  return getSelected(itemType, true) != undefined;
+  return getSelectedReadOnly(itemType) != undefined;
 }
 
 export function getSelectionColorClass(itemType: SuperTypeNames, uid: Uid): string {
@@ -75,10 +75,6 @@ export function getSelectionColorClass(itemType: SuperTypeNames, uid: Uid): stri
 //////////////////////////////////////////////////////////////////////////////////////
 // items
 
-function getData(): Record<Uid, FlatTypes> {
-  return getCurrentController()?.getFlatDataClone() || {};
-}
-
 function getDataReadOnly(): Readonly<Record<Uid, Readonly<FlatTypes>>> {
   return getCurrentController()?.getFlatData() || {};
 }
@@ -86,11 +82,11 @@ function getDataReadOnly(): Readonly<Record<Uid, Readonly<FlatTypes>>> {
 export function getItems(itemType: SuperTypeNames, parentType?: SuperTypeNames): FlatTypes[] {
   let result: FlatTypes[] = [];
 
-  const dataArray = Object.values(getData());
+  const dataArray = Object.values(getDataReadOnly()) as FlatTypes[];
   if (parentType == undefined) {
     result = dataArray.filter(item => item.superType === itemType);
   } else {
-    const selectedParent = getSelected(parentType, true)?.uid;
+    const selectedParent = getSelectedReadOnly(parentType)?.uid;
     if (selectedParent !== undefined) {
       result = dataArray.filter(
         item => item.superType === itemType && item.parent === selectedParent
@@ -131,7 +127,7 @@ export function addNew<T extends CreationOptionsBase>(
 ): FlatTypes | undefined {
   let parentId: Uid = '';
   if (parentType) {
-    parentId = getSelected(parentType, true)?.uid ?? '';
+    parentId = getSelectedReadOnly(parentType)?.uid ?? '';
   }
   const options: CreationOptionsBase = creationOptions ?? {};
   options.parentType = parentType;

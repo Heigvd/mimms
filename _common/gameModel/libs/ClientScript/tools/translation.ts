@@ -125,9 +125,14 @@ export function createOrUpdateTranslation(
   existing: ITranslatableContent | undefined
 ): ITranslatableContent {
   if (existing && existing.translations) {
-    existing.translations[I18n.currentLanguageCode] = I18n.createTranslation(value);
-    existing.version++;
-    return existing;
+    return {
+      ...existing,
+      translations: {
+        ...existing.translations,
+        [I18n.currentLanguageCode]: I18n.createTranslation(value),
+      },
+      version: existing.version + 1,
+    };
   } else {
     return I18n.createTranslatableContent(value);
   }

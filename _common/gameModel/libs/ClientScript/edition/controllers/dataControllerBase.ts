@@ -232,7 +232,7 @@ export abstract class DataControllerBase<
     const selectedUid = this.getLatestIState().selected[itemType];
     if (selectedUid) {
       if(readonly){
-        this.getFlatData()[selectedUid];
+        return this.getFlatData()[selectedUid] as FlatTypes | undefined;
       }
       return this.getFlatDataClone()[selectedUid];
     }
