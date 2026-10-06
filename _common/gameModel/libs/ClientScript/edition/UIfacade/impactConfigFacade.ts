@@ -282,7 +282,7 @@ export function setActivationImpactOption(
     return;
   }
 
-  let newImpact: FlatImpact = { ...impact };
+  let newImpact: FlatImpact = Helpers.cloneDeep(impact);
 
   // in case it was a choice effect selection impact
   if (newImpact.type !== 'activation') {
@@ -378,7 +378,7 @@ export function updateImpactActionRef(impact: FlatImpact, actionRef: Uid): void 
     return;
   }
 
-  let newImpact: FlatImpact = { ...impact };
+  let newImpact: FlatImpact = Helpers.cloneDeep(impact);
 
   // in case it was a choice effect selection impact, change it to be an activation
   if (impact.type !== 'activation') {
@@ -423,7 +423,7 @@ export function updateImpactChoiceRef(
       }
     }
   } else {
-    const newImpact: FlatImpact = { ...impact };
+    const newImpact: FlatImpact = Helpers.cloneDeep(impact);
 
     if (newImpact.type === 'activation') {
       // init the option to activate by default
@@ -454,7 +454,7 @@ export function updateNotificationImpactRoles(
   role: DynamicInterventionRole
 ): void {
   if (notifImpact.type === 'notification') {
-    const newRoles: Record<DynamicInterventionRole, boolean> = { ...notifImpact.roles };
+    const newRoles: Record<DynamicInterventionRole, boolean> = Helpers.cloneDeep(notifImpact.roles);
     newRoles[role] = !newRoles[role];
     if (role === 'Initiator' && newRoles[role]) {
       // unselect all the others

@@ -58,7 +58,7 @@ function buildLabel(tag: string, title: string): string {
 function internalGetMapEntitiesOptions(
   filterFn?: (mapEntity: FlatMapEntity) => boolean
 ): MapEntitiesOptionType {
-  return Object.values(getMapEntityController().getFlatDataClone())
+  return Object.values(getMapEntityController().getFlatData())
     .filter(item => item.superType === 'mapEntity')
     .map(mapEntity => mapEntity as FlatMapEntity)
     .filter(mapEntity => !filterFn || filterFn(mapEntity))
@@ -71,7 +71,7 @@ function internalGetMapEntitiesOptions(
 export function getTriggersOptions(
   filterFn?: (trigger: FlatTrigger) => boolean
 ): { label: string; value: Trigger['uid'] }[] {
-  return Object.values(getTriggerController().getFlatDataClone())
+  return Object.values(getTriggerController().getFlatData())
     .filter(item => item.superType === 'trigger')
     .map(trigger => trigger as FlatTrigger)
     .filter(trigger => !filterFn || filterFn(trigger))
@@ -87,7 +87,7 @@ export function getActionTemplatesOptions(
   label: string;
   value: TemplateDescriptor['uid'];
 }[] {
-  return Object.values(getActionTemplateController().getFlatDataClone())
+  return Object.values(getActionTemplateController().getFlatData())
     .filter(item => item.superType === 'action')
     .map(actionTemplate => actionTemplate as FlatActionTemplate)
     .filter(actionTemplate => !filterFn || filterFn(actionTemplate))
@@ -115,7 +115,7 @@ export function getChoicesOptions(
   actionTemplateUid: TemplateDescriptor['uid'],
   filterFn?: (choice: FlatChoice) => boolean
 ): { label: string; value: ChoiceDescriptor['uid'] }[] {
-  return Object.values(getActionTemplateController().getFlatDataClone())
+  return Object.values(getActionTemplateController().getFlatData())
     .filter(item => item.superType === 'choice')
     .map(choice => choice as FlatChoice)
     .filter(choice => choice.parent === actionTemplateUid)
@@ -131,7 +131,7 @@ export function getEffectsOptions(
   choiceUid: Uid,
   filterFn?: (effect: FlatEffect) => boolean
 ): { label: string; value: Effect['uid'] }[] {
-  return Object.values(getActionTemplateController().getFlatDataClone())
+  return Object.values(getActionTemplateController().getFlatData())
     .filter(item => item.superType === 'effect')
     .map(effect => effect as FlatEffect)
     .filter(effect => effect.parent === choiceUid)
