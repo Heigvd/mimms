@@ -35,7 +35,7 @@ export function computeOverlayItems(): OverlayItem[] {
           // Overlay centered over the first mapObject
           position: getShapeCenter(firstMapObject),
           positioning: 'bottom-center',
-          offset: [0, -20],
+          offset: [0, -25],
         },
         // TODO fix OverlayTypes.d.ts typing to remove cast
         payload: locationInfo as unknown as { [index: string]: unknown },

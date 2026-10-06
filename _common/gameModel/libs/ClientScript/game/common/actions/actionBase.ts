@@ -20,7 +20,7 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { SimFlag } from './actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
 
-export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
+export type ActionStatus = 'Uninitialized' | 'OnGoing' | 'Completed';
 
 const ACTION_SEED_ID: ActionId = 3000;
 
@@ -112,38 +112,26 @@ export abstract class StartEndAction extends ActionBase {
   protected abstract dispatchEndedEvents(state: MainSimulationState): void;
 
   public update(state: MainSimulationState): void {
+    if (this.status === 'Completed') {
+      return;
+    }
+
     const simTime = state.getSimTime();
-    switch (this.status) {
-      case 'Cancelled': // should action do something ?
-      case 'Completed':
-        return;
-      case 'Uninitialized':
-        {
-          if (simTime >= this.startTime) {
-            // if action did start
-            this.logger.debug('dispatching start events...');
-            this.dispatchInitEvents(state);
-            this.status = 'OnGoing';
-          }
-        }
-        break;
-      case 'OnGoing':
-        {
-          if (simTime >= this.startTime + this.duration()) {
-            // if action did end
-            this.logger.debug('dispatching end events...');
-            // update flags in state as provided when action completes
-            this.provideFlagsToState.forEach(
-              flag => (state.getInternalStateObject().flags[flag] = true)
-            );
-            //execute dispatched events
-            this.dispatchEndedEvents(state);
-            this.status = 'Completed';
-          }
-        }
-        break;
-      default:
-        this.logger.error('Undefined status cannot update action');
+
+    if (this.status === 'Uninitialized' && simTime >= this.startTime) {
+      this.logger.debug('dispatching start events...');
+      this.dispatchInitEvents(state);
+      this.status = 'OnGoing';
+    }
+
+    if (this.status === 'OnGoing' && simTime >= this.startTime + this.duration()) {
+      this.logger.debug('dispatching end events...');
+
+      // update flags in state as provided when action completes
+      this.provideFlagsToState.forEach(flag => (state.getInternalStateObject().flags[flag] = true));
+
+      this.dispatchEndedEvents(state);
+      this.status = 'Completed';
     }
   }
 

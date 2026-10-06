@@ -51,9 +51,7 @@ export function canActorPlanAction(actorId: number): boolean {
   if (actions[actorId] === undefined) return true;
 
   for (const action of actions[actorId]!) {
-    // Is a future action planned ?
-    if (action.startTime === currentTime) return false;
-    // Is a previous action finished ?
+    // Is an action still running ? (zero-duration actions never block the actor)
     if (action.startTime + action.duration() > currentTime) return false;
   }
 
@@ -72,7 +70,8 @@ export function isPlannedAction(actTemplateId: ActionTemplateUid | undefined): b
   const actions = getAllActions()[actorUid];
 
   if (actorUid && actions) {
-    const action = actions.find(a => a.startTime === getSimTime());
+    // Zero-duration actions are never "currently planned" : they are over as soon as they are planned
+    const action = actions.find(a => a.startTime === getSimTime() && a.duration() > 0);
     if (action) {
       return actTemplateId == action.getTemplateId();
     }

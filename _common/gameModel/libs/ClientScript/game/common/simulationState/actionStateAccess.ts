@@ -55,6 +55,14 @@ function getCompletedActions(state: Readonly<MainSimulationState>): ActionBase[]
   return state.getAllActions().filter((a: ActionBase) => a.getStatus() === 'Completed');
 }
 
+/**
+ * An action counts as started once time has passed its start time.
+ * Zero-duration actions are completed as soon as they are planned, they count right away.
+ */
+function hasActionStarted(state: Readonly<MainSimulationState>, action: ActionBase): boolean {
+  return action.startTime < state.getSimTime() || action.duration() === 0;
+}
+
 export function getStartedActionsOfTemplate(
   state: Readonly<MainSimulationState>,
   actionTemplateId: ActionTemplateUid
@@ -62,7 +70,7 @@ export function getStartedActionsOfTemplate(
   return state
     .getAllActions()
     .filter(
-      action => action.startTime < state.getSimTime() && action.getTemplateId() === actionTemplateId
+      action => hasActionStarted(state, action) && action.getTemplateId() === actionTemplateId
     );
 }
 
@@ -71,7 +79,7 @@ export function countStartedChoices(state: Readonly<MainSimulationState>, choice
     .getAllActions()
     .filter(
       action =>
-        action.startTime < state.getSimTime() &&
+        hasActionStarted(state, action) &&
         isChoiceAction(action) &&
         action.choice?.uid === choiceRef
     ).length;

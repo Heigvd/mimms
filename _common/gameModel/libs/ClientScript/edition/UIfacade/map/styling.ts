@@ -31,7 +31,16 @@ function getFeatureColorMapView(feature: any): MapColorConfig {
       opacity = 1;
     }
   }
-  return { color, opacity };
+  return withScenaristIconOpacity({ color, opacity });
+}
+
+// Location icons: the background carries the color and opacity, the icon stays plain white
+function withScenaristIconOpacity(colors: MapColorConfig): MapColorConfig {
+  return {
+    ...colors,
+    iconOpacity: colors.opacity < 1 ? 0.75 : 1,
+    iconBackgroundOpacity: colors.opacity,
+  };
 }
 
 export function getDrawStyle(_feature: any): LayerStyleObject {

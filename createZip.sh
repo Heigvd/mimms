@@ -1,16 +1,21 @@
 #!/bin/bash
 
 VERBOSE=false
+PATCH_VISIBILITY=false
 DESTINATION_FOLDER=".."
 DEFAULT_SCENARIO=basic_scenario
 COMMON_FOLDER=_common
+MODEL_FOLDER=model
 
 # the branch name ends up in a file name, slashes would turn it into a path
 CURRENT_BRANCH=$(git branch --show-current | tr '/' '-')
 
 function show_help {
-    echo Usage "$0" [-hv] SCENARIO_NAME
+    echo Usage "$0" [-hvp] SCENARIO_NAME
     echo "SCENARIO_NAME : name of the folder to create zip from, scenario or model"
+    echo "  -p : patch the visibility of every object in gamemodel.json and every entry"
+    echo "       in filesmeta.json to match the visibility of the equivalent object in"
+    echo "       $MODEL_FOLDER/gameModel/gamemodel.json and $MODEL_FOLDER/gameModel/filesmeta.json"
 }
 
 function printError() {
@@ -25,9 +30,11 @@ function printError() {
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 ## Parse options
-while getopts "h?v" opt; do
+while getopts "h?vp" opt; do
     case "$opt" in
     v) VERBOSE=true
+        ;;
+    p) PATCH_VISIBILITY=true
         ;;
     h|\?)
         show_help
@@ -67,6 +74,20 @@ if [ ! -d "$SCENARIO_NAME" ]; then
     exit 1;
 fi
 
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+PATCH_VISIBILITY_SCRIPT="${SCRIPT_DIR}/patchVisibility/patchVisibility.js"
+
+if $PATCH_VISIBILITY; then
+    if ! command -v node >/dev/null 2>&1; then
+        printError "-p requires node, which was not found in PATH";
+        exit 1;
+    fi
+    if [ ! -f "${MODEL_FOLDER}/gameModel/gamemodel.json" ]; then
+        printError "-p requires ${MODEL_FOLDER}/gameModel/gamemodel.json, which does not exist";
+        exit 1;
+    fi
+fi
+
 if [ "$SCENARIO_NAME" = "$DEFAULT_SCENARIO" ]; then
     NAME=gameModel_${CURRENT_BRANCH}_$(date +%Y-%m-%d_%Hh%M)
 else
@@ -88,6 +109,13 @@ mkdir -p "${NAME}"/gameModel
 $VERBOSE && echo "Copy data"
 cp -r "${SCENARIO_NAME}"/gameModel/* "${NAME}"/gameModel
 cp -r "${COMMON_FOLDER}"/gameModel/* "${NAME}"/gameModel
+
+if $PATCH_VISIBILITY; then
+    $VERBOSE && echo "Patch visibility from ${MODEL_FOLDER}/gameModel"
+    NODE_ARGS=("${NAME}/gameModel")
+    $VERBOSE && NODE_ARGS+=("--verbose")
+    node "$PATCH_VISIBILITY_SCRIPT" "${NODE_ARGS[@]}" || exit 1
+fi
 
 $VERBOSE && echo "Create zip"
 (cd "${NAME}" || exit

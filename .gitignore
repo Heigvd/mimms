@@ -13,6 +13,9 @@ yarn-error.log
 /node_modules/
 /nbproject/
 
+/coverage/
+/test-report/
+
 .vscode/
 .idea/
 

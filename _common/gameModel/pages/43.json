@@ -1934,7 +1934,8 @@
                                             "style" : {
                                               "gap" : "5px",
                                               "position" : "absolute",
-                                              "right" : "1rem"
+                                              "right" : "25px",
+                                              "top" : "5px"
                                             }
                                           },
                                           "type" : "For each"

@@ -11,7 +11,7 @@ function canActorPlanActionInState(
   if (actorActions === undefined) return true;
 
   for (const action of actorActions) {
-    if (action.startTime === currentTime) return false;
+    // Zero-duration actions never block the actor
     if (action.startTime + action.duration() > currentTime) return false;
   }
 
