@@ -122,7 +122,7 @@
                     "exposeAs" : "patient",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getTypedInterfaceState } from './gameInterface/interfaceState';\nimport { getPatientsForLocation } from './UIfacade/patientFacade';\n    getPatientsForLocation(getTypedInterfaceState().patientModalLocation!);",
+                      "content" : "import { getTypedInterfaceState } from './gameInterface/interfaceState';\nimport { getPretriagedPatientsForLocation } from './UIfacade/patientFacade';\n    getPretriagedPatientsForLocation(getTypedInterfaceState().patientModalLocation!);",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "patientId",
