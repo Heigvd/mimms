@@ -228,10 +228,10 @@ export abstract class DataControllerBase<
     return canMove(id, siblings, moveType);
   }
 
-  public getSelected(itemType: SuperTypeNames): Readonly<FlatTypes> | undefined {
+  public getSelected(itemType: SuperTypeNames): Readonly<FlatType> | undefined {
     const selectedUid = this.getLatestIState().selected[itemType];
     if (selectedUid) {
-      return this.getFlatData()[selectedUid] as FlatTypes | undefined;
+      return this.getFlatData()[selectedUid];
     }
     return undefined;
   }
