@@ -33,7 +33,7 @@ import {
   PatientCategoryColorLegendEntry,
 } from '../UIfacade/patientSnapshotFacade';
 import { LocationInfo } from '../game/common/location/locationLogic';
-import { getAccessibleLocationsInfo, getLocationInfo } from '../UIfacade/locationFacade';
+import { getAccessibleLocationsInfo } from '../UIfacade/locationFacade';
 
 /**
  * @returns All currently present patients
@@ -73,21 +73,26 @@ export function closePatientFlowModal(): void {
 }
 
 /**
- * @returns The locations to display in the Patient Flow modal (see page 13). The "remote" location
- * (hospitals) is always included, even though it is never a built/active map entity.
+ * @returns The locations to display in the Patient Flow modal (see page 13): every built and active
+ * location that has a slot in the Patient Flow grid (including the ambulance and helicopter parks,
+ * which are not accessible to patients), plus the "remote" location (hospitals). The latter is
+ * always included, even though it is never a built/active map entity.
  */
 export function getPatientFlowLocationsInfo(): LocationInfo[] {
-  const locations = getAccessibleLocationsInfo('Patients');
-  const remote = getLocationInfo(LOCATION_ENUM.remote);
-  if (!remote) return locations;
-  return [
-    ...locations,
-    {
-      ...remote,
-      name: getTranslation('mainSim-locations', 'location-hospitals'),
-      icon: 'hospital',
-    },
-  ];
+  const locations = getAccessibleLocationsInfo('AnyKind').filter(
+    location => PATIENT_FLOW_GRID_CLASS_NAMES[location.id] !== undefined
+  );
+  const hospitals: LocationInfo = {
+    id: LOCATION_ENUM.remote,
+    name: getTranslation('mainSim-locations', 'location-hospitals'),
+    icon: 'hospital',
+    actors: [],
+    resources: [],
+    ambulances: [],
+    helicopters: [],
+    comingTo: [],
+  };
+  return [...locations, hospitals];
 }
 
 /**
