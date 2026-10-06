@@ -82,7 +82,7 @@ function getDataReadOnly(): Readonly<Record<Uid, Readonly<FlatTypes>>> {
 export function getItems(itemType: SuperTypeNames, parentType?: SuperTypeNames): FlatTypes[] {
   let result: FlatTypes[] = [];
 
-  const dataArray = Object.values(getDataReadOnly()) as FlatTypes[];
+  const dataArray = Object.values(getDataReadOnly());
   if (parentType == undefined) {
     result = dataArray.filter(item => item.superType === itemType);
   } else {
