@@ -936,7 +936,7 @@
                                   "language" : "typescript"
                                 },
                                 "layout" : { },
-                                "layoutClassName" : "noPadding fullWidth",
+                                "layoutClassName" : "noPadding fullWidth fullHeight",
                                 "layoutStyle" : { },
                                 "name" : "Patient Flow",
                                 "onExitActions" : { },
@@ -1127,13 +1127,14 @@
                                       "content" : "\"patientsListModale\"",
                                       "language" : "typescript"
                                     },
+                                    "layoutClassName" : "fullHeight",
                                     "layoutStyle" : { },
                                     "name" : "patientsListModalePageLoader",
                                     "style" : { }
                                   },
                                   "type" : "PageLoader"
                                 } ],
-                                "className" : "modalPMA",
+                                "className" : "patient-view",
                                 "hideIf" : {
                                   "@class" : "Script",
                                   "content" : "!Context.interfaceState.state.showPatientModal;",
@@ -1142,7 +1143,7 @@
                                 "layout" : {
                                   "flexDirection" : "column"
                                 },
-                                "layoutClassName" : "modalPMA-container",
+                                "layoutClassName" : "",
                                 "layoutStyle" : { },
                                 "name" : "location-patient-view",
                                 "onExitActions" : {

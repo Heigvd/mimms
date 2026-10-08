@@ -8,7 +8,9 @@
   animation-duration: 2s;
 }
 
-.actionHeader {
+/* shared list row look: actions, feedbacks, resources, patient list */
+.actionHeader,
+.patient-list__item {
 	background-color: var(--grey05);
 	padding: 10px 10px ;
 	border-radius: var(--XS_borderRadius);

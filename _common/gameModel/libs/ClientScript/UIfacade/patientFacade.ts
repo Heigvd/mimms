@@ -34,6 +34,7 @@ import {
 } from '../UIfacade/patientSnapshotFacade';
 import { LocationInfo } from '../game/common/location/locationLogic';
 import { getAccessibleLocationsInfo } from '../UIfacade/locationFacade';
+import { getPathology } from '../HUMAn/registries';
 
 /**
  * @returns All currently present patients
@@ -146,6 +147,20 @@ export function getTranslatedBlockName(blockName: string): string {
   return getBlockTranslation(blockName);
 }
 
+/**
+ * @returns the short descriptions of the patient's pathologies
+ * The patient generation modal provides them as pathologyNames, the in-game patient modal does not,
+ * so they are then read from the patient's revived pathologies
+ */
+export function getPathologyNames(patient: PatientState & { pathologyNames?: string[] }): string {
+  const names =
+    patient.pathologyNames ??
+    (patient.humanBody?.revivedPathologies ?? []).map(
+      pathology => getPathology(pathology.pathologyId)?.shortDescription ?? ''
+    );
+  return names.filter(name => name).join(', ');
+}
+
 export function getAfflictedBlocksDetails(patient: PatientState): AfflictedBlockDetails[] {
   const human = patient.humanBody;
   const health: HumanHealth = {
@@ -184,7 +199,7 @@ export function getDivForCategory(patientId: string): string {
   const categoryId = patient.preTriageResult?.categoryId;
   const category = categoryId != undefined ? getCategoryById(categoryId) : undefined;
 
-  return `<div class='listTag-container' style='color: ${
+  return `<div class='patient-list__tag' style='color: ${
     category ? category.color : 'black'
   }; background-color: ${category ? category.bgColor : '#f6f7f9ff'}'/>`;
 }

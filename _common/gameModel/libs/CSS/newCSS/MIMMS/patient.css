@@ -13,13 +13,14 @@
 }
 
 .patient-block-details {
-	border: 1px solid transparent;
-	border-radius: var(--S_borderRadius);
+  padding: 7px;
+	border: 3px solid transparent;
+	border-radius: var(--XS_borderRadius);
+  transition: border-color .3s ease-in-out;
 }
 
 .patient-block-details-highlighted {
-	border: 1px solid var(--colors-disabledcolor);
-	border-radius: var(--S_borderRadius);
+	border-color: var(--grey_base);
 }
 
 /* patients in generic fixed entities */

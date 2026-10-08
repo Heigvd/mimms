@@ -1,7 +1,18 @@
 /* - - - - -  D I S P L A Y  - - - */
 
+/* completes the generic flow modal root (see modals.css) */
+#globalInterfaceId > div:has(.evacuation-modal) {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
 .evacuation-modal {
   padding: 0;
+}
+
+.evacuation-modal * {
+  box-sizing: border-box;
 }
 
 .evacuation__close {

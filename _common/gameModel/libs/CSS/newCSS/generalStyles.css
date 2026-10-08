@@ -63,6 +63,10 @@ html{
   gap: 5px;
 }
 
+.mediumGap {
+  gap: 10px;
+}
+
 .noMargin > p {
   margin: 0;
 }

@@ -1,74 +1,144 @@
-.modalPMA{
-  margin:  auto;
-  margin-top: 2rem;
+/* - - - - -  P A T I E N T  V I E W  O V E R A L L  - - - */
+
+/* display */
+.patient-view {
   width: 85rem;
-  height: 55rem;
-  z-index: 10;
+  height: 50rem;
+  margin: 2rem auto auto;
   background-color: var(--grey-white);
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); /* special shadow imitating the whole FME shape*/
 }
 
-.constantTitle{
-  font-size: var(--S_text);
-  padding-bottom: 0px;
+/* text */
+.patient-view .mimms_h1title {
+  margin-bottom: 0;
 }
 
-.constantTitle > p{
-  padding: 0px;
-  margin: 0px;
+
+/* - - - - -  P A T I E N T  L I S T  - - - */
+
+/* shares its base look with .actionHeader (see actions.css) */
+.patient-list__item {
+  border: 3px solid var(--grey05);
+  transition: background-color .3s ease-in-out, border-color .3s ease-in-out;
 }
 
-.constantTypeTitle{
+.patient-list__item:hover {
+  background-color: var(--grey_10);
+  border-color: var(--grey_10);
+}
+
+.patient-list__item--selected {
+  font-weight: var(--boldWeight);
+  border-color: var(--grey_base);
+}
+
+/* keeps the selected border over the :hover one, which is more specific */
+.patient-list__item--selected:hover {
+  border-color: var(--grey_base);
+}
+
+/* pretriage category color tag (HTML built by getDivForCategory in patientFacade.ts) */
+.patient-list__tag {
+  width: 3.5em;
+  height: 1em;
+  margin-left: 10px;
+  border-radius: var(--XS_borderRadius);
+}
+
+
+/* - - - - -  C O N S T A N T S  - - - */
+
+/* cards of the constants (A, B, C, D, E), also used for the patient details */
+.constant {
+	padding: 10px;
+  background-color: var(--grey05);
+  border-radius: var(--XS_borderRadius);
+}
+
+/* texts */
+.constant-type__title,
+.constant-type__undertitle,
+.constant-title,
+.constant-value {
   font-size: var(--SM_text);
+}
+
+.constant-type__title,
+.constant-type__undertitle,
+.constant-value {
   font-weight: var(--boldWeight);
 }
 
-.constantValue{
+.constant-type__undertitle {
+  color: var(--grey_base);
+}
+
+/* EtCO2 when the patient is not intubated */
+.constant--unavailable {
+  color: var(--grey_20); 
+}
+
+/* rows: one per constant (e.g. Glasgow), with optional sub rows (e.g. eye, verbal, motor) */
+.constants__info {
+  padding: 2px 0;
+  border-bottom: 1px solid var(--grey_20);
+}
+
+.constants__info:last-of-type {
+  border-bottom: none;
+}
+
+.constants__sub-info {
+  padding: 2px 0 2px 8px;
+  border-top: 1px solid var(--grey_20);
+}
+
+.constants__sub-info:first-of-type {
+  margin-top: 2px;
+}
+
+.constants__sub-info:last-of-type {
+  padding-bottom: 0;
+}
+
+.constants__sub-info .constant-title,
+.constants__sub-info .constant-value {
   font-size: var(--S_text);
-  padding-bottom: 0px;
 }
 
-/*** Patient list on the left ***/
 
-.patientLine-container:hover{
-  background-color: var(--primary_40);
-  color: white;
+/* - - - - -  B L O C K  D E T A I L S  - - - */
+
+/* patient details (shared with pretri) restyled for this modal only, like the sub rows above */
+.patient-view .block-subtitle {
+  padding: 0; /* overrides shadowMan.css */
+  font-size: var(--SM_text);
+  font-weight: var(--regularWeight);
 }
 
-/*doesn't work yet*/
-.patientLine-container:active{
-  background-color: var(--primary_base);
-  color: white;
-}
-
-.patientEvenOddList-container:nth-of-type(even){
-  background-color: var(--primary_10);
- }
-
- .patientEvenOddList-container:nth-of-type(even):hover{
-   background-color: var(--primary_base);
- }
-
-/* patient tag in patient's list */
-.listTag-container{
-  height: 1em;
-  width: 3.5em;
-  border: solid 1px var(--grey_50);
-  border-radius: var(--XXS_borderRadius);
-  margin-right: 10px;
-}
-
-/*patient infos */
-.pmaPatientInfos-container{
-  margin-bottom: 15px;
-  }
-
-.pmaPatientInfos-constants-subInfoBox {
+.patient-view .block-entry {
+  display: flex;
+  justify-content: space-between;
   padding-left: 8px;
+  border-top: 1px solid var(--grey_20);
 }
 
-  /* style for EtCO2 when not intubated */
-  .notIntubated{
-    color: var(--grey_20);
-   
-  }
+.patient-view .block-entry:has(+ block-subtitle),
+.patient-view .block-entry:last-child {
+  margin-bottom: 2px;
+  border-bottom: 1px solid var(--grey_20);
+}
+
+.patient-view .block-entry-title,
+.patient-view .block-entry-value {
+  font-size: var(--S_text);
+}
+
+.patient-view .block-entry-title {
+  padding: 0; /* overrides shadowMan.css */
+}
+
+.patient-view .block-entry-value {
+  font-weight: var(--boldWeight);
+}
