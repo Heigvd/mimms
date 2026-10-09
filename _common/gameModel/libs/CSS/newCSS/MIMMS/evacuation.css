@@ -1,31 +1,34 @@
-/* modal root */
-/* ugly selector because for some reason, the wegas 
-container element does not actually wrap the content */
+/* - - - - -  D I S P L A Y  - - - */
+
+/* completes the generic flow modal root (see modals.css) */
 #globalInterfaceId > div:has(.evacuation-modal) {
   height: 100%;
   margin: 0;
-  padding: 0;
-  background-color: transparent;
-  border-radius: 0;
   overflow: hidden;
 }
 
 .evacuation-modal {
   padding: 0;
-  background-color: transparent;
-  background-image: linear-gradient(to bottom right, #D0E9F380 0%, #D0E9F333 100%);
-  backdrop-filter: blur(12px);
-  border-radius: 0;
-  box-sizing: border-box;
-  pointer-events: auto;
 }
 
 .evacuation-modal * {
   box-sizing: border-box;
 }
 
-/* layout */
-.evacuation-column__container {
+.evacuation__close {
+  position: fixed;
+  top: 2.75rem;
+  right: 2.75rem;
+}
+
+.evacuation__footer {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+}
+
+/* columns */
+.evacuation__column {
   flex: 1 1 0;
   min-width: 0;
   margin: 3rem 0 3rem 3rem;
@@ -37,7 +40,7 @@ container element does not actually wrap the content */
   min-height: 0;
 }
 
-.evacuation-column {
+.evacuation__list {
   flex: 1 1 auto;
   min-height: 0;
   gap: 20px;
@@ -47,59 +50,32 @@ container element does not actually wrap the content */
   overflow: auto;
 }
 
-.evacuation-column__container:last-of-type .evacuation-column {
+.evacuation__column:last-of-type .evacuation__list {
   border-right: none;
 }
 
-/* unactivables overlay */
-.evacuation-column .fixedEntities-container {
+/* text */
+.evacuation__column .flow-modal__title {
+    margin-bottom: 3rem;
+}
+
+
+/* - - - - -  L O C A T I O N   C A R D S  - - - */
+
+.evacuation__list .fixedEntities-container {
   flex: 1 1 auto;
   min-height: 0;
 }
 
-.evacuation-list-outer {
+.evacuation__card-content {
   min-height: 0;
   max-height: 240px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-/* text & icons */
-.evacuation__title {
-    margin-bottom: 3rem;
-    font-size: var(--L_text);
-    font-weight: var(--blackWeight);
-    color: var(--grey_80);
-    opacity: 75%;
-}
-
-.unactivables-overlay__title {
-  font-size: var(--SM_text);
-  font-weight: var(--blackWeight);
-  color: var(--grey_60);
-}
-
-.unactivables-overlay__icon-container {
-  justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  padding: 0;
-  transform: translate(-50%, .5rem);
-}
-
-.unactivables-overlay__icon-container svg {
-  color: var(--grey-white);
-}
-
-.unactivables-overlay__icon {
-  width: 1.5rem;
-  height: 1.5rem;
-  object-fit: contain;
-}
-
-/* service & vector rows inside unactivables overlay */
-.unactivables-overlay__service,
-.unactivables-overlay__vector {
+/* selectable items: patients, vectors and hospital services */
+.evacuation__item {
   gap: 5px;
   padding: 2.5px 5px;
   font-size: var(--XS_text);
@@ -109,61 +85,30 @@ container element does not actually wrap the content */
   border-radius: var(--XXS_borderRadius);
 }
 
-.unactivables-overlay__service svg,
-.unactivables-overlay__vector svg {
+.evacuation__item svg {
   color: var(--grey_80);
 }
 
-/* buttons */
-.close-evacuation {
-  position: fixed;
-  top: 2.75rem;
-  right: 2.75rem;
-}
-
-.close-evacuation svg {
-  color: var(--grey_80);
-  opacity: 75%;
-}
-
-.evacuation-footer {
-  position: fixed;
-  bottom: 3rem;
-  right: 3rem;
-}
-
-.unactivables-overlay__button.iconOnly {
-  color: inherit;
-}
-
-.unactivables-overlay__button svg {
-  height: 14px;
-}
-
-.evacuation-modal .patient-color:hover,
-.unactivables-overlay__service:hover,
-.unactivables-overlay__vector:hover {
+.evacuation-modal .patient-color,
+.evacuation__item {
   cursor: pointer;
   transition: box-shadow .3s ease-in-out;
 }
 
-.unactivables-overlay__service--selected,
-.unactivables-overlay__vector--selected {
+.evacuation__item--selected {
   box-shadow: inset 0 0 0 2px var(--grey_80);
 }
 
-.evacuation-modal .patient-color--selected.patient-color--black {
-  box-shadow: inset 0 0 0 2px #797979;
+/* outlined with the patient category color (set as text color by .patient-color--<color>) */
+.evacuation-modal .patient-color--selected {
+  box-shadow: inset 0 0 0 2px currentColor;
 }
 
-.evacuation-modal .patient-color--selected.patient-color--red {
-  box-shadow: inset 0 0 0 2px #FD5050;
+/* icons */
+.evacuation__patient-button.iconOnly {
+  color: inherit;
 }
 
-.evacuation-modal .patient-color--selected.patient-color--yellow {
-  box-shadow: inset 0 0 0 2px #FFC048;
-}
-
-.evacuation-modal .patient-color--selected.patient-color--green {
-  box-shadow: inset 0 0 0 2px #86B700;
+.evacuation__patient-button svg {
+  height: 14px;
 }

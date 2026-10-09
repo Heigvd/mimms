@@ -33,76 +33,6 @@
                     }
                   },
                   "type" : "Text"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutClassName" : "",
-                                "layoutStyle" : {
-                                  "padding" : "0 5px 0 0"
-                                },
-                                "name" : "taskDuration",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { formatActionDuration } from \"./UIfacade/actionFacade\";\nformatActionDuration(Context.action);",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : { },
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "duration",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        } ]
-                      },
-                      "type" : "PlayerIf"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "name" : "variable",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'variable-duration', false);",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : { },
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "duration",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        } ]
-                      },
-                      "type" : "PlayerElse"
-                    } ],
-                    "ifCondition" : {
-                      "@class" : "Script",
-                      "content" : "!!Context.action?.duration;",
-                      "language" : "typescript"
-                    },
-                    "layoutStyle" : { },
-                    "style" : { }
-                  },
-                  "type" : "If Else"
                 } ],
                 "className" : "actionHeader",
                 "conditionnalClassNames" : [ {
@@ -139,16 +69,49 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "layoutClassName" : "aDescriptionAction",
+                        "children" : [ {
+                          "props" : {
+                            "layoutClassName" : "aDescriptionAction",
+                            "layoutStyle" : { },
+                            "name" : "description",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplate/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getDescription();",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { StartEndTemplate } from \"./game/common/actions/actionTemplate/actionTemplateBase\";\nimport { getActionDurationText } from \"./UIfacade/actionFacade\";\n!getActionDurationText(Context.action as StartEndTemplate);",
+                              "language" : "typescript"
+                            },
+                            "layoutClassName" : "",
+                            "layoutStyle" : {
+                              "padding" : "0 10px 10px 0"
+                            },
+                            "name" : "duration",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { StartEndTemplate } from \"./game/common/actions/actionTemplate/actionTemplateBase\";\nimport { getActionDurationText } from \"./UIfacade/actionFacade\";\ngetActionDurationText(Context.action as StartEndTemplate);",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : {
+                          "justifyContent" : "space-between"
+                        },
+                        "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplate/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getDescription();",
-                          "language" : "TypeScript"
-                        }
+                        "name" : "description & duration",
+                        "style" : { }
                       },
-                      "type" : "Text"
+                      "type" : "FlexList"
                     }, {
                       "props" : {
                         "className" : "",

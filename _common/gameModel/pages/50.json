@@ -4,29 +4,98 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "",
-            "layout" : { },
-            "layoutClassName" : "",
-            "layoutStyle" : {
-              "heigth" : "6rem",
-              "paddingBottom" : "1rem",
-              "width" : "5rem"
+            "children" : [ {
+              "props" : {
+                "className" : "",
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "painSmiley",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\nimport { getVisualDetailsFrom } from './game/patientZoom/graphics';\ngetVisualDetailsFrom(Context.currentPatient.state.humanBody);",
+                  "language" : "JavaScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "mimms_h1title",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "ID",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "String((Context.currentPatient.state.patientId))",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "mimms_h2title noPadding",
+                    "layoutClassName" : "noPadding noMargin ",
+                    "layoutStyle" : { },
+                    "name" : "sex and age",
+                    "style" : {
+                      "margin" : "0px"
+                    },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getRoundedAge } from \"./game/patientZoom/currentPatientZoom\";\nimport { getTranslation } from \"./tools/translation\";\n getTranslation('human-general', Context.currentPatient.state.humanBody.meta.sex, true) + ', ' + getRoundedAge(Context.currentPatient.state.humanBody.meta.age)",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "constant-title",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "state",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getHumanVisualInfos } from \"./UIfacade/patientFacade\";\ngetHumanVisualInfos(Context.currentPatient.state.patientId);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "className" : "smallGap",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "iD name & state",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "layout" : {
+              "alignItems" : "center"
             },
-            "name" : "painSmiley",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\nimport { getVisualDetailsFrom } from './game/patientZoom/graphics';\ngetVisualDetailsFrom(Context.currentPatient.state.humanBody);",
-              "language" : "JavaScript"
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "width" : "33%"
+            },
+            "name" : "painSmiley iD name & state",
+            "style" : {
+              "gap" : "2rem"
             }
           },
-          "type" : "Text"
+          "type" : "FlexList"
         }, {
           "props" : {
             "children" : [ {
               "props" : {
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : {
-                  "alignItem" : "flex-end",
                   "margin" : "auto",
                   "stroke" : "#43494C",
                   "strokeWidth" : "1",
@@ -41,63 +110,13 @@
                 }
               },
               "type" : "Text"
-            }, {
-              "props" : {
-                "layoutStyle" : { },
-                "name" : "ID",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "String((Context.currentPatient.state.patientId))",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
             } ],
             "layout" : {
               "flexDirection" : "column"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "name" : "iD&tag",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "className" : "mimms_h2title  noPadding",
-                "layoutClassName" : "noMargin ",
-                "layoutStyle" : { },
-                "name" : "sex and age",
-                "style" : {
-                  "margin" : "0px"
-                },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getRoundedAge } from \"./game/patientZoom/currentPatientZoom\";\n (Context.currentPatient.state.humanBody.meta.sex) +', ' + (getRoundedAge(Context.currentPatient.state.humanBody.meta.age))",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "layoutStyle" : { },
-                "name" : "state",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getHumanVisualInfos } from \"./UIfacade/patientFacade\";\ngetHumanVisualInfos(Context.currentPatient.state.patientId);",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            } ],
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutStyle" : { },
-            "name" : "name&state",
+            "name" : "tag",
             "style" : { }
           },
           "type" : "FlexList"
@@ -106,6 +125,7 @@
             "children" : [ {
               "props" : {
                 "className" : "mimms_h2title noPadding noMargin",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "pathologies",
                 "style" : {
@@ -120,17 +140,20 @@
               "type" : "Text"
             }, {
               "props" : {
+                "className" : "constant-title",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "pathologies",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "Context.currentPatient.state.pathologyNames.join(\", \")",
+                  "content" : "import { getPathologyNames } from \"./UIfacade/patientFacade\";\ngetPathologyNames(Context.currentPatient.state);",
                   "language" : "TypeScript"
                 }
               },
               "type" : "Text"
             } ],
+            "className" : "smallGap",
             "hideIf" : {
               "@class" : "Script",
               "content" : "APP_CONTEXT !== \"Editor\";",
@@ -139,22 +162,24 @@
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "pathologies",
             "style" : { }
           },
           "type" : "FlexList"
         } ],
-        "className" : "noPadding noMargin",
+        "className" : "",
         "layout" : {
-          "alignItems" : "flex-end",
+          "alignItems" : "center",
           "justifyContent" : "flex-start"
         },
-        "layoutClassName" : "noPadding noMargin",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "headerPatient",
-        "style" : { }
+        "style" : {
+          "gap" : "2rem"
+        }
       },
       "type" : "FlexList"
     }, {
@@ -163,307 +188,111 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "constantTypeTitle",
-                "layoutStyle" : { },
-                "name" : "A",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "  String('A');",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "constantTitle noPadding noMargin",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "notIntubated",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "import { isIntubated } from \"./UIfacade/patientFacade\";\n  if (isIntubated(Context.currentPatient.state.humanBody.state)){\nreturn false\n  } true",
-                        "language" : "typescript"
-                      }
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin constant-type__title",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "A",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>A</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin constant-type__undertitle",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "airways",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Airways</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
                     } ],
+                    "className" : "smallGap",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "name" : "EtCO2",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "  String('EtCO2');",
-                      "language" : "TypeScript"
-                    }
+                    "name" : "header",
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
-                    "className" : "constantValue",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "notIntubated",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "import { isIntubated } from \"./UIfacade/patientFacade\";\n  if (isIntubated(Context.currentPatient.state.humanBody.state)){\nreturn false\n  } true",
-                        "language" : "typescript"
-                      }
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin constant-title",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "constant--unavailable",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isIntubated } from \"./UIfacade/patientFacade\";\n  if (isIntubated(Context.currentPatient.state.humanBody.state)){\nreturn false\n  } true",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "EtCO2",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "  String('EtCO2');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "constant-value",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "constant--unavailable",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isIntubated } from \"./UIfacade/patientFacade\";\n  if (isIntubated(Context.currentPatient.state.humanBody.state)){\nreturn false\n  } true",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "EtCO2 - value",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getEtCO2, isIntubated } from \"./UIfacade/patientFacade\";\n\n  if (!isIntubated(Context.currentPatient.state.humanBody.state)){\nreturn 'not intubated'\n  }\n    getEtCO2(Context.currentPatient.state.humanBody.state);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
                     } ],
-                    "layoutStyle" : { },
-                    "name" : "EtCO2 - value",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getEtCO2, isIntubated } from \"./UIfacade/patientFacade\";\n\n  if (!isIntubated(Context.currentPatient.state.humanBody.state)){\nreturn 'not intubated'\n  }\n    getEtCO2(Context.currentPatient.state.humanBody.state);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                } ],
-                "className" : "noPadding noMargin",
-                "layout" : {
-                  "justifyContent" : "space-between"
-                },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "A",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "className" : "constantTypeTitle",
-                "layoutStyle" : { },
-                "name" : "B",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "  String('B');",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "constantTitle",
-                    "layoutStyle" : { },
-                    "name" : "SpO2",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>SpO2</p>\"",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "className" : "constantValue",
-                    "layoutStyle" : { },
-                    "name" : "SpO2-value",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getSpO2Percent } from \"./UIfacade/patientFacade\";\n getSpO2Percent(Context.currentPatient.state.humanBody.state);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                } ],
-                "className" : "noPadding noMargin",
-                "layout" : {
-                  "justifyContent" : "space-between"
-                },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "SPO2",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "constantTitle",
-                    "layoutStyle" : { },
-                    "name" : "FrequResp",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'respiratoryRate')}`",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "className" : "constantValue",
-                    "layoutStyle" : { },
-                    "name" : "FR-value",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getRespirationRate } from \"./UIfacade/patientFacade\";\n getRespirationRate(Context.currentPatient.state.humanBody.state);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                } ],
-                "className" : "noPadding noMargin",
-                "layout" : {
-                  "justifyContent" : "space-between"
-                },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "FR",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "className" : "constantTypeTitle",
-                "layoutStyle" : { },
-                "name" : "C",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "  String('C');",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "constantTitle",
-                    "layoutStyle" : { },
-                    "name" : "FrequCard",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cardiacRate')}`",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "className" : "constantValue",
-                    "layoutStyle" : { },
-                    "name" : "FreqCard-value",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getHeartRate } from \"./UIfacade/patientFacade\";\ngetHeartRate(Context.currentPatient.state.humanBody.state);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                } ],
-                "className" : "noPadding noMargin",
-                "layout" : {
-                  "justifyContent" : "space-between"
-                },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "FrequCard",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "constantTitle",
-                    "layoutStyle" : { },
-                    "name" : "Tension arté",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'bloodPressure')}`",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "className" : "constantValue",
-                    "layoutStyle" : { },
-                    "name" : "Tension arté-value",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getBloodPressure } from \"./UIfacade/patientFacade\";\ngetBloodPressure(Context.currentPatient.state.humanBody.state);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                } ],
-                "className" : "noPadding noMargin",
-                "layout" : {
-                  "justifyContent" : "space-between"
-                },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "TA",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "className" : "constantTypeTitle",
-                "layoutStyle" : { },
-                "name" : "D",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "  String('D');",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "constantTitle",
-                    "layoutStyle" : { },
-                    "name" : "Glasgow",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "  String('Glasgow');",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "className" : "constantValue",
-                    "layoutStyle" : { },
-                    "name" : "Glasgow-value",
-                    "style" : {
-                      "textAlign" : "right"
+                    "layout" : {
+                      "justifyContent" : "space-between"
                     },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { formatMetric } from \"./game/patientZoom/currentPatientZoom\";\n String((Context.currentPatient.state.humanBody.state.vitals.glasgow.total))\n   + '</br> '\n   + formatMetric('vitals.glasgow.eye', Context.currentPatient.state.humanBody.state.vitals.glasgow.eye).join(': ')\n   + '</br> '\n   + formatMetric('vitals.glasgow.verbal', Context.currentPatient.state.humanBody.state.vitals.glasgow.verbal).join(': ')\n   + '</br> '\n   + formatMetric('vitals.glasgow.motor', Context.currentPatient.state.humanBody.state.vitals.glasgow.motor).join(': ')",
-                      "language" : "TypeScript"
-                    }
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "content",
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 } ],
-                "className" : "noPadding noMargin",
+                "className" : "mediumGap constant",
                 "layout" : {
-                  "justifyContent" : "space-between"
+                  "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding noMargin",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "Glasgow",
+                "name" : "A",
                 "style" : { }
               },
               "type" : "FlexList"
@@ -471,58 +300,83 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "constantTitle noPadding noMargin",
-                    "layoutClassName" : "noPadding noMargin",
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin constant-type__title",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "B",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>B</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin constant-type__undertitle",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "breathing",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Breathing</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "smallGap",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "name" : "Motricity",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\n \n  getTranslation('human-general','motricity') + ':';",
-                      "language" : "TypeScript"
-                    }
+                    "name" : "header",
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
                     "children" : [ {
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "constantTitle",
-                            "layoutClassName" : "noPadding noMargin",
+                            "className" : "noMargin constant-title",
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
-                            "name" : "MSD Title",
+                            "name" : "SpO2",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.arm.right');",
+                              "content" : "\"<p>SpO2</p>\"",
                               "language" : "TypeScript"
                             }
                           },
                           "type" : "Text"
                         }, {
                           "props" : {
-                            "className" : "constantValue",
-                            "layoutClassName" : "noPadding noMargin",
+                            "className" : "constant-value",
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
-                            "name" : "MSDvalue",
+                            "name" : "SpO2-value",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.rightArm);",
+                              "content" : "import { getSpO2Percent } from \"./UIfacade/patientFacade\";\n getSpO2Percent(Context.currentPatient.state.humanBody.state);",
                               "language" : "TypeScript"
                             }
                           },
                           "type" : "Text"
                         } ],
-                        "className" : "noPadding noMargin",
+                        "className" : "",
                         "layout" : {
                           "justifyContent" : "space-between"
                         },
-                        "layoutClassName" : "noPadding noMargin",
+                        "layoutClassName" : "constants__info",
                         "layoutStyle" : { },
-                        "name" : "MSD",
+                        "name" : "SPO2",
                         "style" : { }
                       },
                       "type" : "FlexList"
@@ -530,144 +384,63 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "constantTitle",
-                            "layoutClassName" : "noPadding noMargin",
+                            "className" : "noMargin constant-title",
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
-                            "name" : "MSG Title",
+                            "name" : "FrequResp",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.arm.left');",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'respiratoryRate')}`",
                               "language" : "TypeScript"
                             }
                           },
                           "type" : "Text"
                         }, {
                           "props" : {
-                            "className" : "constantValue",
-                            "layoutClassName" : "noPadding noMargin",
+                            "className" : "constant-value",
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
-                            "name" : "MSGvalue",
+                            "name" : "FR-value",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.leftArm);",
+                              "content" : "import { getRespirationRate } from \"./UIfacade/patientFacade\";\n getRespirationRate(Context.currentPatient.state.humanBody.state);",
                               "language" : "TypeScript"
                             }
                           },
                           "type" : "Text"
                         } ],
-                        "className" : "noPadding noMargin",
+                        "className" : "",
                         "layout" : {
                           "justifyContent" : "space-between"
                         },
-                        "layoutClassName" : "noPadding noMargin",
+                        "layoutClassName" : "constants__info",
                         "layoutStyle" : { },
-                        "name" : "MSG",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "constantTitle",
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "MIG Title",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.leg.right');",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "className" : "constantValue",
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "MIGvalue",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n  \n    getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.leftLeg);",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "className" : "noPadding noMargin",
-                        "layout" : {
-                          "justifyContent" : "space-between"
-                        },
-                        "layoutClassName" : "noPadding noMargin",
-                        "layoutStyle" : { },
-                        "name" : "MIG",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "constantTitle",
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "MID Title",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.leg.left');",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "className" : "constantValue",
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "MIDvalue",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.rightLeg);",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "className" : "noPadding noMargin",
-                        "layout" : {
-                          "justifyContent" : "space-between"
-                        },
-                        "layoutClassName" : "noPadding noMargin",
-                        "layoutStyle" : { },
-                        "name" : "MID",
+                        "name" : "FR",
                         "style" : { }
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "pmaPatientInfos-constants-subInfoBox",
+                    "className" : "",
                     "layout" : {
-                      "flexDirection" : "column"
+                      "flexDirection" : "column",
+                      "justifyContent" : "space-between"
                     },
-                    "layoutClassName" : "noPadding noMargin",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
+                    "name" : "content",
                     "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
-                "className" : "",
+                "className" : "mediumGap constant",
                 "layout" : {
-                  "flexDirection" : "column",
-                  "justifyContent" : "space-between"
+                  "flexDirection" : "column"
                 },
-                "layoutClassName" : "",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "motricity",
+                "name" : "B",
                 "style" : { }
               },
               "type" : "FlexList"
@@ -675,101 +448,750 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "constantTitle",
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin constant-type__title",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "C",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>C</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin constant-type__undertitle",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "circulation",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Circulation</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "smallGap",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "name" : "Glycemy Title",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','glycemy');",
-                      "language" : "TypeScript"
-                    }
+                    "name" : "header",
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
-                    "className" : "constantValue",
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "noMargin constant-title",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "FrequCard",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cardiacRate')}`",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "constant-value",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "FreqCard-value",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getHeartRate } from \"./UIfacade/patientFacade\";\ngetHeartRate(Context.currentPatient.state.humanBody.state);",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "",
+                        "layout" : {
+                          "justifyContent" : "space-between"
+                        },
+                        "layoutClassName" : "constants__info",
+                        "layoutStyle" : { },
+                        "name" : "FrequCard",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "noMargin constant-title",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Tension arté",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'bloodPressure')}`",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "constant-value",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Tension arté-value",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getBloodPressure } from \"./UIfacade/patientFacade\";\ngetBloodPressure(Context.currentPatient.state.humanBody.state);",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "",
+                        "layout" : {
+                          "justifyContent" : "space-between"
+                        },
+                        "layoutClassName" : "constants__info",
+                        "layoutStyle" : { },
+                        "name" : "TA",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "",
+                    "layout" : {
+                      "flexDirection" : "column",
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "name" : "Glycemy value",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getBloodSugarLevel } from \"./UIfacade/patientFacade\";\n  getBloodSugarLevel(Context.currentPatient.state.humanBody.state);",
-                      "language" : "TypeScript"
-                    }
+                    "name" : "content",
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 } ],
-                "className" : "noPadding noMargin",
+                "className" : "mediumGap constant",
                 "layout" : {
-                  "justifyContent" : "space-between"
+                  "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding noMargin",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "Glycemy",
+                "name" : "C",
                 "style" : { }
               },
               "type" : "FlexList"
             }, {
               "props" : {
-                "className" : "constantTypeTitle",
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin constant-type__title",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "D",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>D</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin constant-type__undertitle",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "disability",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Disability</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "smallGap",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "header",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "noMargin constant-title",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "Glasgow",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Glasgow</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constant-value",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "Glasgow-value",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : " String((Context.currentPatient.state.humanBody.state.vitals.glasgow.total));",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "glasgow",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "constant-title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "title",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','vitals.glasgow.eye');",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "constant-value",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "value",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  String(Context.currentPatient.state.humanBody.state.vitals.glasgow.eye);",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "smallGap",
+                                "layout" : {
+                                  "justifyContent" : "space-between"
+                                },
+                                "layoutClassName" : "constants__sub-info",
+                                "layoutStyle" : { },
+                                "name" : "oculaire",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "constant-title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "title",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','vitals.glasgow.verbal');",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "constant-value",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "value",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : " String(Context.currentPatient.state.humanBody.state.vitals.glasgow.verbal);",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "smallGap",
+                                "layout" : {
+                                  "justifyContent" : "space-between"
+                                },
+                                "layoutClassName" : "constants__sub-info",
+                                "layoutStyle" : { },
+                                "name" : "verbal",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "constant-title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "title",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','vitals.glasgow.motor');",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "constant-value",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "value",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  \n    String(Context.currentPatient.state.humanBody.state.vitals.glasgow.motor);",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "smallGap",
+                                "layout" : {
+                                  "justifyContent" : "space-between"
+                                },
+                                "layoutClassName" : "constants__sub-info",
+                                "layoutStyle" : { },
+                                "name" : "moteur",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "",
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "",
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "constants__info",
+                        "layoutStyle" : { },
+                        "name" : "Glasgow",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "noMargin constant-title",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Motricity",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n \n  getTranslation('human-general','motricity');",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "constant-title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "MSD Title",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.arm.right');",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "constant-value",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "MSDvalue",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.rightArm);",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "smallGap",
+                                "layout" : {
+                                  "justifyContent" : "space-between"
+                                },
+                                "layoutClassName" : "constants__sub-info",
+                                "layoutStyle" : { },
+                                "name" : "MSD",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "constant-title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "MSG Title",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.arm.left');",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "constant-value",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "MSGvalue",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.leftArm);",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "smallGap",
+                                "layout" : {
+                                  "justifyContent" : "space-between"
+                                },
+                                "layoutClassName" : "constants__sub-info",
+                                "layoutStyle" : { },
+                                "name" : "MSG",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "constant-title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "MIG Title",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.leg.right');",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "constant-value",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "MIGvalue",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n  \n    getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.leftLeg);",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "smallGap",
+                                "layout" : {
+                                  "justifyContent" : "space-between"
+                                },
+                                "layoutClassName" : "constants__sub-info",
+                                "layoutStyle" : { },
+                                "name" : "MIG",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "constant-title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "MID Title",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.leg.left');",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "constant-value",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "MIDvalue",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.rightLeg);",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "smallGap",
+                                "layout" : {
+                                  "justifyContent" : "space-between"
+                                },
+                                "layoutClassName" : "constants__sub-info",
+                                "layoutStyle" : { },
+                                "name" : "MID",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "",
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "",
+                        "layout" : {
+                          "flexDirection" : "column",
+                          "justifyContent" : "space-between"
+                        },
+                        "layoutClassName" : "constants__info",
+                        "layoutStyle" : { },
+                        "name" : "motricity",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "noMargin constant-title",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Glycemy Title",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','glycemy');",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "constant-value",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Glycemy value",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getBloodSugarLevel } from \"./UIfacade/patientFacade\";\n  getBloodSugarLevel(Context.currentPatient.state.humanBody.state);",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "",
+                        "layout" : {
+                          "justifyContent" : "space-between"
+                        },
+                        "layoutClassName" : "constants__info",
+                        "layoutStyle" : { },
+                        "name" : "Glycemy",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "",
+                    "layout" : {
+                      "flexDirection" : "column",
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "content",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "className" : "mediumGap constant",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "D",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin constant-type__title",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "E",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>E</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin constant-type__undertitle",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "exposure",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Exposure</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "smallGap",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "header",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin constant-title",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "TemperatureTitle",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','temperature');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "constant-value",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Temperature value",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTemperature } from \"./UIfacade/patientFacade\";\n  getTemperature(Context.currentPatient.state.humanBody.state);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : {
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "content",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "className" : "mediumGap constant",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "E",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "  String('E');",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "constantTitle",
-                    "layoutStyle" : { },
-                    "name" : "TemperatureTitle",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','temperature');",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "className" : "constantValue",
-                    "layoutStyle" : { },
-                    "name" : "Temperature value",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTemperature } from \"./UIfacade/patientFacade\";\n  getTemperature(Context.currentPatient.state.humanBody.state);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                } ],
-                "className" : "noPadding noMargin",
-                "layout" : {
-                  "justifyContent" : "space-between"
-                },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "Temperature",
                 "style" : { }
               },
               "type" : "FlexList"
             } ],
-            "className" : "noPadding noMargin",
+            "className" : "mediumGap",
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "noPadding noMargin",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : {
-              "minWidth" : "33%"
+              "minWidth" : "33%",
+              "overflowY" : "auto"
             },
             "name" : "left(constants)",
             "style" : { }
@@ -847,10 +1269,7 @@
                       "type" : "For each"
                     } ],
                     "layoutClassName" : "shadowMan",
-                    "layoutStyle" : {
-                      "justifiyContent" : "center",
-                      "width" : "200px"
-                    },
+                    "layoutStyle" : { },
                     "onAbsoluteClick" : { },
                     "style" : { }
                   },
@@ -866,10 +1285,11 @@
               },
               "type" : "FlexList"
             } ],
-            "className" : "noPadding noMargin",
+            "className" : "fullHeight",
             "layout" : {
               "alignItems" : "center",
-              "flexDirection" : "column"
+              "flexDirection" : "column",
+              "justifyContent" : "center"
             },
             "layoutClassName" : "noPadding noMargin",
             "layoutStyle" : {
@@ -883,27 +1303,71 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "mimms_h2title",
+                "children" : [ {
+                  "props" : {
+                    "className" : "constant-type__title",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "details patient",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'patientDetails')}`;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin constant-title",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general', 'pain');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin constant-value",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "value",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getPainValue } from \"./UIfacade/patientFacade\";\n  getPainValue(Context.currentPatient.state.humanBody.state);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : {
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "pain",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "className" : "constant",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'patientDetails')}`;",
-                  "language" : "TypeScript"
-                }
+                "name" : "details",
+                "style" : { }
               },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getPainValue } from \"./UIfacade/patientFacade\";\n  getTranslation('human-general', 'pain') + ': ' + getPainValue(Context.currentPatient.state.humanBody.state);",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
+              "type" : "FlexList"
             }, {
               "props" : {
                 "children" : [ {
@@ -912,7 +1376,8 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "patient-block-name",
+                            "className" : "constant-type__title",
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "style" : { },
                             "text" : {
@@ -924,6 +1389,8 @@
                           "type" : "Text"
                         }, {
                           "props" : {
+                            "className" : "constant-title fullWidth",
+                            "layoutClassName" : "noPadding fullWidth",
                             "layoutStyle" : { },
                             "style" : { },
                             "text" : {
@@ -934,28 +1401,20 @@
                           },
                           "type" : "Text"
                         } ],
-                        "className" : "block-details",
+                        "className" : "fullWidth smallGap",
                         "conditionnalClassNames" : [ {
-                          "applyOn" : "Inside",
+                          "applyOn" : "Outside",
                           "className" : "patient-block-details-highlighted",
                           "condition" : {
                             "@class" : "Script",
                             "content" : "Context.block.name === Context.currentPatient.state.observedBlock;",
                             "language" : "typescript"
                           }
-                        }, {
-                          "applyOn" : "Inside",
-                          "className" : "patient-block-details",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "  // just to avoid that it moves. (shame on me)\nContext.block.name !== Context.currentPatient.state.observedBlock;",
-                            "language" : "typescript"
-                          }
                         } ],
                         "layout" : {
                           "flexDirection" : "column"
                         },
-                        "layoutClassName" : "pmaPatientInfos-container",
+                        "layoutClassName" : "patient-block-details",
                         "layoutStyle" : { },
                         "style" : { }
                       },
@@ -972,7 +1431,7 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "",
+                    "layoutClassName" : "noPadding fullWidth",
                     "layoutStyle" : { },
                     "name" : "",
                     "style" : { }
@@ -980,7 +1439,7 @@
                   "type" : "For each"
                 } ],
                 "layout" : { },
-                "layoutClassName" : "",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "block details",
                 "style" : {
@@ -989,11 +1448,11 @@
               },
               "type" : "FlexList"
             } ],
-            "className" : "noPadding noMargin",
+            "className" : "mediumGap",
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "noPadding noMargin",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : {
               "minWidth" : "33%"
             },
@@ -1004,19 +1463,20 @@
         } ],
         "className" : "noPadding noMargin",
         "layout" : {
-          "alignContent" : "center",
           "justifyContent" : "space-between"
         },
         "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : {
-          "marginTop" : "1rem"
+          "flex" : "1 1 auto",
+          "marginTop" : "1rem",
+          "minHeight" : "0"
         },
         "name" : "allColumnsPatientInfos",
         "style" : { }
       },
       "type" : "FlexList"
     } ],
-    "className" : "noPadding noMargin",
+    "className" : "noPadding noMargin fullHeight",
     "hideIf" : {
       "@class" : "Script",
       "content" : "Context.currentPatient?.state?.patientId == undefined;",

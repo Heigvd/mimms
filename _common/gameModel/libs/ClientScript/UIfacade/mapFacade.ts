@@ -14,19 +14,19 @@ export function getOverlayItems(): OverlayItem[] {
 }
 
 const UNACTIVABLES_OVERLAY_GRID_CLASS_NAMES: Partial<Record<LOCATION_ENUM, string>> = {
-  entreeChantier: 'entree-chantier',
-  chantier: 'chantier',
-  nidDeBlesses: 'nid-blesses',
-  PMA: 'pma',
-  pcFront: 'pc-front',
-  PC: 'pc-san',
-  helicopterPark: 'parc-helico',
-  ambulancePark: 'parc-ambulance',
+  entreeChantier: 'resources-flow__entree-chantier',
+  chantier: 'resources-flow__chantier',
+  nidDeBlesses: 'resources-flow__nid-blesses',
+  PMA: 'resources-flow__pma',
+  pcFront: 'resources-flow__pc-front',
+  PC: 'resources-flow__pc-san',
+  helicopterPark: 'resources-flow__parc-helico',
+  ambulancePark: 'resources-flow__parc-ambulance',
 };
 
 /**
  * @returns The CSS class placing the given location in the Unactivables overlay grid
- * (see .unactivables-overlay__container in ressources.css), or an empty string for a
+ * (see .resources-flow__grid in ressources.css), or an empty string for a
  * location that has no dedicated slot in that grid
  */
 export function getUnactivableOverlayGridClassName(location: LOCATION_ENUM): string {
