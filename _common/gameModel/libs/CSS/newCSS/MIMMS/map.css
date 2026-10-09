@@ -112,10 +112,10 @@
 /* counter on the right of a fixed entity (map, resources flow modal) or of a patient flow arrow */
 .incoming-flow {
   position: absolute;
-  top: 50%;
-  left: 100%;
-  margin-left: 1rem;
-  transform: translateY(-50%);
+  top: 25px;
+  left: 20px;
+  margin-left: .5rem;
+  transform: translateY(-100%);
 }
 
 .incoming-flow svg {

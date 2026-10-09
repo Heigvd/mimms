@@ -184,7 +184,7 @@
 /* walkie-talkie badge, shown on the location where the current actor is giving orders by radio */
 .radio-order__container {
   position: absolute;
-  top: -.75rem;
+  top: -2rem;
   right: -.75rem;
 }
 

@@ -43,6 +43,7 @@ import {
   MoveResourcesAssignTaskActionTemplate,
 } from '../game/common/actions/actionTemplate/patientResourceTemplates';
 import { OneMinuteDuration } from '../game/common/constants';
+import { getTranslation } from '../tools/translation';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(
@@ -107,6 +108,18 @@ export async function planAction(
  */
 export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
+}
+
+/**
+ * Duration to display with the action description.
+ * Empty when the action has no duration, or when it is a choice action
+ * (the duration is already displayed on each choice).
+ */
+export function getActionDurationText(template: StartEndTemplate): string {
+  if (isChoiceTemplate(template) || !template.duration) {
+    return '';
+  }
+  return `${template.duration / 60} ${getTranslation('mainSim-resources', 'minutes', false)}`;
 }
 
 export function areAllActorsDoing<T extends ActionBase>(actionClass: ActionClass<T>): boolean {

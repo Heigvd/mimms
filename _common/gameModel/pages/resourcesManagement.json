@@ -940,7 +940,22 @@
                             "style" : { }
                           },
                           "type" : "FlexList"
-                        }, {
+                        } ],
+                        "className" : "",
+                        "layout" : {
+                          "alignItems" : "center"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "genericFixedEntity",
+                        "style" : {
+                          "position" : "relative"
+                        }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
                           "props" : {
                             "children" : [ {
                               "props" : {
@@ -982,22 +997,7 @@
                             "style" : { }
                           },
                           "type" : "FlexList"
-                        } ],
-                        "className" : "",
-                        "layout" : {
-                          "alignItems" : "center"
-                        },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "name" : "genericFixedEntity",
-                        "style" : {
-                          "position" : "relative"
-                        }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
+                        }, {
                           "props" : {
                             "className" : "unactivables-overlay__icon",
                             "layoutClassName" : "noPadding unactivables-overlay__icon-container",

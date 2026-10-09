@@ -122,9 +122,8 @@
 
 .feedback {
   padding-top: 10px;
-  color: var(--grey_100);
+  color: var(--primary_base);
   border-top: 1px solid var(--grey_100);
-  animation: feedbackColor 2.5s;
 }
 
 .feedback__undertitle {
@@ -140,13 +139,4 @@
 
 .feedback-list__header.actions-list__header svg {
   color: var(--grey_100);
-}
-
-
-/* - - - - A N I M A T I O N S - - - - */
-
-@keyframes feedbackColor {
-  0% {color: var(--primary_base);}
-  60% {color: var(--primary_base);}
-  100% {color: var(--grey_100);}
 }

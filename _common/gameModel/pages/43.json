@@ -1440,75 +1440,48 @@
                                               "props" : {
                                                 "children" : [ {
                                                   "props" : {
-                                                    "children" : [ {
-                                                      "props" : {
-                                                        "hideIf" : {
-                                                          "@class" : "Script",
-                                                          "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n!isCurrentActorAtLocation(Context.overlayItem.id);",
-                                                          "language" : "typescript"
-                                                        },
-                                                        "icon" : "comment",
-                                                        "layoutClassName" : "noPadding",
-                                                        "layoutStyle" : { },
-                                                        "name" : "on site",
-                                                        "style" : { }
-                                                      },
-                                                      "type" : "Icon"
-                                                    }, {
-                                                      "props" : {
-                                                        "hideIf" : {
-                                                          "@class" : "Script",
-                                                          "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id);",
-                                                          "language" : "typescript"
-                                                        },
-                                                        "layoutClassName" : "noPadding",
-                                                        "layoutStyle" : {
-                                                          "height" : "1rem"
-                                                        },
-                                                        "name" : "radio",
-                                                        "script" : {
-                                                          "@class" : "Script",
-                                                          "content" : "\"/walkie-talkie-solid.svg\"",
-                                                          "language" : "TypeScript"
-                                                        },
-                                                        "style" : { }
-                                                      },
-                                                      "type" : "Image"
-                                                    }, {
-                                                      "props" : {
-                                                        "className" : "noMargin actionName",
-                                                        "layoutClassName" : "noPadding",
-                                                        "layoutStyle" : { },
-                                                        "name" : "actionName",
-                                                        "style" : { },
-                                                        "text" : {
-                                                          "@class" : "Script",
-                                                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'assign');",
-                                                          "language" : "TypeScript"
-                                                        }
-                                                      },
-                                                      "type" : "Text"
-                                                    } ],
-                                                    "className" : "smallGap",
-                                                    "layout" : {
-                                                      "alignItems" : "center"
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n!isCurrentActorAtLocation(Context.overlayItem.id);",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "icon" : "comment",
+                                                    "layoutClassName" : "noPadding",
+                                                    "layoutStyle" : { },
+                                                    "name" : "on site",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "Icon"
+                                                }, {
+                                                  "props" : {
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id);",
+                                                      "language" : "typescript"
                                                     },
                                                     "layoutClassName" : "noPadding",
                                                     "layoutStyle" : { },
-                                                    "name" : "actionName",
-                                                    "style" : { }
+                                                    "name" : "radio",
+                                                    "script" : {
+                                                      "@class" : "Script",
+                                                      "content" : "\"/walkie-talkie-solid.svg\"",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "style" : {
+                                                      "height" : ".85rem"
+                                                    }
                                                   },
-                                                  "type" : "FlexList"
+                                                  "type" : "Image"
                                                 }, {
                                                   "props" : {
-                                                    "className" : "noMargin",
+                                                    "className" : "noMargin actionName",
                                                     "layoutClassName" : "noPadding",
                                                     "layoutStyle" : { },
-                                                    "name" : "taskDuration",
+                                                    "name" : "actionName",
                                                     "style" : { },
                                                     "text" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { formatDurationMinMax } from \"./UIfacade/actionFacade\";\nformatDurationMinMax(60, 120);",
+                                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'assign');",
                                                       "language" : "TypeScript"
                                                     }
                                                   },
@@ -1521,7 +1494,7 @@
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : {
-                                                  "justifyContent" : "space-between"
+                                                  "alignItems" : "center"
                                                 },
                                                 "layoutClassName" : "noPadding",
                                                 "layoutStyle" : { },
