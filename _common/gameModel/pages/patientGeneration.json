@@ -569,7 +569,7 @@
                       },
                       "type" : "PageLoader"
                     } ],
-                    "className" : "",
+                    "className" : "mediumGap",
                     "layout" : {
                       "flexDirection" : "column"
                     },

@@ -8,7 +8,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "noMargin evacuation__title",
+                    "className" : "noMargin flow-modal__title",
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : {
                       "flex" : "0 0 auto"
@@ -63,7 +63,7 @@
                                           "type" : "Text"
                                         }, {
                                           "props" : {
-                                            "className" : "noPadding unactivables-overlay__button",
+                                            "className" : "noPadding evacuation__patient-button",
                                             "icon" : "external-link-alt",
                                             "label" : {
                                               "@class" : "Script",
@@ -123,7 +123,7 @@
                                       },
                                       "type" : "FlexList"
                                     } ],
-                                    "className" : "resourcesSelectionAssignment",
+                                    "className" : "smallGap",
                                     "exposeAs" : "patient",
                                     "getItemsFn" : {
                                       "@class" : "Script",
@@ -134,7 +134,7 @@
                                     "layout" : {
                                       "flexWrap" : "wrap"
                                     },
-                                    "layoutClassName" : "noPadding evacuation-list-outer ",
+                                    "layoutClassName" : "noPadding evacuation__card-content",
                                     "layoutStyle" : { },
                                     "name" : "Patient",
                                     "style" : {
@@ -189,7 +189,7 @@
                           },
                           "type" : "FlexList"
                         } ],
-                        "className" : "evacuation-column",
+                        "className" : "evacuation__list",
                         "exposeAs" : "location",
                         "getItemsFn" : {
                           "@class" : "Script",
@@ -221,7 +221,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding evacuation-column__container",
+                "layoutClassName" : "noPadding evacuation__column",
                 "layoutStyle" : { },
                 "name" : "Patient",
                 "style" : { }
@@ -231,7 +231,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "noMargin evacuation__title",
+                    "className" : "noMargin flow-modal__title",
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : {
                       "flex" : "0 0 auto"
@@ -348,10 +348,10 @@
                                           },
                                           "type" : "Text"
                                         } ],
-                                        "className" : "unactivables-overlay__vector",
+                                        "className" : "evacuation__item",
                                         "conditionnalClassNames" : [ {
                                           "applyOn" : "Inside",
-                                          "className" : "unactivables-overlay__vector--selected",
+                                          "className" : "evacuation__item--selected",
                                           "condition" : {
                                             "@class" : "Script",
                                             "content" : "Context.evacuationState.state?.selectedSquad?.squadId === Context.evacSquad?.squadId;",
@@ -376,7 +376,7 @@
                                       },
                                       "type" : "FlexList"
                                     } ],
-                                    "className" : "resourcesSelectionAssignment",
+                                    "className" : "smallGap",
                                     "exposeAs" : "evacSquad",
                                     "getItemsFn" : {
                                       "@class" : "Script",
@@ -392,6 +392,7 @@
                                     "layout" : {
                                       "flexDirection" : "column"
                                     },
+                                    "layoutClassName" : "noPadding evacuation__card-content",
                                     "layoutStyle" : { },
                                     "name" : "squad",
                                     "style" : { }
@@ -461,7 +462,7 @@
                           },
                           "type" : "FlexList"
                         } ],
-                        "className" : "evacuation-column",
+                        "className" : "evacuation__list",
                         "exposeAs" : "evacSquadDef",
                         "getItemsFn" : {
                           "@class" : "Script",
@@ -493,7 +494,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding evacuation-column__container",
+                "layoutClassName" : "noPadding evacuation__column",
                 "layoutStyle" : { },
                 "name" : "Vector",
                 "style" : { }
@@ -503,7 +504,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "noMargin evacuation__title",
+                    "className" : "noMargin flow-modal__title",
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : {
                       "flex" : "0 0 auto"
@@ -581,7 +582,7 @@
                                               },
                                               "type" : "Icon"
                                             } ],
-                                            "className" : "resourcesSelectionAssignment",
+                                            "className" : "smallGap",
                                             "layout" : {
                                               "alignItems" : "center"
                                             },
@@ -592,10 +593,10 @@
                                           },
                                           "type" : "FlexList"
                                         } ],
-                                        "className" : "unactivables-overlay__service",
+                                        "className" : "evacuation__item",
                                         "conditionnalClassNames" : [ {
                                           "applyOn" : "Inside",
-                                          "className" : "unactivables-overlay__service--selected",
+                                          "className" : "evacuation__item--selected",
                                           "condition" : {
                                             "@class" : "Script",
                                             "content" : "Context.evacuationState.state.selectedHospitalId === Context.hospital.id&&\nContext.evacuationState.state.selectedServiceId === Context.service.id;",
@@ -624,7 +625,7 @@
                                       },
                                       "type" : "FlexList"
                                     } ],
-                                    "className" : "resourcesSelectionAssignment",
+                                    "className" : "smallGap",
                                     "exposeAs" : "service",
                                     "getItemsFn" : {
                                       "@class" : "Script",
@@ -635,7 +636,7 @@
                                     "layout" : {
                                       "flexDirection" : "column"
                                     },
-                                    "layoutClassName" : "noPadding evacuation-list-outer ",
+                                    "layoutClassName" : "noPadding evacuation__card-content",
                                     "layoutStyle" : { },
                                     "name" : "Service",
                                     "style" : { }
@@ -684,7 +685,7 @@
                           },
                           "type" : "FlexList"
                         } ],
-                        "className" : "evacuation-column",
+                        "className" : "evacuation__list",
                         "exposeAs" : "hospital",
                         "getItemsFn" : {
                           "@class" : "Script",
@@ -716,7 +717,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding evacuation-column__container",
+                "layoutClassName" : "noPadding evacuation__column",
                 "layoutStyle" : { },
                 "name" : "Destination",
                 "style" : { }
@@ -743,7 +744,7 @@
               "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'send')} (1')`;",
               "language" : "TypeScript"
             },
-            "layoutClassName" : "noPadding evacuation-footer",
+            "layoutClassName" : "noPadding evacuation__footer",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -765,7 +766,7 @@
               "content" : "\"\"",
               "language" : "TypeScript"
             },
-            "layoutClassName" : "noPadding close-evacuation",
+            "layoutClassName" : "noPadding flow-modal__close evacuation__close",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {

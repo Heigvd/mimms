@@ -2,7 +2,7 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "close-generic-fixed-entity",
+        "className" : "flow-modal__close close-generic-fixed-entity",
         "icon" : "times",
         "label" : {
           "@class" : "Script",
@@ -24,7 +24,7 @@
       "type" : "Button"
     }, {
       "props" : {
-        "className" : "noMargin patient-flow__title",
+        "className" : "noMargin flow-modal__title",
         "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "Patient flow",
@@ -57,7 +57,7 @@
                           "type" : "Icon"
                         }, {
                           "props" : {
-                            "className" : "incoming-patients__counter",
+                            "className" : "incoming-flow__counter",
                             "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "number",
@@ -70,7 +70,7 @@
                           },
                           "type" : "Text"
                         } ],
-                        "className" : "incoming-patients",
+                        "className" : "incoming-flow",
                         "hideIf" : {
                           "@class" : "Script",
                           "content" : "true;",

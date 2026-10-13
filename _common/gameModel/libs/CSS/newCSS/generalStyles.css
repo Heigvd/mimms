@@ -59,6 +59,14 @@ html{
 	padding: 0;
 }
 
+.smallGap {
+  gap: 5px;
+}
+
+.mediumGap {
+  gap: 10px;
+}
+
 .noMargin > p {
   margin: 0;
 }

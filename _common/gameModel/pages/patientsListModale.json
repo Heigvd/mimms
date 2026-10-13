@@ -4,158 +4,59 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "mimms_h1title",
-            "layoutStyle" : { },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getLocationTranslation } from \"./UIfacade/locationFacade\";\ngetLocationTranslation(getTypedInterfaceState().patientModalLocation!)",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        } ],
-        "className" : "noPadding noMargin",
-        "layout" : {
-          "alignItems" : "center",
-          "justifyContent" : "space-between"
-        },
-        "layoutClassName" : "noPadding noMargin",
-        "layoutStyle" : {
-          "width" : "100%"
-        },
-        "name" : "Header",
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getPatientsForLocation } from \"./UIfacade/patientFacade\";\n getPatientsForLocation(getTypedInterfaceState().patientModalLocation!).length > 0;",
-          "language" : "typescript"
-        },
-        "layoutStyle" : { },
-        "name" : "no patients",
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'no-patient-here')",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
             "children" : [ {
               "props" : {
-                "children" : [ {
-                  "props" : {
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "true;",
-                      "language" : "typescript"
-                    },
-                    "layoutStyle" : { },
-                    "onCancel" : { },
-                    "onVariableChange" : { },
-                    "placeholder" : {
-                      "@class" : "Script",
-                      "content" : "\"Rechercher\"",
-                      "language" : "TypeScript"
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'currentPatient')",
-                      "language" : "TypeScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "String input"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "Context.patient.patientId",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getDivForCategory } from \"./UIfacade/patientFacade\";\n  getDivForCategory(Context.patient.patientId);",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "className" : "",
-                        "layout" : {
-                          "alignItems" : "center",
-                          "justifyContent" : "space-between"
-                        },
-                        "layoutClassName" : "patientEvenOddList-container patientLine-container",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { getPatient } from './UIfacade/patientFacade';\nlet newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.selectedPatient = Context.patient.patientId;\nContext.interfaceState.setState(newState);\nContext.currentPatient.setState(getPatient(Context.patient.patientId));",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    } ],
-                    "exposeAs" : "patient",
-                    "getItemsFn" : {
-                      "@class" : "Script",
-                      "content" : "import { getTypedInterfaceState } from './gameInterface/interfaceState';\nimport { getPretriagedPatientsForLocation } from './UIfacade/patientFacade';\n    getPretriagedPatientsForLocation(getTypedInterfaceState().patientModalLocation!);",
-                      "language" : "TypeScript"
-                    },
-                    "itemKey" : "patientId",
-                    "layout" : {
-                      "flexDirection" : "column"
-                    },
-                    "layoutStyle" : {
-                      "width" : "100%"
-                    },
-                    "style" : {
-                      "overflow" : "auto",
-                      "width" : "100%"
-                    }
-                  },
-                  "type" : "For each"
-                } ],
-                "className" : "noPadding noMargin",
-                "layout" : {
-                  "flexDirection" : "column"
-                },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : {
-                  "height" : "42rem",
-                  "marginRight" : "2rem",
-                  "width" : "30%"
-                },
-                "name" : "patientList",
-                "style" : {
-                  "overflowY" : "auto",
-                  "width" : "auto"
+                "className" : "mimms_h1title",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getLocationTranslation } from \"./UIfacade/locationFacade\";\ngetLocationTranslation(getTypedInterfaceState().patientModalLocation!)",
+                  "language" : "TypeScript"
                 }
               },
-              "type" : "FlexList"
+              "type" : "Text"
+            }, {
+              "props" : {
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "true;",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"Rechercher\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'currentPatient')",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getPatientsForLocation } from \"./UIfacade/patientFacade\";\n getPatientsForLocation(getTypedInterfaceState().patientModalLocation!).length > 0;",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "name" : "no patients",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'no-patient-here')",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
             }, {
               "props" : {
                 "hideIf" : {
@@ -175,66 +76,145 @@
               "type" : "Text"
             }, {
               "props" : {
-                "exposePageSizeAs" : "",
-                "initialSelectedPageId" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "Context.patient.patientId",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getDivForCategory } from \"./UIfacade/patientFacade\";\n  getDivForCategory(Context.patient.patientId);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "patient-list__item",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "patient-list__item--selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "Context.interfaceState.state.selectedPatient === Context.patient.patientId;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "layout" : {
+                      "alignItems" : "center",
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { getPatient } from './UIfacade/patientFacade';\nlet newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.selectedPatient = Context.patient.patientId;\nContext.interfaceState.setState(newState);\nContext.currentPatient.setState(getPatient(Context.patient.patientId));",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "className" : "fullWidth mediumGap",
+                "exposeAs" : "patient",
+                "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "\"50\"",
-                  "language" : "typescript"
+                  "content" : "import { getTypedInterfaceState } from './gameInterface/interfaceState';\nimport { getPretriagedPatientsForLocation } from './UIfacade/patientFacade';\n    getPretriagedPatientsForLocation(getTypedInterfaceState().patientModalLocation!);",
+                  "language" : "TypeScript"
                 },
+                "itemKey" : "patientId",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding fullWidth",
                 "layoutStyle" : {
-                  "width" : "100%"
+                  "flex" : "1 1 auto",
+                  "minHeight" : "0",
+                  "overflowY" : "auto"
                 },
-                "name" : "patient info",
                 "style" : { }
               },
-              "type" : "PageLoader"
+              "type" : "For each"
             } ],
-            "exposeAs" : "currentPatient",
-            "initialState" : {
-              "@class" : "Script",
-              "content" : "import { getPatient } from \"./UIfacade/patientFacade\";\n({...getPatient(Context.interfaceState.state.selectedPatient)!, observedBlock: ''})",
-              "language" : "TypeScript"
+            "className" : "noPadding noMargin mediumGap",
+            "layout" : {
+              "flexDirection" : "column"
             },
+            "layoutClassName" : "noPadding noMargin fullHeight",
             "layoutStyle" : {
+              "borderRight" : "1px solid var(--grey_20)",
+              "paddingRight" : "2rem",
+              "width" : "30%"
+            },
+            "name" : "patientList",
+            "style" : {
+              "width" : "auto"
+            }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "className" : "fullHeight",
+            "exposePageSizeAs" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"50\"",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "paddingLeft" : "2rem",
               "width" : "100%"
             },
-            "localState" : false,
-            "name" : "current patient",
+            "name" : "patient info",
             "style" : { }
           },
-          "type" : "State"
+          "type" : "PageLoader"
         } ],
-        "className" : "noPadding noMargin",
-        "hideIf" : {
+        "className" : "fullHeight",
+        "exposeAs" : "currentPatient",
+        "initialState" : {
           "@class" : "Script",
-          "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getPretriagedPatientsForLocation } from \"./UIfacade/patientFacade\";\n getPretriagedPatientsForLocation(getTypedInterfaceState().patientModalLocation!).length === 0;",
-          "language" : "typescript"
+          "content" : "import { getPatient } from \"./UIfacade/patientFacade\";\n({...getPatient(Context.interfaceState.state.selectedPatient)!, observedBlock: ''})",
+          "language" : "TypeScript"
         },
-        "layout" : {
-          "flexDirection" : "row"
-        },
-        "layoutClassName" : "noPadding noMargin",
-        "layoutStyle" : {
-          "height" : "90%",
-          "width" : "100%"
-        },
-        "name" : "Content",
-        "style" : {
-          "width" : "fit-content"
-        }
+        "layoutClassName" : "noPadding fullWidth fullHeight",
+        "layoutStyle" : { },
+        "localState" : false,
+        "name" : "current patient",
+        "style" : { }
       },
-      "type" : "FlexList"
+      "type" : "State"
     } ],
-    "className" : "noPadding noMargin",
+    "className" : "",
+    "hideIf" : {
+      "@class" : "Script",
+      "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getPretriagedPatientsForLocation } from \"./UIfacade/patientFacade\";\n getPretriagedPatientsForLocation(getTypedInterfaceState().patientModalLocation!).length === 0;",
+      "language" : "typescript"
+    },
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding noMargin",
-    "layoutStyle" : {
-      "height" : "100%",
-      "width" : "100%"
-    },
-    "style" : { }
+    "layoutClassName" : "noPadding fullWidth fullHeight",
+    "layoutStyle" : { },
+    "style" : {
+      "width" : "fit-content"
+    }
   },
   "type" : "FlexList"
 }

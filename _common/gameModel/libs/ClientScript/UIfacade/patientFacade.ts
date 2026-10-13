@@ -33,7 +33,8 @@ import {
   PatientCategoryColorLegendEntry,
 } from '../UIfacade/patientSnapshotFacade';
 import { LocationInfo } from '../game/common/location/locationLogic';
-import { getAccessibleLocationsInfo, getLocationInfo } from '../UIfacade/locationFacade';
+import { getAccessibleLocationsInfo } from '../UIfacade/locationFacade';
+import { getPathology } from '../HUMAn/registries';
 
 /**
  * @returns All currently present patients
@@ -73,21 +74,26 @@ export function closePatientFlowModal(): void {
 }
 
 /**
- * @returns The locations to display in the Patient Flow modal (see page 13). The "remote" location
- * (hospitals) is always included, even though it is never a built/active map entity.
+ * @returns The locations to display in the Patient Flow modal (see page 13): every built and active
+ * location that has a slot in the Patient Flow grid (including the ambulance and helicopter parks,
+ * which are not accessible to patients), plus the "remote" location (hospitals). The latter is
+ * always included, even though it is never a built/active map entity.
  */
 export function getPatientFlowLocationsInfo(): LocationInfo[] {
-  const locations = getAccessibleLocationsInfo('Patients');
-  const remote = getLocationInfo(LOCATION_ENUM.remote);
-  if (!remote) return locations;
-  return [
-    ...locations,
-    {
-      ...remote,
-      name: getTranslation('mainSim-locations', 'location-hospitals'),
-      icon: 'hospital',
-    },
-  ];
+  const locations = getAccessibleLocationsInfo('AnyKind').filter(
+    location => PATIENT_FLOW_GRID_CLASS_NAMES[location.id] !== undefined
+  );
+  const hospitals: LocationInfo = {
+    id: LOCATION_ENUM.remote,
+    name: getTranslation('mainSim-locations', 'location-hospitals'),
+    icon: 'hospital',
+    actors: [],
+    resources: [],
+    ambulances: [],
+    helicopters: [],
+    comingTo: [],
+  };
+  return [...locations, hospitals];
 }
 
 /**
@@ -126,9 +132,8 @@ const PATIENT_FLOW_GRID_CLASS_NAMES: Partial<Record<LOCATION_ENUM, string>> = {
 };
 
 /**
- * @returns The CSS class placing the given location in the Patient flow overlay grid
- * (see .patient-flow__unactivables-overlay in patient.css), or an empty string for a
- * location that has no dedicated slot in that grid
+ * @returns The CSS class placing the given location in the Patient flow overlay grid,
+ * or an empty string for a location that has no dedicated slot in that grid
  */
 export function getPatientFlowGridClassName(location: LOCATION_ENUM): string {
   return PATIENT_FLOW_GRID_CLASS_NAMES[location] ?? '';
@@ -140,6 +145,20 @@ export function getPatientFlowGridClassName(location: LOCATION_ENUM): string {
 
 export function getTranslatedBlockName(blockName: string): string {
   return getBlockTranslation(blockName);
+}
+
+/**
+ * @returns the short descriptions of the patient's pathologies
+ * The patient generation modal provides them as pathologyNames, the in-game patient modal does not,
+ * so they are then read from the patient's revived pathologies
+ */
+export function getPathologyNames(patient: PatientState & { pathologyNames?: string[] }): string {
+  const names =
+    patient.pathologyNames ??
+    (patient.humanBody?.revivedPathologies ?? []).map(
+      pathology => getPathology(pathology.pathologyId)?.shortDescription ?? ''
+    );
+  return names.filter(name => name).join(', ');
 }
 
 export function getAfflictedBlocksDetails(patient: PatientState): AfflictedBlockDetails[] {
@@ -180,7 +199,7 @@ export function getDivForCategory(patientId: string): string {
   const categoryId = patient.preTriageResult?.categoryId;
   const category = categoryId != undefined ? getCategoryById(categoryId) : undefined;
 
-  return `<div class='listTag-container' style='color: ${
+  return `<div class='patient-list__tag' style='color: ${
     category ? category.color : 'black'
   }; background-color: ${category ? category.bgColor : '#f6f7f9ff'}'/>`;
 }

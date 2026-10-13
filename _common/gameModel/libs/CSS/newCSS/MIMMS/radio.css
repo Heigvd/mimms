@@ -82,10 +82,6 @@
 
 
 /* used in page 64 */
-.aMessage-animation {
-	animation: popping 1s linear;
-}
-
 .radio-message {
   display: inline-block;
   position: relative;
