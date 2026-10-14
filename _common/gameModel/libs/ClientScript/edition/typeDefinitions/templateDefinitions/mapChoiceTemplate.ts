@@ -42,6 +42,7 @@ export function getMapChoiceActionTemplateDef(): Definition<
       showAllChoices: true,
       comment: '',
       index: 0,
+      priority: 0,
     }),
     validator: mapChoiceActionTemplateValidator,
     view: {
@@ -62,6 +63,7 @@ export function getMapChoiceActionTemplateDef(): Definition<
       availableToRoles: {} as any, // TODO ALL_EDITABLE,
       showAllChoices: EXPERT_ONLY,
       comment: ALL_EDITABLE,
+      priority: ALL_EDITABLE,
     },
   };
 }

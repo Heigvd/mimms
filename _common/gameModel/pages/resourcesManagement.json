@@ -601,7 +601,7 @@
                                       "className" : "actionHeaderDisabled",
                                       "condition" : {
                                         "@class" : "Script",
-                                        "content" : "import { canPlanAction } from \"./gameInterface/main\";\n !canPlanAction();",
+                                        "content" : "import { canPlanNonPrioritizedAction } from \"./gameInterface/main\";\n !canPlanNonPrioritizedAction();",
                                         "language" : "typescript"
                                       }
                                     } ],
@@ -1174,7 +1174,7 @@
                     "className" : " button-S button-neutralColor ",
                     "disableIf" : {
                       "@class" : "Script",
-                      "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { canSendOrder } from \"./UIfacade/resourceOrdersFacade\";\n!canSendOrder() || !canPlanAction();",
+                      "content" : "import { canPlanNonPrioritizedAction } from \"./gameInterface/main\";\nimport { canSendOrder } from \"./UIfacade/resourceOrdersFacade\";\n!canSendOrder() || !canPlanNonPrioritizedAction();",
                       "language" : "typescript"
                     },
                     "icon" : "",

@@ -22,17 +22,50 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "actionName",
+                    "children" : [ {
+                      "props" : {
+                        "className" : "action-priority-tag",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { hasPriority } from \"./UIfacade/actionFacade\";\n!hasPriority(Context.action);",
+                          "language" : "typescript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "priorityTag",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'priority');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "actionName",
+                        "layoutStyle" : { },
+                        "name" : "actionName",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplate/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getTitle();",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "action-title",
+                    "layout" : {
+                      "alignItems" : "center",
+                      "flexDirection" : "row"
+                    },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "name" : "actionName",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplate/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getTitle();",
-                      "language" : "TypeScript"
-                    }
+                    "name" : "title & priority",
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
                     "children" : [ {
@@ -110,7 +143,15 @@
                   "className" : "actionHeaderActive",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { isActiveAction } from \"./gameInterface/main\";\nisActiveAction(Context.action.uid);",
+                    "content" : "import { isActiveAction } from \"./gameInterface/main\";\nimport { PlayableActionTemplate } from \"./game/mainSimulationLogic\";\nisActiveAction(Context.action.uid) && (Context.action as PlayableActionTemplate).isPlayable;",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "actionHeaderDisabled",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { PlayableActionTemplate } from \"./game/mainSimulationLogic\";\n!(Context.action as PlayableActionTemplate).isPlayable;",
                     "language" : "typescript"
                   }
                 } ],
@@ -212,7 +253,7 @@
                 "className" : "actionInfo",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { isActiveAction } from \"./gameInterface/main\";\n  !isActiveAction(Context.action.uid);",
+                  "content" : "import { isActiveAction } from \"./gameInterface/main\";\nimport { PlayableActionTemplate } from \"./game/mainSimulationLogic\";\n!isActiveAction(Context.action.uid) || !(Context.action as PlayableActionTemplate).isPlayable;",
                   "language" : "typescript"
                 },
                 "layout" : {

@@ -60,7 +60,7 @@ function getCompletedActions(state: Readonly<MainSimulationState>): ActionBase[]
  * Zero-duration actions are completed as soon as they are planned, they count right away.
  */
 function hasActionStarted(state: Readonly<MainSimulationState>, action: ActionBase): boolean {
-  return action.startTime < state.getSimTime() || action.duration() === 0;
+  return action.startTime <= state.getSimTime();
 }
 
 export function getStartedActionsOfTemplate(

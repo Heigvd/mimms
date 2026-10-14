@@ -24,7 +24,10 @@ import {
   buildAndLaunchActionFromTemplate,
   fetchAvailableActionTemplates,
   getCurrentState,
+  getMaxPriority,
   getUniqueActionTemplates,
+  isActionTemplatePlayable,
+  PlayableActionTemplate,
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
 import { refreshSelectionLayer } from '../gameMap/main';
@@ -47,7 +50,7 @@ import { OneMinuteDuration } from '../game/common/constants';
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(
   actionType: ActionType = ActionType.ACTION
-): ActionTemplateBase[] {
+): PlayableActionTemplate[] {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   if (currentActorUid) {
     return fetchAvailableActionTemplates(currentActorUid, actionType);
@@ -69,6 +72,34 @@ export function isAvailable(template: ActionTemplateBase): boolean {
     if (actor) {
       return template.isAvailable(state, actor);
     }
+  }
+  return false;
+}
+
+/**
+ * @returns true if the template is available for the current actor and has the highest priority
+ */
+export function isPlayable(template: ActionTemplateBase | undefined): boolean {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (template && currentActorUid) {
+    return isActionTemplatePlayable(template, currentActorUid);
+  }
+  return false;
+}
+
+// used in page actionsList to display the priority tag
+export function hasPriority(template: ActionTemplateBase): boolean {
+  return template.getPriority(getCurrentState()) > 0;
+}
+
+/**
+ * @returns true if an action with a priority is available for the current actor,
+ * then only this action can be played
+ */
+export function isPriorityActionPending(): boolean {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (currentActorUid) {
+    return getMaxPriority(currentActorUid) > 0;
   }
   return false;
 }

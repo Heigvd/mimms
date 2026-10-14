@@ -39,6 +39,26 @@
   text-transform: uppercase;
 }
 
+.action-title {
+  gap: 8px;
+}
+
+.action-title > div {
+  padding: 0;
+  margin: 0;
+}
+
+.action-priority-tag {
+  background-color: var(--grey_100);
+  color: var(--grey_0);
+  border-radius: var(--XXS_borderRadius);
+  padding: 2px 5px;
+  font-size: var(--XS_text);
+  font-weight: var(--boldWeight);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .aDescriptionAction {
   padding: 0 10px 10px 10px;
 }

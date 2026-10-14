@@ -226,3 +226,11 @@ export function sanitizeMaxExecutions(rawValue: string): number {
   }
   return value;
 }
+
+export function sanitizePriority(rawValue: string): number {
+  const value = parseInt(rawValue);
+  if (value <= 0 || Number.isNaN(value)) {
+    return 0;
+  }
+  return value;
+}

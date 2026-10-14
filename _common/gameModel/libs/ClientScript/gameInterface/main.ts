@@ -9,6 +9,8 @@ import {
   isChoiceTemplate,
   isMoveActorActionTemplate,
   isCustomDurationActionTemplate,
+  isPlayable,
+  isPriorityActionPending,
   planAction,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
@@ -59,6 +61,16 @@ export function canActorPlanAction(actorId: number): boolean {
 }
 
 /**
+ * Can current actor plan a new action that is not prioritized (resources, evacuation, radio, ...)
+ * Not possible while an action with a priority is pending
+ *
+ * @returns boolean whether a non prioritized action can be planned by current actor
+ */
+export function canPlanNonPrioritizedAction(): boolean {
+  return canPlanAction() && !isPriorityActionPending();
+}
+
+/**
  * Is the given actionUid the currently planned action by the current actor ?
  *
  * @params number uid of the action
@@ -98,6 +110,10 @@ export function actionClickHandler(template: ActionTemplateBase, params: any): v
  * Update state whenever user changes action
  */
 export function actionChangeHandler(actionTemplate: ActionTemplateBase): void {
+  if (actionTemplate && !isPlayable(actionTemplate)) {
+    return;
+  }
+
   const updatedState: Partial<InterfaceState> = {
     showAction: true,
     currentActionUid: actionTemplate?.uid,

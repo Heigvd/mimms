@@ -1516,7 +1516,7 @@
                                                 "className" : "actionHeader resourcesSelectionAssignment interactive",
                                                 "disableIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nimport { isRadioSchemaActivated } from \"./UIfacade/flagsFacade\";\n !canPlanAction() || (!isRadioSchemaActivated() && !isCurrentActorAtLocation(Context.overlayItem.id));",
+                                                  "content" : "import { canPlanNonPrioritizedAction } from \"./gameInterface/main\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nimport { isRadioSchemaActivated } from \"./UIfacade/flagsFacade\";\n !canPlanNonPrioritizedAction() || (!isRadioSchemaActivated() && !isCurrentActorAtLocation(Context.overlayItem.id));",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : {
