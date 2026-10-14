@@ -7,7 +7,9 @@ import { getMapEntityDescriptor } from '../game/loaders/mapEntitiesLoader';
 import { getShapeCenter } from './utils/shapeUtils';
 import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
-import { fetchLocationInfo } from '../game/common/location/locationLogic';
+import { fetchLocationInfo, LocationInfo } from '../game/common/location/locationLogic';
+import { MainSimulationState } from '../game/common/simulationState/mainSimulationState';
+import { SimFlag } from '../game/common/actions/actionTemplate/actionTemplateBase';
 
 // Replacement based on activables/descriptors
 export function computeOverlayItems(): OverlayItem[] {
@@ -28,7 +30,10 @@ export function computeOverlayItems(): OverlayItem[] {
     const firstMapObject = mapDescriptor?.mapObjects[0];
 
     if (firstMapObject) {
-      const locationInfo = fetchLocationInfo(getCurrentState(), mapDescriptor.binding);
+      const locationInfo = hideALBeforePCFront(
+        getCurrentState(),
+        fetchLocationInfo(getCurrentState(), mapDescriptor.binding)
+      );
 
       overlayItems.push({
         overlayProps: {
@@ -63,4 +68,26 @@ export function computeOverlayItems(): OverlayItem[] {
   });
 
   return overlayItems;
+}
+
+/**
+ * The AL and its initial resource are only shown on the map once the PC Front has been placed
+ * (until then they are logically at the entreeChantier, but are not displayed)
+ */
+function hideALBeforePCFront(
+  state: Readonly<MainSimulationState>,
+  locationInfo: LocationInfo | undefined
+): LocationInfo | undefined {
+  if (!locationInfo || state.isSimFlagEnabled(SimFlag.PCFRONT_BUILT)) {
+    return locationInfo;
+  }
+
+  // same convention as PCFrontChoiceAction : the first resource is the one coming with the AL
+  const initialResourceUid = state.getInternalStateObject().resources[0]?.Uid;
+
+  return {
+    ...locationInfo,
+    actors: locationInfo.actors.filter(actor => actor.Role !== 'AL'),
+    resources: locationInfo.resources.filter(resource => resource.Uid !== initialResourceUid),
+  };
 }

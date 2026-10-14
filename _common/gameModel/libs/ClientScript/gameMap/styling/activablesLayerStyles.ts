@@ -3,7 +3,11 @@ import { getChoiceDescriptor } from '../../game/loaders/mapEntitiesLoader';
 import { getTypedInterfaceState } from '../../gameInterface/interfaceState';
 import { getTypedMapState } from '../../gameMap/main';
 import { floatToHexByte } from '../../tools/helper';
-import { getAvailableActionTemplateById, isChoiceTemplate } from '../../UIfacade/actionFacade';
+import {
+  getAvailableActionTemplateById,
+  isChoiceTemplate,
+  isPCFrontBuilt,
+} from '../../UIfacade/actionFacade';
 import { getActor, isCurrentActorAtLocation } from '../../UIfacade/actorFacade';
 
 export const DEFAULT_SELECTED_COLOR = '#1591C2';
@@ -49,7 +53,9 @@ export function getActivableLayerStyle(feature: any): LayerStyleObject {
       isHighlighted = currentTemplate.choices.some(c => c.displayedMapEntity === id);
     }
   } else {
-    isHighlighted = isCurrentActorAtLocation(binding);
+    // the AL is not shown on the map until the PC Front has been placed
+    const isHiddenAL = getActor(currentActorUid || 0)?.Role === 'AL' && !isPCFrontBuilt();
+    isHighlighted = !isHiddenAL && isCurrentActorAtLocation(binding);
   }
   //const isIncident = feature?.getProperties()?.binding === LOCATION_ENUM.chantier;
 
