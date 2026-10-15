@@ -28,14 +28,12 @@ export function eraseInitialState(): void {
 }
 
 function buildStartingMainState(): MainSimulationState {
-  const AL = new Actor('AL', LOCATION_ENUM.entreeChantier);
+  const AL = new Actor('AL', LOCATION_ENUM.pcFront);
   const CASU = new Actor('CASU', LOCATION_ENUM.remote);
 
   const tasks = loadTasks();
-  const waitingTaskId = getWaitingTaskId(tasks, LOCATION_ENUM.entreeChantier);
-  const initialResources = [
-    new Resource('ambulancier', LOCATION_ENUM.entreeChantier, waitingTaskId),
-  ];
+  const waitingTaskId = getWaitingTaskId(tasks, LOCATION_ENUM.pcFront);
+  const initialResources = [new Resource('ambulancier', LOCATION_ENUM.pcFront, waitingTaskId)];
 
   return new MainSimulationState(
     {

@@ -312,9 +312,11 @@ export abstract class ChoiceTemplate<
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-export class FullyConfigurableChoiceActionTemplate<
-  ActionT extends FullyConfigurableChoiceAction = FullyConfigurableChoiceAction
-> extends ChoiceTemplate<FullyConfigurableChoiceAction, ChoiceEvent, ChoiceDescriptor> {
+export class FullyConfigurableChoiceActionTemplate extends ChoiceTemplate<
+  FullyConfigurableChoiceAction,
+  ChoiceEvent,
+  ChoiceDescriptor
+> {
   constructor(
     uid: ActionTemplateUid,
     title: TranslationKey | ITranslatableContent,

@@ -9,12 +9,7 @@ import { ActionType } from '../../actionType';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import * as ActionLogic from '../actionLogic';
 import { ChoiceTemplate, SimFlag } from './actionTemplateBase';
-import {
-  MapChoiceAction,
-  ParkChoiceAction,
-  PCChoiceAction,
-  PCFrontChoiceAction,
-} from '../mapActions';
+import { MapChoiceAction, ParkChoiceAction, PCChoiceAction } from '../mapActions';
 
 export class MapChoiceActionTemplate<
   ActionT extends MapChoiceAction = MapChoiceAction
@@ -88,48 +83,6 @@ export class MapChoiceActionTemplate<
     actorUid: ActorId
   ): boolean {
     return !ActionLogic.hasBeenPlannedByOtherActor(state, this.uid, actorUid);
-  }
-}
-
-export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoiceAction> {
-  constructor(
-    uid: ActionTemplateUid,
-    title: TranslationKey | ITranslatableContent,
-    description: TranslationKey | ITranslatableContent,
-    duration: SimDuration,
-    binding: LOCATION_ENUM.pcFront,
-    requiredFlags?: SimFlag[],
-    raisedFlags?: SimFlag[],
-    availableToRoles?: InterventionRole[],
-    choices?: ChoiceDescriptor[]
-  ) {
-    super(
-      uid,
-      title,
-      description,
-      duration,
-      binding,
-      requiredFlags,
-      raisedFlags,
-      availableToRoles,
-      choices
-    );
-  }
-
-  protected override createActionFromEvent(event: FullEvent<MapChoiceEvent>): PCFrontChoiceAction {
-    const payload = event.payload;
-    const ownerId = payload.emitterCharacterId as ActorId;
-
-    return new PCFrontChoiceAction(
-      payload.triggerTime,
-      this.getChoiceDuration(payload.choice),
-      event.id,
-      this.title,
-      ownerId,
-      this.uid,
-      this.raisedFlags,
-      payload.choice
-    );
   }
 }
 
