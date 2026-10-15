@@ -279,6 +279,18 @@ export function getMaxPriority(actorId: ActorId): number {
 }
 
 /**
+ * @returns the available action templates of the actor that have a priority (> 0)
+ */
+export function getPrioritizedActionTemplates(actorId: ActorId): ActionTemplateBase[] {
+  const state = getCurrentState();
+  const actor = state.getActorById(actorId);
+  if (actor) {
+    return getAvailableActionTemplatesOfActor(state, actor).filter(at => at.getPriority(state) > 0);
+  }
+  return [];
+}
+
+/**
  * An action template is playable if it is available and has the highest priority among available ones
  */
 export function isActionTemplatePlayable(template: ActionTemplateBase, actorId: ActorId): boolean {

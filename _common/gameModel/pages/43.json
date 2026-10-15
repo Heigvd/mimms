@@ -1188,6 +1188,118 @@
                                 "style" : { }
                               },
                               "type" : "Modal"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "action-priority-tag",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "priorityTag",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'priority');",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "priority-toast__title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "title",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'priority-action-attention');",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "priority-toast__role",
+                                        "computedClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : {
+                                            "@class" : "Script",
+                                            "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\ngetInterfaceColorClass(Context.priorityActor.uid);",
+                                            "language" : "TypeScript"
+                                          }
+                                        } ],
+                                        "layoutClassName" : "noPadding",
+                                        "layoutStyle" : { },
+                                        "name" : "role",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "Context.priorityActor.shortName;",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "className" : "priority-toast__roles",
+                                    "exposeAs" : "priorityActor",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getPriorityActionNoticeActors } from \"./UIfacade/actionFacade\";\ngetPriorityActionNoticeActors();",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "uid",
+                                    "layout" : {
+                                      "alignItems" : "center",
+                                      "flexDirection" : "row"
+                                    },
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "roles",
+                                    "style" : { }
+                                  },
+                                  "type" : "For each"
+                                }, {
+                                  "props" : {
+                                    "className" : "priority-toast__close",
+                                    "icon" : "times",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "import { dismissPriorityActionNotice } from \"./UIfacade/actionFacade\";\n\ndismissPriorityActionNotice();",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "name" : "dismiss",
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                } ],
+                                "className" : "priority-toast",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import { isPriorityActionNoticeVisible } from \"./UIfacade/actionFacade\";\n!isPriorityActionNoticeVisible();",
+                                  "language" : "typescript"
+                                },
+                                "layout" : {
+                                  "alignItems" : "center",
+                                  "flexDirection" : "row"
+                                },
+                                "layoutClassName" : "noPadding noMargin priority-toast-container",
+                                "layoutStyle" : { },
+                                "name" : "priority action notice",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
                             } ],
                             "className" : "noPadding noMargin",
                             "computedClassNames" : [ {

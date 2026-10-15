@@ -59,6 +59,76 @@
   white-space: nowrap;
 }
 
+/* priority action notice, at the top center of the game interface */
+/* absolute: positioned relatively to #globalInterfaceId, not to the browser window */
+.priority-toast-container {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  pointer-events: none; /* keeps the map usable around the notice */
+}
+
+.priority-toast {
+  gap: 10px;
+  max-width: 40rem;
+  padding: 10px 10px 10px 15px;
+  background-color: var(--grey_0);
+  border-left: 5px solid var(--grey_100); /* same color as the priority tag */
+  border-radius: var(--XS_borderRadius);
+  box-shadow: var(--overlaysShadows);
+  font-size: var(--SM_text);
+  pointer-events: auto;
+  animation: priority-toast-slide-in 0.3s ease-out;
+}
+
+.priority-toast > div {
+  padding: 0;
+  margin: 0;
+}
+
+.priority-toast__title {
+  font-weight: var(--boldWeight);
+  color: var(--grey_100);
+}
+
+.priority-toast__title:first-letter {
+  text-transform: uppercase;
+}
+
+.priority-toast__roles {
+  gap: 6px;
+}
+
+.priority-toast__roles > div {
+  padding: 0;
+  margin: 0;
+}
+
+/* each role in its actor color, the theme class being set on the same element */
+.priority-toast__role {
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  white-space: nowrap;
+}
+
+.priority-toast__close svg {
+  color: var(--grey_80);
+  opacity: 75%;
+}
+
+@keyframes priority-toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .aDescriptionAction {
   padding: 0 10px 10px 10px;
 }
