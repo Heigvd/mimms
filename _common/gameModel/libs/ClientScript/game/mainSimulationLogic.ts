@@ -4,6 +4,7 @@ import { getTranslation } from '../tools/translation';
 import { IUniqueActionTemplates } from './actionTemplatesData';
 import { ActionTemplateBase } from './common/actions/actionTemplate/actionTemplateBase';
 import { ActionType } from './common/actionType';
+import { Actor } from './common/actors/actor';
 import { ActionTemplateUid, ActorId } from './common/baseTypes';
 import { TimeSliceDuration, TRAINER_NAME } from './common/constants';
 import { initBaseEvent } from './common/events/baseEvent';
@@ -246,14 +247,84 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
   return localEvents;
 }
 
+export type PlayableActionTemplate = ActionTemplateBase & { isPlayable: boolean };
+
+/**
+ * @returns the available action templates of the actor, all categories included
+ */
+function getAvailableActionTemplatesOfActor(
+  state: Readonly<MainSimulationState>,
+  actor: Readonly<Actor>
+): ActionTemplateBase[] {
+  return Object.values(getActionTemplates()).filter(at => at.isAvailable(state, actor));
+}
+
+function computeMaxPriority(
+  state: Readonly<MainSimulationState>,
+  templates: ActionTemplateBase[]
+): number {
+  return Math.max(0, ...templates.map(at => at.getPriority(state)));
+}
+
+/**
+ * @returns the highest priority among the available action templates of the actor, 0 if none
+ */
+export function getMaxPriority(actorId: ActorId): number {
+  const state = getCurrentState();
+  const actor = state.getActorById(actorId);
+  if (actor) {
+    return computeMaxPriority(state, getAvailableActionTemplatesOfActor(state, actor));
+  }
+  return 0;
+}
+
+/**
+ * @returns the available action templates of the actor that have a priority (> 0)
+ */
+export function getPrioritizedActionTemplates(actorId: ActorId): ActionTemplateBase[] {
+  const state = getCurrentState();
+  const actor = state.getActorById(actorId);
+  if (actor) {
+    return getAvailableActionTemplatesOfActor(state, actor).filter(at => at.getPriority(state) > 0);
+  }
+  return [];
+}
+
+/**
+ * An action template is playable if it is available and has the highest priority among available ones
+ */
+export function isActionTemplatePlayable(template: ActionTemplateBase, actorId: ActorId): boolean {
+  const state = getCurrentState();
+  const actor = state.getActorById(actorId);
+  return (
+    !!actor &&
+    template.isAvailable(state, actor) &&
+    template.getPriority(state) >= getMaxPriority(actorId)
+  );
+}
+
+/**
+ * @returns the available action templates of the given category,
+ * the prioritized ones (priority > 0) first by decreasing priority,
+ * the scenarist order being preserved otherwise
+ */
 export function fetchAvailableActionTemplates(
   actorId: ActorId,
   actionType: ActionType = ActionType.ACTION
-): ActionTemplateBase[] {
-  const actor = getCurrentState().getActorById(actorId);
+): PlayableActionTemplate[] {
+  const state = getCurrentState();
+  const actor = state.getActorById(actorId);
+
   if (actor) {
-    return Object.values(getActionTemplates()).filter(
-      at => at.isAvailable(getCurrentState(), actor) && at.isInCategory(actionType)
+    const availableTemplates = getAvailableActionTemplatesOfActor(state, actor);
+    const maxPriority = computeMaxPriority(state, availableTemplates);
+
+    return (
+      availableTemplates
+        .filter(at => at.category === actionType)
+        .map(at => Object.assign(at, { isPlayable: at.getPriority(state) >= maxPriority }))
+        // stable sort, keeps the original order among templates of same priority
+        .sort((a, b) => b.getPriority(state) - a.getPriority(state))
     );
   } else {
     mainSimLogger.debug('Actor not found. id = ', actorId);

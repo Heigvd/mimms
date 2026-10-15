@@ -27,7 +27,7 @@
             },
             "readOnlyIf" : {
               "@class" : "Script",
-              "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
+              "content" : "import { canPlanNonPrioritizedAction } from \"./gameInterface/main\";\n!canPlanNonPrioritizedAction();",
               "language" : "typescript"
             },
             "rows" : 6,
@@ -48,7 +48,7 @@
             "className" : "button-S button-secondaryColor",
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { canPlanAction } from \"./gameInterface/main\";\n  !canPlanAction();",
+              "content" : "import { canPlanNonPrioritizedAction } from \"./gameInterface/main\";\n  !canPlanNonPrioritizedAction();",
               "language" : "typescript"
             },
             "label" : {

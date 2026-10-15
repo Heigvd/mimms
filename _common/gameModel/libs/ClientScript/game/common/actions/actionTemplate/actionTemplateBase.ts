@@ -136,6 +136,14 @@ export abstract class ActionTemplateBase<
     return actionTemplateActivable.active;
   }
 
+  /**
+   * @returns the current priority of the template, 0 meaning no priority
+   */
+  public getPriority(state: Readonly<MainSimulationState>): number {
+    // No activable means that it is a basic action template, it has no priority
+    return getActionTemplateActivable(state, this.uid)?.priority ?? 0;
+  }
+
   protected flagWiseAvailable(state: Readonly<MainSimulationState>): boolean {
     if (!this.requiredFlags || this.requiredFlags.length == 0) {
       return true;

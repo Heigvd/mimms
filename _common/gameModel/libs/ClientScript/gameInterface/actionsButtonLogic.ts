@@ -1,12 +1,12 @@
 import {
   hasMapChoices,
-  isAvailable,
   isCasuMessageActionTemplate,
   isChoiceTemplate,
   isCustomDurationActionTemplate,
   isEvacuationActionTemplate,
   isMoveActorActionTemplate,
   isMoveResourcesAssignTaskActionTemplate,
+  isPlayable,
   isRadioActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getResourceOrdersPayload } from '../UIfacade/resourceOrdersFacade';
@@ -39,8 +39,8 @@ import { getEvacuationOrderPayload } from '../UIfacade/evacuationFacade';
  */
 // used in several pages
 export function runActionButton(actTemplate: ActionTemplateBase | undefined): void {
-  if (!actTemplate || !isAvailable(actTemplate)) {
-    actionLogger.debug('action not available ' + JSON.stringify(actTemplate?.getTitle()));
+  if (!actTemplate || !isPlayable(actTemplate)) {
+    actionLogger.debug('action not playable ' + JSON.stringify(actTemplate?.getTitle()));
     return;
   }
   actionLogger.debug('run action button for ' + JSON.stringify(actTemplate?.getTitle()));

@@ -24,7 +24,11 @@ import {
   buildAndLaunchActionFromTemplate,
   fetchAvailableActionTemplates,
   getCurrentState,
+  getMaxPriority,
+  getPrioritizedActionTemplates,
   getUniqueActionTemplates,
+  isActionTemplatePlayable,
+  PlayableActionTemplate,
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
 import { refreshSelectionLayer } from '../gameMap/main';
@@ -48,7 +52,7 @@ import { getTranslation } from '../tools/translation';
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(
   actionType: ActionType = ActionType.ACTION
-): ActionTemplateBase[] {
+): PlayableActionTemplate[] {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   if (currentActorUid) {
     return fetchAvailableActionTemplates(currentActorUid, actionType);
@@ -72,6 +76,85 @@ export function isAvailable(template: ActionTemplateBase): boolean {
     }
   }
   return false;
+}
+
+/**
+ * @returns true if the template is available for the current actor and has the highest priority
+ */
+export function isPlayable(template: ActionTemplateBase | undefined): boolean {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (template && currentActorUid) {
+    return isActionTemplatePlayable(template, currentActorUid);
+  }
+  return false;
+}
+
+// used in page actionsList to display the priority tag
+export function hasPriority(template: ActionTemplateBase): boolean {
+  return template.getPriority(getCurrentState()) > 0;
+}
+
+/**
+ * @returns true if an action with a priority is available for the current actor,
+ * then only this action can be played
+ */
+export function isPriorityActionPending(): boolean {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (currentActorUid) {
+    return getMaxPriority(currentActorUid) > 0;
+  }
+  return false;
+}
+
+export interface PriorityActionNotice {
+  /** actors of the player having at least one priority action */
+  actors: { uid: ActorId; shortName: string }[];
+  /** priority actions currently pending for the actors of the player */
+  templateUids: ActionTemplateUid[];
+}
+
+function getPriorityActionNotice(): PriorityActionNotice {
+  const notice: PriorityActionNotice = { actors: [], templateUids: [] };
+
+  getCurrentPlayerActors().forEach(actor => {
+    const templates = getPrioritizedActionTemplates(actor.Uid);
+    if (templates.length > 0) {
+      notice.actors.push({ uid: actor.Uid, shortName: actor.ShortName });
+      templates.forEach(template => {
+        if (!notice.templateUids.includes(template.uid)) {
+          notice.templateUids.push(template.uid);
+        }
+      });
+    }
+  });
+
+  return notice;
+}
+
+/**
+ * The notice is displayed while the actors of the player have priority actions,
+ * unless all of them have already been dismissed
+ */
+// used in page 43
+export function isPriorityActionNoticeVisible(): boolean {
+  const dismissed = getTypedInterfaceState().dismissedPriorityActions ?? {};
+  return getPriorityActionNotice().templateUids.some(uid => !dismissed[uid]);
+}
+
+// used in page 43
+export function getPriorityActionNoticeActors(): PriorityActionNotice['actors'] {
+  return getPriorityActionNotice().actors;
+}
+
+/**
+ * Dismisses the notice for the currently pending priority actions,
+ * it will be displayed again when a new priority action appears
+ */
+// used in page 43
+export function dismissPriorityActionNotice(): void {
+  const dismissed: Record<ActionTemplateUid, boolean> = {};
+  getPriorityActionNotice().templateUids.forEach(uid => (dismissed[uid] = true));
+  setInterfaceState({ dismissedPriorityActions: dismissed });
 }
 
 export function getAvailableChoices(template: ChoiceTemplate): ChoiceDescriptor[] {

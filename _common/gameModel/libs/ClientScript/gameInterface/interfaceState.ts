@@ -45,6 +45,7 @@ export interface InterfaceState {
   radioMessageInput: Partial<Record<RadioType, string>>;
   selectedCasuAction: CasuAction;
   casuMessage: CasuMessage;
+  dismissedPriorityActions: Partial<Record<ActionTemplateUid, boolean>>;
   resources: {
     requestedResources: Partial<Record<ResourceContainerType, number>>;
   };
@@ -102,6 +103,7 @@ export function getInitialInterfaceState(): InterfaceState {
     updatedChannelMessagesAt: 0,
     radioMessageInput: {},
     selectedCasuAction: undefined,
+    dismissedPriorityActions: {},
     resourcesManagement: {
       activityType: undefined,
     },

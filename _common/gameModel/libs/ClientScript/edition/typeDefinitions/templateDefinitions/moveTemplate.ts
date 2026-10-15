@@ -40,6 +40,7 @@ export function getMoveTemplateDef(): Definition<
       showAllChoices: true,
       comment: '',
       index: 0,
+      priority: 0,
     }),
     validator: moveActionTemplateValidator,
     view: {} as any, // TODO hide almost all fields for the move template

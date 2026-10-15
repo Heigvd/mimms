@@ -632,13 +632,13 @@
                   "className" : "disabled",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { canPlanAction } from './gameInterface/main';\n!canPlanAction();",
+                    "content" : "import { canPlanNonPrioritizedAction } from './gameInterface/main';\n!canPlanNonPrioritizedAction();",
                     "language" : "typescript"
                   }
                 } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isMethaneSendDisabled } from \"./UIfacade/actionFacade\";\nimport { canPlanAction } from './gameInterface/main';\nisMethaneSendDisabled() || !canPlanAction() ;",
+                  "content" : "import { isMethaneSendDisabled } from \"./UIfacade/actionFacade\";\nimport { canPlanNonPrioritizedAction } from './gameInterface/main';\nisMethaneSendDisabled() || !canPlanNonPrioritizedAction() ;",
                   "language" : "typescript"
                 },
                 "label" : {
