@@ -140,12 +140,14 @@ interface PatientZoomState {
   selectedColumn: 'first' | 'second' | 'third';
 }
 
+const DEFAULT_MENU_ID = 'aMenu';
+
 export function getInitialPatientZoomState(): PatientZoomState {
   return {
     selectedAction: undefined,
     selectedPanel: undefined,
-    selectedMenu: undefined,
-    selectedSubMenu: undefined,
+    selectedMenu: DEFAULT_MENU_ID,
+    selectedSubMenu: getFirstNonEmptySubMenuId(DEFAULT_MENU_ID),
     availableBlocks: [],
     selectedBlock: undefined,
     //logs: [],
@@ -520,14 +522,22 @@ function internalSelectAction(state: PatientZoomState, action?: WheelAction): Pa
   }
 }
 
-export function selectWheelMainMenu(menuId: string, setState: SetZoomState) {
+function getFirstNonEmptySubMenu(menuId: string): WheelMenuItem | undefined {
   const wheel = getWheel();
   const selectedMenu = wheel.mainMenu.find(sub => sub.id === menuId);
 
-  // select first non-empty subMenu automatically
-  const subMenu = selectedMenu?.items.find(item => {
+  return selectedMenu?.items.find(item => {
     return item.items.length > 0;
   });
+}
+
+function getFirstNonEmptySubMenuId(menuId: string): string | undefined {
+  return getFirstNonEmptySubMenu(menuId)?.id;
+}
+
+export function selectWheelMainMenu(menuId: string, setState: SetZoomState) {
+  // select first non-empty subMenu automatically
+  const subMenu = getFirstNonEmptySubMenu(menuId);
 
   // select first action if any
   const action = subMenu?.items[0];
@@ -1073,7 +1083,7 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
     case 'vitals.respiration.rr':
       return [metricName, intFormatter(value) + '/min'];
     case 'vitals.capillaryRefillTime_s':
-      return [metricName, oneDecimalFormatter(value) + ' sec'];
+      return [metricName, intFormatter(value) + ' sec'];
     case 'vitals.respiration.PaO2':
       return [metricName, oneDecimalFormatter(value) + ' mmHg'];
     case 'vitals.respiration.PaCO2':

@@ -154,6 +154,11 @@ TRIAGE PILL
   background: var(--color-p3);
 }
 
+/* no background in summary table, so categories stand back from wrong / correct */
+.patient-summary--line .tagCategory {
+  background: transparent;
+}
+
 .patient-summary--line .tagCategory:hover {
   cursor: default;
 }

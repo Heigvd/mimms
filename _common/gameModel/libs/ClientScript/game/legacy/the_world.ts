@@ -67,7 +67,7 @@ import {
   TeleportEvent,
 } from '../common/events/eventTypes';
 import { Location, LocationState, PositionAtTime } from '../../map/locationTypes';
-import { MeasureMetric } from '../../HUMAn/registry/acts';
+import { MeasureMetric, PRETRI_ACTION_ID_OPEN_AIRWAYS } from '../../HUMAn/registry/acts';
 import { ConsoleLog, MeasureLog, TreatmentLog } from '../pretri/consoleLog';
 
 ///////////////////////////////////////////////////////////////////////////
@@ -1373,6 +1373,8 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
   });
 }
 
+const POSTURE_ORDER_ACTS = ['getUp', 'sitDown', 'supineDecubitus', 'proneDecubitus'];
+
 /**
  * apply treatment at given time
  */
@@ -1404,7 +1406,18 @@ function doTreatment(
 
   const { snapshot, futures } = getHumanSnapshotAtTime(objId, event.time);
 
-  const message = label;
+  let message = label;
+
+  // posture orders: the position patch is only applied when glasgow motor is 6 (see human.ts)
+  if (source.type === 'act' && POSTURE_ORDER_ACTS.includes(source.id)) {
+    if (snapshot.state.bodyState.vitals.glasgow.motor < 6) {
+      message += ' - ' + getTranslation('human-general', 'no_response', true);
+    }
+  }
+
+  if (source.type === 'act' && source.id === PRETRI_ACTION_ID_OPEN_AIRWAYS) {
+    message += ' - ' + getTranslation('human-general', 'airways-opened', true);
+  }
 
   const entry: TreatmentLog = {
     time: event.time,

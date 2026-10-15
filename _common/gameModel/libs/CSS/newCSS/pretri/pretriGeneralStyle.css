@@ -33,9 +33,9 @@ Variables de couleur + styles de paragraphe
   --color-p3-soft:     #e0efe1;   /* Triage/P3 soft */
 
   /* ---------- Skin / coloration cutanée ---------- */
-  --color-skin-fit:        #d77e8e;  /* Skin/En forme */
-  --color-skin-cyan:       #7a8cd6;  /* Skin/Cyanose */
-  --color-skin-pale:       #e9ebee;  /* Skin/Pâle */
+  --color-skin-fit:        #EBCCBE;  /* Skin/En forme */
+  --color-skin-cyan:       #7a8cd691;  /* Skin/Cyanose */
+  --color-skin-pale:       #FAF5EB;  /* Skin/Pâle */
 
   /* ---------- Anatomy / silhouette ---------- */
   --color-anatomy:         #d3d8df;  /* Anatomy/Silhouette */
