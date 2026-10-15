@@ -1,5 +1,6 @@
 /* - - - - -  P A T I E N T  F L O W  D I S P L A Y  - - - */
 
+/* used twice, superimposed: one grid for the locations, one for the arrows. */
 .patient-flow__grid {
   display: grid;
   grid-template-columns: repeat(14, 1fr);
@@ -45,10 +46,6 @@
   width: 100%;
   height: 100%;
 }
-
-/*.patient-flow__arrow {
-  position: relative;
-}*/
 
 .patient-flow__arrow-head {
   position: absolute;
@@ -217,14 +214,4 @@
   bottom: -6px;
   left: -6px;
   border-top: 8px solid var(--grey_80);
-}
-
-
-/* - - - - -  T E X T S  - - - */
-
-.patient-flow__title {
-  font-size: var(--L_text);
-  font-weight: var(--blackWeight);
-  color: var(--grey_80);
-  opacity: 75%;
 }

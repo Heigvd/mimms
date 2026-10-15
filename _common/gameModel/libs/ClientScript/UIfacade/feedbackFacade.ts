@@ -13,6 +13,7 @@ import { CustomDurationAction } from '../game/common/actions/actorActions';
 import { addAfterUpdateCallback } from '../gameInterface/afterUpdateCallbacks';
 import { AppointActorAction, MoveActorAction } from '../game/common/actions/actorActions';
 import { DisplayMessageAction } from '../game/common/actions/radioActions';
+import { getLocationLongTranslation } from '../game/common/location/locationLogic';
 
 export interface CompletedActionEntry {
   uid: ActionId;
@@ -58,12 +59,16 @@ export function getCompletedActions(): CompletedActionEntry[] {
     .map(action => {
       const template = templates[action.getTemplateId()];
       const choice = action instanceof ChoiceAction ? action.choice : undefined;
+      let description = template?.getDescription() ?? '';
+      if (action instanceof MoveActorAction) {
+        description += ' ' + getLocationLongTranslation(action.location);
+      }
 
       return {
         uid: action.Uid,
         title: template?.getTitle() ?? '',
         duration: action.duration() / 60,
-        description: template?.getDescription() ?? '',
+        description,
         choiceTitle: choice ? I18n.translate(choice.title) : undefined,
         choiceDescription: choice ? I18n.translate(choice.description) : undefined,
         feedbacks: action.getFeedbacks().map(feedback => I18n.translate(feedback)),
