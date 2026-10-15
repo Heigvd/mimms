@@ -3,6 +3,7 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import { InterfaceState } from '../gameInterface/interfaceState';
 import { bringOverlayItemToFront } from '../UIfacade/mapFacade';
 import { mainSimInterfaceLogger } from '../tools/logger';
+import { refreshActivableLayer } from '../gameMap/main';
 
 export type AfterUpdateCallback = (
   prevState: Readonly<MainSimulationState>,
@@ -58,9 +59,9 @@ export function applyPendingCallbacks(current: Readonly<InterfaceState>): Partia
 /************** CALLBACKS IMPLEMENTATIONS ************** */
 
 /**
- * bring to front the position of the selected actor if it has moved since the previous reference state
+ * Refreshes the map location styles and brings the selected actors' locations to the front.
  */
-export function registerOpenSelectedActorPanelAfterMove(): void {
+export function registerMapRefreshAfterMove(): void {
   const f: AfterUpdateCallback = function (
     _oldState: Readonly<MainSimulationState>,
     current: Readonly<MainSimulationState>,
@@ -72,6 +73,7 @@ export function registerOpenSelectedActorPanelAfterMove(): void {
       const newLoc = current.getActorById(id)?.Location;
       if (newLoc) {
         bringOverlayItemToFront(newLoc);
+        refreshActivableLayer();
       }
     }
   };
