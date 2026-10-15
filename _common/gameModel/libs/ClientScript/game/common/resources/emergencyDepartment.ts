@@ -75,8 +75,10 @@ export function resolveResourceRequest(
       const reqAmount = requestedAmount || 0;
       // fetch the containers that still have an amount
       const cs: ResourceContainerConfig[] = (containers[typeId] || []).filter(c => c.amount > 0);
-      // ordered by time of availability
-      cs.sort((a, b) => a.availabilityTime - b.availabilityTime);
+      // ordered by expected arrival time on site, then by time of availability
+      const arrivalTime = (c: ResourceContainerConfig) =>
+        Math.max(c.availabilityTime, now) + c.travelTime;
+      cs.sort((a, b) => arrivalTime(a) - arrivalTime(b) || a.availabilityTime - b.availabilityTime);
       let foundAmount = 0;
       for (let i = 0; i < cs.length && foundAmount < reqAmount; i++) {
         const c = cs[i]!;
