@@ -41,29 +41,43 @@ export function getMapEntitiesOptions(expectedBinding?: LOCATION_ENUM): MapEntit
   return internalGetMapEntitiesOptions(filter);
 }
 
+const missingRef = 'Missing Ref';
+
+function buildLabel(tag: string, title: string): string {
+  let label: string;
+  if (tag.length > 0 && title.length > 0) {
+    label = tag + ' - ' + title;
+  } else if (tag.length === 0) {
+    label = title;
+  } else {
+    label = tag;
+  }
+  return label;
+}
+
 function internalGetMapEntitiesOptions(
   filterFn?: (mapEntity: FlatMapEntity) => boolean
 ): MapEntitiesOptionType {
-  return Object.values(getMapEntityController().getFlatDataClone())
+  return Object.values(getMapEntityController().getFlatData())
     .filter(item => item.superType === 'mapEntity')
     .map(mapEntity => mapEntity as FlatMapEntity)
     .filter(mapEntity => !filterFn || filterFn(mapEntity))
     .sort(compareByIndex)
     .map(item => {
-      return { label: item.tag, value: item.uid };
+      return { label: item.tag || missingRef, value: item.uid };
     });
 }
 
 export function getTriggersOptions(
   filterFn?: (trigger: FlatTrigger) => boolean
 ): { label: string; value: Trigger['uid'] }[] {
-  return Object.values(getTriggerController().getFlatDataClone())
+  return Object.values(getTriggerController().getFlatData())
     .filter(item => item.superType === 'trigger')
     .map(trigger => trigger as FlatTrigger)
     .filter(trigger => !filterFn || filterFn(trigger))
     .sort(compareByIndex)
     .map(item => {
-      return { label: item.tag, value: item.uid };
+      return { label: item.tag || missingRef, value: item.uid };
     });
 }
 
@@ -73,13 +87,14 @@ export function getActionTemplatesOptions(
   label: string;
   value: TemplateDescriptor['uid'];
 }[] {
-  return Object.values(getActionTemplateController().getFlatDataClone())
+  return Object.values(getActionTemplateController().getFlatData())
     .filter(item => item.superType === 'action')
     .map(actionTemplate => actionTemplate as FlatActionTemplate)
     .filter(actionTemplate => !filterFn || filterFn(actionTemplate))
     .sort(compareByIndex)
     .map(actionTemplate => {
-      return { label: actionTemplate.tag, value: actionTemplate.uid };
+      const label = buildLabel(actionTemplate.tag, I18n.translate(actionTemplate.title));
+      return { label: label || missingRef, value: actionTemplate.uid };
     });
 }
 
@@ -100,14 +115,15 @@ export function getChoicesOptions(
   actionTemplateUid: TemplateDescriptor['uid'],
   filterFn?: (choice: FlatChoice) => boolean
 ): { label: string; value: ChoiceDescriptor['uid'] }[] {
-  return Object.values(getActionTemplateController().getFlatDataClone())
+  return Object.values(getActionTemplateController().getFlatData())
     .filter(item => item.superType === 'choice')
     .map(choice => choice as FlatChoice)
     .filter(choice => choice.parent === actionTemplateUid)
     .filter(choice => !filterFn || filterFn(choice))
     .sort(compareByIndex)
-    .map(item => {
-      return { label: item.tag, value: item.uid };
+    .map(choice => {
+      const label = buildLabel(choice.tag, I18n.translate(choice.title));
+      return { label: label || missingRef, value: choice.uid };
     });
 }
 
@@ -115,14 +131,14 @@ export function getEffectsOptions(
   choiceUid: Uid,
   filterFn?: (effect: FlatEffect) => boolean
 ): { label: string; value: Effect['uid'] }[] {
-  return Object.values(getActionTemplateController().getFlatDataClone())
+  return Object.values(getActionTemplateController().getFlatData())
     .filter(item => item.superType === 'effect')
     .map(effect => effect as FlatEffect)
     .filter(effect => effect.parent === choiceUid)
     .filter(effect => !filterFn || filterFn(effect))
     .sort(compareByIndex)
     .map(item => {
-      return { label: item.tag, value: item.uid };
+      return { label: item.tag || missingRef, value: item.uid };
     });
 }
 

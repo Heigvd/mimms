@@ -8,7 +8,7 @@
 
 .active-selected-item {
 	color:var(--primary_base);
-	background-color:  var(--grey_0);
+	background-color:  var(--grey-white);
   border-right: solid 2px var(--primary_base);
   border-top: solid 2px var(--primary_base);
   border-bottom: solid 2px var(--primary_base);
@@ -17,7 +17,7 @@
 .not-active-selected-item {
 	color: var(--grey_70);
 	cursor: pointer;
-	background-color: var(--grey_0);
+	background-color: var(--grey-white);
 	border-left: 2px solid var(--grey_20);
 }
 

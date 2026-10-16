@@ -116,6 +116,23 @@ function getGenericFeature(
       },
     };
 
+    // Add a background behind every point icon
+    if (mapObject.type === 'Point' && mapObject.icon) {
+      const background: any = {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: mapObject.geometry,
+        },
+        properties: {
+          ...properties,
+          type: 'Icon-Background',
+          icon: 'white-background',
+        },
+      };
+      layer.features.push(background);
+    }
+
     layer.features.push(feature);
 
     // Add arrowheads in case of LineString

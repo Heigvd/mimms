@@ -2,6 +2,7 @@
 
 .location {
   gap: 1rem;
+  min-height: 50.4px;
   padding: 1rem;
 }
 

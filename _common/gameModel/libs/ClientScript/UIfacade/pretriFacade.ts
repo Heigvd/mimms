@@ -1,4 +1,4 @@
-import { getCategorizedHumans } from '../game/legacy/the_world';
+import { getCategorizedHumans } from '../game/pretri/patientProcessing';
 import { getDrillStatus } from '../game/pretri/drill';
 import { toHoursMinutesSecondsIso } from '../tools/helper';
 import { getTranslation } from '../tools/translation';

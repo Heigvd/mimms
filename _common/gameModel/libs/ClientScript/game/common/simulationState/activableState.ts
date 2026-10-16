@@ -20,7 +20,9 @@ interface ActivableState<T extends IActivableDescriptor> {
   uid: Uid;
 }
 
-export type ActionTemplateActivable = ActivableState<TemplateDescriptor>;
+export interface ActionTemplateActivable extends ActivableState<TemplateDescriptor> {
+  priority: number;
+}
 
 export interface TriggerActivable extends ActivableState<Trigger> {
   count: number;
@@ -53,14 +55,16 @@ export function fromDescriptor<DType extends DescriptorActivableType>(
   descriptor: DType
 ): Activable {
   switch (descriptor.activableType) {
-    case 'actionTemplate':
+    case 'actionTemplate': {
       const ata: ActionTemplateActivable = {
         uid: descriptor.uid,
         activableType: descriptor.activableType,
         active: descriptor.activeAtStart,
+        priority: descriptor.priority ?? 0,
       };
       return ata;
-    case 'choice':
+    }
+    case 'choice': {
       const ca: ChoiceActivable = {
         uid: descriptor.uid,
         activableType: descriptor.activableType,
@@ -68,7 +72,8 @@ export function fromDescriptor<DType extends DescriptorActivableType>(
         selectedEffect: descriptor.defaultEffect,
       };
       return ca;
-    case 'trigger':
+    }
+    case 'trigger': {
       const ta: TriggerActivable = {
         uid: descriptor.uid,
         activableType: descriptor.activableType,
@@ -76,7 +81,8 @@ export function fromDescriptor<DType extends DescriptorActivableType>(
         count: 0,
       };
       return ta;
-    case 'mapEntity':
+    }
+    case 'mapEntity': {
       const mae: MapEntityActivable = {
         uid: descriptor.uid,
         activableType: descriptor.activableType,
@@ -85,6 +91,7 @@ export function fromDescriptor<DType extends DescriptorActivableType>(
         buildStatus: descriptor.buildStatus,
       };
       return mae;
+    }
   }
 }
 

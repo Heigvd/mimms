@@ -1,6 +1,8 @@
 import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
-import { ActionId, ResourceId, TaskId } from '../baseTypes';
+import { ResourceId, TaskId } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
+import { MainSimulationState } from '../simulationState/mainSimulationState';
+import { getIdleTaskUid } from '../tasks/taskLogic';
 import { ResourceType } from './resourceType';
 
 const RESOURCE_SEED_ID: ResourceId = 7000;
@@ -21,10 +23,10 @@ export class Resource {
   public currentActivity: TaskId | null;
 
   /** Resource is cumulating time across time-jumps to accomplish a task */
-  public cumulatedUnusedTime: number;
+  public carryoverWorkTime: number;
 
-  /** Action that has reserved this resource */
-  public reservationActionId: ActionId | undefined;
+  /** Time the resource spent in a row assigned to a task without being able to work */
+  public cumulatedIdleTime: number;
 
   constructor(
     type: Resource['type'],
@@ -35,18 +37,20 @@ export class Resource {
     this.type = type;
     this.currentLocation = currentLocation;
     this.currentActivity = currentActivity;
-    this.cumulatedUnusedTime = 0;
+    this.carryoverWorkTime = 0;
+    this.cumulatedIdleTime = 0;
   }
 
-  public reserve(actionId: ActionId) {
-    this.reservationActionId = actionId;
+  /** Forget what the resource did so far, typically when it starts a new activity */
+  public resetTimeCounters(): void {
+    this.carryoverWorkTime = 0;
+    this.cumulatedIdleTime = 0;
   }
 
-  public isReserved(): boolean {
-    return this.reservationActionId != undefined;
-  }
-
-  public unReserve(): void {
-    this.reservationActionId = undefined;
+  public isIdle(state: Readonly<MainSimulationState>): boolean {
+    return (
+      this.currentActivity === null ||
+      getIdleTaskUid(state, this.currentLocation) === this.currentActivity
+    );
   }
 }

@@ -1,14 +1,13 @@
 import { BaseEvent, initEmitterIds } from '../common/events/baseEvent';
 import { getSendEventServerScript } from '../common/events/eventUtils';
-import { reviveScriptedEvent } from '../legacy/scenario';
 import {
   getCurrentPatientBody,
   getCurrentPatientId,
   getInstantiatedHumanIds,
-} from '../legacy/the_world';
-import { getCurrentSimulationTime, getRunningMode } from '../legacy/TimeManager';
+} from './patientProcessing';
+import { getCurrentSimulationTime, getRunningMode } from './pretriTime';
 import { getBodyParam, getSortedPatientIds } from '../../tools/WegasHelper';
-import { AgingEvent, TeleportEvent } from '../common/events/eventTypes';
+import { AgingEvent, EventPayload, ScriptedEvent } from '../common/events/eventTypes';
 import { getInitialTimeJumpSeconds } from '../common/patients/handleState';
 
 interface DrillStatus {
@@ -114,21 +113,6 @@ export function selectNextPatient(): Promise<IManagedResponse | void> {
         // stop time for the "previous" patient
         toPost.push(getFreezePatientEventScript(emitter, currentTime));
 
-        const teleport: TeleportEvent = {
-          ...emitter,
-          type: 'Teleport',
-          targetType: 'Human',
-          targetId: patientId,
-          location: {
-            mapId: 'the_world',
-            x: 0,
-            y: 0,
-          },
-        };
-
-        // the_world ignore not located humans
-        toPost.push(getSendEventServerScript(teleport, currentTime));
-
         // apply scripted events (mostly pathologies)
         toPost.push(
           ...script.map(sEvent => {
@@ -203,6 +187,22 @@ function getFreezePatientEventScript(evt: BaseEvent, currentTime: number): strin
         currentTime
       )
     : '';
+}
+
+function reviveScriptedEvent(
+  emitter: {
+    emitterCharacterId: string;
+    emitterPlayerId: string;
+  },
+  targetId: string,
+  scripted: ScriptedEvent
+): EventPayload {
+  const pe: EventPayload = {
+    ...emitter,
+    ...scripted.payload,
+    targetId: targetId,
+  };
+  return pe;
 }
 
 export function showPatient(patientId: string) {

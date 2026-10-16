@@ -15,6 +15,7 @@ import {
 import { ValidationMessage } from '../definition';
 import { FlatMapEntity } from '../mapEntityDefinition';
 import { ActionValidationContext, TriggerValidationContext } from './validationContext';
+import { FeedbackImpact } from '../../../game/common/impacts/implementation/feedbackImpact';
 
 type ImpactValidationMessage = ValidationMessage<
   ActionValidationContext | TriggerValidationContext
@@ -138,6 +139,27 @@ export function mapActivationImpactValidator(
   }
 
   return result;
+}
+
+export function feedbackImpactValidator(
+  impact: FeedbackImpact,
+  ctx: ActionValidationContext | TriggerValidationContext
+): ImpactValidationMessage[] {
+  const result: ImpactValidationMessage[] = [];
+  const extendedCtx = Helpers.cloneDeep(ctx);
+  extendedCtx.targetState.selected.impact = impact.uid;
+
+  if (ctx.page === 'triggers') {
+    result.push({
+      id: 'no-feedback-impact-in-trigger-' + impact.uid,
+      level: 'ERROR',
+      title: 'Feedback added to trigger',
+      description: 'A feedback cannot be added on a trigger.',
+      validationContext: extendedCtx,
+    });
+  }
+
+  return [];
 }
 
 /*

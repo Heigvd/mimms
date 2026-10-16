@@ -13,5 +13,11 @@ yarn-error.log
 /node_modules/
 /nbproject/
 
+/coverage/
+/test-report/
+
 .vscode/
 .idea/
+
+.claude/settings.local.json
+

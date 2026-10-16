@@ -4,7 +4,7 @@ import {
   loadResourceContainersConfigurationData,
 } from '../../game/loaders/resourceLoader';
 import { generateId } from '../../tools/helper';
-import { saveToObjectDescriptor } from '../../tools/WegasHelper';
+import { saveToObjectDescriptorAsync } from '../../tools/WegasHelper';
 
 export function getContainerConfigurations(mandatory: boolean) {
   const data = loadResourceContainersConfigurationData();
@@ -58,7 +58,7 @@ const sortAlgorithms: Record<SortAlgoType, CompareFunc> = {
   type: compareByType,
 };
 
-export function sortAndSave(sortAlgo: SortAlgoType): void {
+export async function sortAndSave(sortAlgo: SortAlgoType): Promise<unknown> {
   const containerConfigurations = loadResourceContainersConfigurationData();
   const configs = Object.values(containerConfigurations);
   const sortFunc: CompareFunc = sortAlgorithms[sortAlgo];
@@ -71,7 +71,7 @@ export function sortAndSave(sortAlgo: SortAlgoType): void {
       c.index = i;
     }
   }
-  persistAll(containerConfigurations);
+  return persistAll(containerConfigurations);
 }
 
 interface UIState {
@@ -105,17 +105,18 @@ export function updateStringValue(id: string, field: 'name' | 'type', value: str
 }
 
 let lastAdded: string = '';
-let lastIndex: number = -1;
 
 export function getLastAdded(): string {
   return lastAdded;
 }
 
-export function addContainerConfiguration() {
+export async function addContainerConfiguration(): Promise<void> {
   const containerConfigurations = loadResourceContainersConfigurationData();
+  // Date.now ensures always bigger than the last added
+  const lastIndex = Date.now();
   const newConfig: ContainerConfigurationData = {
     mandatory: false,
-    index: lastIndex--,
+    index: lastIndex,
     payload: {
       name: 'unnamed',
       type: '',
@@ -125,9 +126,12 @@ export function addContainerConfiguration() {
   };
   const id = generateId(10);
   containerConfigurations[id] = newConfig;
-  persistAll(containerConfigurations);
   lastSortType = undefined;
   lastAdded = id;
+  await persistAll(containerConfigurations);
+  setTimeout(() => {
+    Helpers.scrollIntoView('.new-resource-line', { behavior: 'smooth', block: 'end' });
+  }, 1);
 }
 
 export function removeContainerConfiguration(id: string) {
@@ -154,6 +158,11 @@ export function getContainerTypesChoices(): { label: string; value: string }[] {
     .map(([k, _]) => ({ label: k, value: k }));
 }
 
-function persistAll(containerConfigurations: Record<string, ContainerConfigurationData>): void {
-  saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
+async function persistAll(
+  containerConfigurations: Record<string, ContainerConfigurationData>
+): Promise<unknown> {
+  return saveToObjectDescriptorAsync(
+    Variable.find(gameModel, 'containers_config'),
+    containerConfigurations
+  );
 }

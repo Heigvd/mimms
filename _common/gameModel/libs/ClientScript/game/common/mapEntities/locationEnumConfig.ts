@@ -1,17 +1,19 @@
 import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
-import { LocationAccessibilityKind } from '../events/defineMapObjectEvent';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 
+export type LocationAccessibilityKind = 'Actors' | 'Resources' | 'Patients';
+export type LocationAccessibilityFilter = LocationAccessibilityKind | 'AnyKind';
+
 /** Is it a place that can contain actors / resources / patients */
-type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
+export type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
 
 export interface LocationEnumConfig {
   id: LOCATION_ENUM;
   name: TranslationKey;
   leaderRoles: InterventionRole[];
   accessibility: LocationAccessibility;
-  icon?: string; // TODO Do we need this or is it only for overlayed locations ?
+  icon?: string;
 }
 
 export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
@@ -19,8 +21,15 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     id: LOCATION_ENUM.chantier,
     name: 'location-chantier',
     leaderRoles: [],
-    accessibility: { Actors: true, Resources: true, Patients: true },
+    accessibility: { Actors: false, Resources: true, Patients: true },
     icon: 'mainAccident',
+  },
+  entreeChantier: {
+    id: LOCATION_ENUM.entreeChantier,
+    name: 'location-entreechantier',
+    leaderRoles: [],
+    accessibility: { Actors: true, Resources: true, Patients: false },
+    icon: 'entreeChantier',
   },
   nidDeBlesses: {
     id: LOCATION_ENUM.nidDeBlesses,
@@ -32,7 +41,7 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
   PMA: {
     id: LOCATION_ENUM.PMA,
     name: 'location-pma',
-    leaderRoles: ['LEADPMA'],
+    leaderRoles: [],
     accessibility: { Actors: true, Resources: true, Patients: true },
     icon: 'PMA',
   },
@@ -40,28 +49,28 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     id: LOCATION_ENUM.pcFront,
     name: 'location-pcFront',
     leaderRoles: ['AL'],
-    accessibility: { Actors: true, Resources: true, Patients: true },
+    accessibility: { Actors: true, Resources: true, Patients: false },
     icon: 'pcFront',
   },
   PC: {
     id: LOCATION_ENUM.PC,
     name: 'location-pc',
     leaderRoles: ['ACS', 'MCS'],
-    accessibility: { Actors: true, Resources: true, Patients: true },
+    accessibility: { Actors: true, Resources: true, Patients: false },
     icon: 'PC',
   },
   ambulancePark: {
     id: LOCATION_ENUM.ambulancePark,
     name: 'location-ambulancePark',
     leaderRoles: ['EVASAN'],
-    accessibility: { Actors: false, Resources: true, Patients: true },
+    accessibility: { Actors: false, Resources: true, Patients: false },
     icon: 'ambulance-park',
   },
   helicopterPark: {
     id: LOCATION_ENUM.helicopterPark,
     name: 'location-helicopterPark',
     leaderRoles: ['EVASAN'],
-    accessibility: { Actors: false, Resources: true, Patients: true },
+    accessibility: { Actors: false, Resources: true, Patients: false },
     icon: 'helicopter-park',
   },
   remote: {
@@ -85,3 +94,17 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     accessibility: { Actors: false, Resources: false, Patients: false },
   },
 };
+
+/**
+ *
+ * @param kind filter by accessibility, anykind means at least some kind can access
+ * @returns the filtered locations by accessiblity
+ */
+export function locationsByAccessibility(kind: LocationAccessibilityFilter): LocationEnumConfig[] {
+  if (kind === 'AnyKind') {
+    return Object.values(locationEnumConfig).filter(l =>
+      Object.values(l.accessibility).some(a => a)
+    );
+  }
+  return Object.values(locationEnumConfig).filter(l => l.accessibility[kind]);
+}

@@ -10,13 +10,15 @@ import {
   getActionTemplateController,
   getTriggerController,
 } from '../controllers/controllerInstances';
-import { ActionTemplateDataController, TriggerDataController } from '../controllers/dataController';
 import { FlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinitions/impactDefinition';
 import { getParentType } from '../UIfacade/genericConfigFacade';
 import { updateItem as updateActionTemplatePageItem } from './actionConfigFacade';
 import { getChoicesOptions, getDefaultEffect, getMatchingActionTemplateUid } from './dataFetcher';
 import { getCurrentPage } from './mainMenuStateFacade';
 import { updateItem as updateTriggerPageItem } from './triggerConfigFacade';
+import { ActionTemplateDataController } from '../controllers/actionTemplateController';
+import { TriggerDataController } from '../controllers/triggerController';
+import { SuperTypeNames } from '../controllers/dataControllerBase';
 
 function getController(): TriggerDataController | ActionTemplateDataController {
   switch (getCurrentPage()) {
@@ -55,32 +57,27 @@ export type DisplayType =
   | 'notification'
   | 'actionTemplate'
   | 'mapEntity'
-  | 'trigger';
+  | 'trigger'
+  | 'feedback';
 
 // Directly used in pages
-export function getImpactDisplayTypeOptions(): { label: string; value: DisplayType }[] {
-  return [
-    {
-      label: 'radio message',
-      value: 'radio',
-    },
-    {
-      label: 'notification',
-      value: 'notification',
-    },
-    {
-      label: 'location',
-      value: 'mapEntity',
-    },
-    {
-      label: 'action',
-      value: 'actionTemplate',
-    },
-    {
-      label: 'trigger',
-      value: 'trigger',
-    },
+export function getImpactDisplayTypeOptions(
+  parentType?: SuperTypeNames
+): { label: string; value: DisplayType }[] {
+  const options: { label: string; value: DisplayType }[] = [
+    { label: 'radio message', value: 'radio' },
+    { label: 'notification', value: 'notification' },
+    { label: 'location', value: 'mapEntity' },
+    { label: 'action', value: 'actionTemplate' },
+    { label: 'trigger', value: 'trigger' },
   ];
+
+  // feedback is only meaningful inside a choice effect
+  if (parentType === 'effect') {
+    options.push({ label: 'feedback', value: 'feedback' });
+  }
+
+  return options;
 }
 
 // Given an impact, compute which display type must be used
@@ -109,6 +106,8 @@ export function inferDisplayType(impact: FlatImpact): DisplayType {
       return 'mapEntity';
     case 'effectSelection':
       return 'actionTemplate';
+    case 'feedback':
+      return 'feedback';
     default:
       throw new Error('Not handled impact type ' + type);
   }
@@ -151,17 +150,15 @@ function createSubstitutionImpact(newType: FlatImpact['type'], baseImpact: FlatI
 function getNewImpactType(displayType: DisplayType): Impact['type'] {
   switch (displayType) {
     case 'empty':
-      return 'empty';
     case 'radio':
-      return 'radio';
     case 'notification':
-      return 'notification';
+    case 'feedback':
+      return displayType;
     case 'actionTemplate':
+    case 'trigger':
       return 'activation';
     case 'mapEntity':
       return 'mapActivation';
-    case 'trigger':
-      return 'activation';
     default:
       throw new Error('Not handled display type ' + displayType);
   }
@@ -179,6 +176,7 @@ function getNewActivableType(displayType: DisplayType): ActivationImpact['activa
     case 'empty':
     case 'radio':
     case 'notification':
+    case 'feedback':
     default:
       throw new Error('Not handled display type ' + displayType);
   }
@@ -284,7 +282,7 @@ export function setActivationImpactOption(
     return;
   }
 
-  let newImpact: FlatImpact = { ...impact };
+  let newImpact: FlatImpact = Helpers.cloneDeep(impact);
 
   // in case it was a choice effect selection impact
   if (newImpact.type !== 'activation') {
@@ -380,7 +378,7 @@ export function updateImpactActionRef(impact: FlatImpact, actionRef: Uid): void 
     return;
   }
 
-  let newImpact: FlatImpact = { ...impact };
+  let newImpact: FlatImpact = Helpers.cloneDeep(impact);
 
   // in case it was a choice effect selection impact, change it to be an activation
   if (impact.type !== 'activation') {
@@ -425,7 +423,7 @@ export function updateImpactChoiceRef(
       }
     }
   } else {
-    const newImpact: FlatImpact = { ...impact };
+    const newImpact: FlatImpact = Helpers.cloneDeep(impact);
 
     if (newImpact.type === 'activation') {
       // init the option to activate by default
@@ -456,7 +454,7 @@ export function updateNotificationImpactRoles(
   role: DynamicInterventionRole
 ): void {
   if (notifImpact.type === 'notification') {
-    const newRoles: Record<DynamicInterventionRole, boolean> = { ...notifImpact.roles };
+    const newRoles: Record<DynamicInterventionRole, boolean> = Helpers.cloneDeep(notifImpact.roles);
     newRoles[role] = !newRoles[role];
     if (role === 'Initiator' && newRoles[role]) {
       // unselect all the others

@@ -1,4 +1,4 @@
-import { ActionTemplateBase } from '../common/actions/actionTemplateBase';
+import { ActionTemplateBase } from '../common/actions/actionTemplate/actionTemplateBase';
 import { createMapChoiceActionTemplate as createMapChoiceActionTemplate } from '../common/actions/actionTemplateDescriptor/descriptors/mapChoiceTemplate';
 import { createFullyConfigurableTemplate } from '../common/actions/actionTemplateDescriptor/descriptors/fullyConfigurableTemplate';
 import { createMoveActorTemplate } from '../common/actions/actionTemplateDescriptor/descriptors/moveTemplate';
@@ -22,10 +22,8 @@ export function createInstance(tplDescriptor: TemplateDescriptor): ActionTemplat
       // this makes sure a missing case induces a compilation error
       missingCase(ctorType);
   }
-  // TODO Log error
-  return undefined as any;
 }
 
-function missingCase(type: never) {
+function missingCase(type: never): never {
   throw new Error(`This constructor type (${type}) is not handled`);
 }

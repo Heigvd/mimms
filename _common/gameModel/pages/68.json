@@ -10,51 +10,13 @@
               "className" : "selected",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { getSelectedActivityType } from \"./UIfacade/resourceFacade\";\ngetSelectedActivityType() === ResourcesManagementActivityType.assignTask;",
-                "language" : "typescript"
-              }
-            } ],
-            "disableIf" : {
-              "@class" : "Script",
-              "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.PretriageReportTemplate);",
-              "language" : "typescript"
-            },
-            "id" : "",
-            "label" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','assign-task');",
-              "language" : "TypeScript"
-            },
-            "layoutClassName" : "",
-            "layoutStyle" : {
-              "padding" : "5px 5px 0 0"
-            },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { toggleSelectedActivityType } from \"./UIfacade/resourceFacade\";\n\ntoggleSelectedActivityType(ResourcesManagementActivityType.assignTask);",
-                "language" : "TypeScript"
-              }
-            },
-            "name" : "assignTask",
-            "style" : { }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
-            "className" : "rectangleButton",
-            "conditionnalClassNames" : [ {
-              "applyOn" : "Inside",
-              "className" : "selected",
-              "condition" : {
-                "@class" : "Script",
                 "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { getSelectedActivityType } from \"./UIfacade/resourceFacade\";\ngetSelectedActivityType() === ResourcesManagementActivityType.requestReport;",
                 "language" : "typescript"
               }
             } ],
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.PretriageReportTemplate);",
+              "content" : "import { canPlanNonPrioritizedAction } from \"./gameInterface/main\";\n!canPlanNonPrioritizedAction();",
               "language" : "typescript"
             },
             "id" : "",
@@ -83,29 +45,10 @@
         "layout" : { },
         "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
-        "name" : "tasksButtons",
+        "name" : "requestSelection",
         "style" : { }
       },
       "type" : "FlexList"
-    }, {
-      "props" : {
-        "exposePageSizeAs" : "",
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { getSelectedActivityType } from \"./UIfacade/resourceFacade\";\ngetSelectedActivityType() !== ResourcesManagementActivityType.assignTask;",
-          "language" : "typescript"
-        },
-        "initialSelectedPageId" : {
-          "@class" : "Script",
-          "content" : "\"67\"",
-          "language" : "typescript"
-        },
-        "layoutClassName" : "noPadding",
-        "layoutStyle" : { },
-        "name" : "resources Management",
-        "style" : { }
-      },
-      "type" : "PageLoader"
     }, {
       "props" : {
         "children" : [ {
@@ -114,85 +57,27 @@
               "props" : {
                 "className" : "mimms_h3title",
                 "layoutClassName" : "noPadding",
-                "layoutStyle" : {
-                  "margin" : "15px 0 10px 0"
-                },
+                "layoutStyle" : { },
+                "name" : "description",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', 'sourceLocation')",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('mainSim-actions-tasks', 'request-reports-description')",
                   "language" : "TypeScript"
                 }
               },
               "type" : "Text"
             }, {
               "props" : {
-                "choices" : {
-                  "@class" : "Script",
-                  "content" : "import { TaskType } from \"./game/common/tasks/taskBase\";\nimport { getLocationChoicesForTaskType } from \"./UIfacade/taskFacade\";\ngetLocationChoicesForTaskType(TaskType.Pretriage);",
-                  "language" : "typescript"
-                },
-                "layoutClassName" : "noPadding resourcesDropdowns",
-                "layoutStyle" : { },
-                "name" : "source location",
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "import { setReportLocationRequest } from \"./UIfacade/resourceFacade\";\n\nsetReportLocationRequest(Context.pretriageReportRequestLocation);",
-                    "language" : "TypeScript"
-                  },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"pretriageReportRequestLocation\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'select-location')",
-                  "language" : "TypeScript"
-                },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "import { getReportLocationRequest } from \"./UIfacade/resourceFacade\";\ngetReportLocationRequest() || '';",
-                  "language" : "TypeScript"
-                },
-                "style" : { }
-              },
-              "type" : "Select input"
-            } ],
-            "className" : "",
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "pretriage report",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
                 "className" : "button-S button-secondaryColor",
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "abort",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { isPretriageReportRequestDisabled } from \"./UIfacade/resourceFacade\";\n  isPretriageReportRequestDisabled();",
-                    "language" : "typescript"
-                  }
-                } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isPretriageReportRequestDisabled } from \"./UIfacade/resourceFacade\";\n  isPretriageReportRequestDisabled();",
+                  "content" : "import { canPlanNonPrioritizedAction } from \"./gameInterface/main\";\n!canPlanNonPrioritizedAction();",
                   "language" : "typescript"
                 },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send');",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "noPadding",
@@ -204,20 +89,23 @@
                     "language" : "TypeScript"
                   }
                 },
+                "name" : "validate",
                 "style" : { }
               },
               "type" : "Button"
             } ],
             "className" : "",
             "layout" : {
-              "justifyContent" : "flex-end"
+              "justifyContent" : "space-between"
             },
             "layoutClassName" : "",
             "layoutStyle" : {
               "padding" : "20px 0 5px 0"
             },
-            "name" : "button",
-            "style" : { }
+            "name" : "",
+            "style" : {
+              "gap" : "10px"
+            }
           },
           "type" : "FlexList"
         } ],
@@ -234,7 +122,7 @@
         "layoutStyle" : {
           "width" : "100%"
         },
-        "name" : "requestReportInputs",
+        "name" : "requestReport",
         "style" : { }
       },
       "type" : "FlexList"
@@ -245,7 +133,7 @@
       "className" : "unauthorizedAction",
       "condition" : {
         "@class" : "Script",
-        "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.PretriageReportTemplate);",
+        "content" : "import { canPlanNonPrioritizedAction } from \"./gameInterface/main\";\n!canPlanNonPrioritizedAction();",
         "language" : "typescript"
       }
     } ],
@@ -256,7 +144,7 @@
     "layoutStyle" : {
       "width" : "100%"
     },
-    "name" : "resources and reports",
+    "name" : "resources requests",
     "style" : {
       "overflow" : "auto"
     }

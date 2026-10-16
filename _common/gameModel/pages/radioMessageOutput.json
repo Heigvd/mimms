@@ -30,7 +30,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\n  if (!Context.item.pending || Context.item.pending && Context.item.senderId === Context.interfaceState.state.currentActorUid) {\n    return `<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n    }\n  `<p>${getTranslation('mainSim-interface', 'incoming-message')}</p>`;",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\n  if (!Context.item.pending || Context.item.pending && Context.item.senderId === Context.interfaceState.state.currentActorUid) {\n    return `<p>${I18n.translate(Context.item.message).replace(/\\n/g, '<br/>')}</p>`;\n    }\n  `<p>${getTranslation('mainSim-interface', 'incoming-message')}</p>`;",
                   "language" : "TypeScript"
                 }
               },

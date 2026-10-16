@@ -26,7 +26,7 @@ export function getFullyConfigurableTemplateDef(): Definition<
       choices: [],
       mandatory: false,
       repeats: 1,
-      tag: 'New action',
+      tag: '',
       description: createOrUpdateTranslation('', undefined),
       title: createOrUpdateTranslation('', undefined),
       uid: generateId(10),
@@ -38,11 +38,11 @@ export function getFullyConfigurableTemplateDef(): Definition<
         AL: true,
         CASU: false,
         EVASAN: true,
-        LEADPMA: true,
       },
       showAllChoices: true,
       comment: '',
       index: 0,
+      priority: 0,
     }),
     validator: fullyConfigurableActionTemplateValidator,
     view: {
@@ -63,6 +63,7 @@ export function getFullyConfigurableTemplateDef(): Definition<
       availableToRoles: {} as any, // TODO ALL_EDITABLE,
       showAllChoices: EXPERT_ONLY,
       comment: ALL_EDITABLE,
+      priority: ALL_EDITABLE,
     },
   };
 }

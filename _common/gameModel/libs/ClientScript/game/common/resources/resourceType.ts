@@ -52,12 +52,12 @@ export type ResourceTypeAndNumber = Partial<Record<ResourceType, number>>;
 // Helpers
 // -------------------------------------------------------------------------------------------------
 
-export function isHuman(resourceType: ResourceType) {
-  return Object.values(HumanResourceTypeArray).some(type => type === resourceType);
+export function isHuman(resourceType: ResourceType): resourceType is HumanResourceType {
+  return HumanResourceTypeArray.some(type => type === resourceType);
 }
 
-export function isVehicle(resourceType: ResourceType) {
-  return Object.values(VehicleTypeArray).some(type => type === resourceType);
+export function isVehicle(resourceType: ResourceType): resourceType is VehicleType {
+  return VehicleTypeArray.some(type => type === resourceType);
 }
 
 // -------------------------------------------------------------------------------------------------

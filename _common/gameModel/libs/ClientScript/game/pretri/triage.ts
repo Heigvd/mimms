@@ -15,7 +15,7 @@ import {
   getHuman,
   getHumanConsole,
   HumanHealth,
-} from '../legacy/the_world';
+} from './patientProcessing';
 import { getEnv } from '../../tools/WegasHelper';
 import { getTranslation } from '../../tools/translation';
 import { getOverview } from '../patientZoom/graphics';
@@ -111,6 +111,16 @@ const greenTag = '#86b700';
 const redTag = '#B73D3C';
 const orangeTag = '#FFBD60';
 const blueTag = '#4CA9FF';
+
+/**
+ * Fixed color for each standard pretriage category, independent of the active tag system
+ */
+export const STANDARD_CATEGORY_COLORS: Record<STANDARD_CATEGORY, string> = {
+  [DEAD]: deadTag,
+  [IMMEDIATE]: redTag,
+  [URGENT]: yellowTag,
+  [NON_URGENT]: greenTag,
+};
 
 const sapSystem: TagSystem<SAP_CATEGORY> = {
   categories: [

@@ -57,11 +57,16 @@
             "layoutStyle" : { },
             "name" : "cancel",
             "style" : {
-              "margin-top" : "24px"
+              "marginTop" : "24px"
             }
           },
           "type" : "Button"
         } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "true;",
+          "language" : "typescript"
+        },
         "layout" : {
           "justifyContent" : "flex-end"
         },

@@ -1,4 +1,5 @@
 import { InterventionRoleTypeArray, isPlayedByARealPlayer } from '../../game/common/actors/actor';
+import { DelayImpactFrom } from '../../game/common/impacts/impact';
 import { ActivationOperator } from '../../game/common/impacts/implementation/activationImpact';
 import { DynamicInterventionRole } from '../../game/common/impacts/implementation/notificationImpact';
 import { RadioType } from '../../game/common/radio/communicationType';
@@ -114,6 +115,19 @@ export function getActivateInactivateOptions(): { label: string; value: Activati
     {
       label: 'Inactivate',
       value: 'deactivate',
+    },
+  ];
+}
+
+export function getImpactDelayFromOptions(): { label: string; value: DelayImpactFrom }[] {
+  return [
+    {
+      label: 'Start',
+      value: 'start',
+    },
+    {
+      label: 'End',
+      value: 'end',
     },
   ];
 }

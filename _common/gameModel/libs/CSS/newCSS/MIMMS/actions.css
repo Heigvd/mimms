@@ -1,43 +1,38 @@
-
-/******* ACTIONS ELEMENTS *******/
-
-/*
-// Is not used
-.actions-container {
-	margin:0px;
-	padding: 0px;
-	//ANIMATION TO BE DEFINED
-	animation-duration: 2s ease-out;
-}*/
+/* - - - - -  A C T I O N S  E L E M E N T S  - - - */
 
 .action-container {
+  box-sizing: border-box;
+  width: 100%;
   height: auto;
   padding: 5px 0 5px 0;
-  animation-duration: 2s ease-out;
+  animation-duration: 2s;
 }
 
-.actionHeader{
-	background-color: var(--grey_10);
+/* shared list row look: actions, feedbacks, resources, patient list */
+.actionHeader,
+.patient-list__item {
+	background-color: var(--grey05);
 	padding: 10px 10px ;
 	border-radius: var(--XS_borderRadius);
 	font-size: var(--SM_text);
+    overflow: hidden;
 	cursor: pointer;
 }
 
-.actionHeaderDisabled{
-  opacity: 50%;
-  cursor: default;
+.actionHeaderActive {
+	font-weight: var(--boldWeight);
+	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0 0 ;
+    cursor: default;
 }
 
-.actionHeaderActive{
-	font-weight: var(--boldWeight);
-	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px ;
-  cursor: default;
+.actionHeaderDisabled {
+    opacity: 50%;
+    cursor: default;
 }
 
 .actionHeader > div {
-	padding: 0px;
-	margin: 0px;
+	padding: 0;
+	margin: 0;
 	align-items: center;
 	color: var(--grey_100);
 }
@@ -46,32 +41,136 @@
   text-transform: uppercase;
 }
 
+.action-title {
+  gap: 8px;
+}
+
+.action-title > div {
+  padding: 0;
+  margin: 0;
+}
+
+.action-priority-tag {
+  background-color: var(--grey_100);
+  color: var(--grey_0);
+  border-radius: var(--XXS_borderRadius);
+  padding: 2px 5px;
+  font-size: var(--XS_text);
+  font-weight: var(--boldWeight);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* priority action notice, at the top center of the game interface */
+/* absolute: positioned relatively to #globalInterfaceId, not to the browser window */
+.priority-toast-container {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  pointer-events: none; /* keeps the map usable around the notice */
+}
+
+.priority-toast {
+  gap: 10px;
+  max-width: 40rem;
+  padding: 10px 10px 10px 15px;
+  background-color: var(--grey_0);
+  border-left: 5px solid var(--grey_100); /* same color as the priority tag */
+  border-radius: var(--XS_borderRadius);
+  box-shadow: var(--overlaysShadows);
+  font-size: var(--SM_text);
+  pointer-events: auto;
+  animation: priority-toast-slide-in 0.3s ease-out;
+}
+
+.priority-toast > div {
+  padding: 0;
+  margin: 0;
+}
+
+.priority-toast__title {
+  font-weight: var(--boldWeight);
+  color: var(--grey_100);
+}
+
+.priority-toast__title:first-letter {
+  text-transform: uppercase;
+}
+
+.priority-toast__roles {
+  gap: 6px;
+}
+
+.priority-toast__roles > div {
+  padding: 0;
+  margin: 0;
+}
+
+/* each role in its actor color, the theme class being set on the same element */
+.priority-toast__role {
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  white-space: nowrap;
+}
+
+.priority-toast__close svg {
+  color: var(--grey_80);
+  opacity: 75%;
+}
+
+@keyframes priority-toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .aDescriptionAction {
   padding: 0 10px 10px 10px;
 }
 
 .actionInfo {
-	border-radius: 0px 0px var(--S_borderRadius) var(--S_borderRadius) ;
-	background-color: var(--grey_10);
+	border-radius: 0 0 var(--S_borderRadius) var(--S_borderRadius) ;
+	background-color: var(--grey05);
 	font-size: var(--S_text);
 }
 
 .actionInfo p {
-	margin: 5px 0px 0px 0px;
+	margin: 5px 0 0 0;
 	padding-bottom: 15px;
 	color: var(--grey_100);
 }
 
-/** Choice **/
+.feedback-list .actionHeader > div:first-of-type {
+  max-width: 95%;
+}
+
+.feedback-list .actionHeaderActive .actionName {
+  white-space: normal;
+}
+
+.feedback-list .actionName {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* choice */
 .choice-list {
   gap: 10px;
-  margin: 0px 10px 15px 10px;
+  margin: 0 10px 15px 10px;
 }
 
 .choice-container {
   padding: 10px;
-  background-color: var(--grey05);
-  border: 3px solid var(--grey05);
+  background-color: var(--grey_0);
+  border: 3px solid var(--grey_0);
   border-radius: var(--S_borderRadius);
   transition: border .3s ease-in-out, .3s ease-in-out;
 }
@@ -82,12 +181,16 @@
 }
 
 .choice-container--selected {
-  border: 3px solid var(--primary_base);
+  border: 3px solid var(--grey_base);
   transition: border .3s ease-in-out;
 }
 
 .choice-title {
   font-weight: var(--boldWeight);
+}
+
+.choice-title p {
+ padding: 0; 
 }
 
 .choice-description {
@@ -98,19 +201,32 @@
   display: none;
 }
 
-/** Play btn **/
-.playActionBtn > *{
-  margin: .5em;
-  padding: .5em;
-  height: 2em;
-  width: 2em;
-  border-radius: 50%;
-  font-weight: var(--boldWeight);
-  color: var(--grey-white);
-  background: var(--secondary_50);
+/* feedback */
+.feedback__container {
+  gap: 10px;
+  padding: 10px;
+  color: var(--grey_base);
+  background-color: var(--grey_0);
+  border-radius: var(--S_borderRadius);
 }
 
-.playActionBtn:hover > *{
-	background: var(--secondary_40);
-	cursor: pointer;
+.feedback {
+  padding-top: 10px;
+  color: var(--primary_base);
+  border-top: 1px solid var(--grey_100);
+}
+
+.feedback__undertitle {
+  font-size: var(--M_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_100);
+}
+
+.feedback-list__header.actions-list__header {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.feedback-list__header.actions-list__header svg {
+  color: var(--grey_100);
 }

@@ -80,7 +80,6 @@
                       "type" : "Text"
                     }, {
                       "props" : {
-                        "conditionnalClassNames" : [ ],
                         "icon" : "caret-up",
                         "label" : {
                           "@class" : "Script",
@@ -339,7 +338,7 @@
                         "initialSelectedPageId" : "scenaristItemGeneric",
                         "layoutClassName" : "noPadding generic-item__page-loader",
                         "layoutStyle" : { },
-                        "name" : "conditionItemPageLoader",
+                        "name" : "choicePageLoader",
                         "style" : { }
                       },
                       "type" : "PageLoader"
@@ -406,7 +405,7 @@
                 "className" : "",
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { getSelectedTyped, isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('effect') || (getSelectedTyped('action')?.mandatory || false);",
+                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('effect');",
                   "language" : "typescript"
                 },
                 "icon" : "plus",

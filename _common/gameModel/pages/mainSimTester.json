@@ -8,7 +8,7 @@
             "exposePageSizeAs" : "",
             "initialSelectedPageId" : {
               "@class" : "Script",
-              "content" : "\"43\"",
+              "content" : "  if (Variable.find(gameModel, 'gameMode').getValue(self) === 'mainSimMode') {\n    return \"43\";\n  }\n  \"5\";",
               "language" : "typescript"
             },
             "layoutClassName" : "noPadding",

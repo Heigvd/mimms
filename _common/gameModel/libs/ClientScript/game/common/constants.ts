@@ -20,6 +20,21 @@ export const FailedRessourceArrivalDelay = OneMinuteDuration * 5;
 export const ACSMCSAutoRequestDelay = OneMinuteDuration * 5;
 
 /**
+ * A resource that cannot work on its task goes back to get new orders as soon as the time slice ends
+ */
+export const NoIdleTimeAllowed = 0;
+
+/**
+ * Standard maximum idle before resource is unassigned
+ */
+export const StandardMaximumIdleTime = OneMinuteDuration * 5;
+
+/**
+ * Idle time for waiting task
+ */
+export const UnlimitedMaximumIdleTime = Number.MAX_SAFE_INTEGER;
+
+/**
  * Trainer identifier
  */
 export const TRAINER_NAME = 'Game Master';
@@ -37,14 +52,14 @@ export const PatientEvolutionEVACTimeModifier = 0;
 /**
  * Pretriage report delay
  */
-export const PretriageReportResponseDelay = OneMinuteDuration * 2;
-
-/**
- * in minutes
- */
-export const situationUpdateDurations: number[] = [3, 5, 10];
+export const PretriageReportResponseDelay = 0;
 
 /**
  * choice reference that means "all choices of a an action template"
  */
 export const ANY_CHOICE = 'ANY_CHOICE';
+
+/**
+ * Lowest priority, to be processed after all other events on a given timestamp
+ */
+export const LOCAL_TIME_FORWARD_EVENT_PRIORITY = 1000;

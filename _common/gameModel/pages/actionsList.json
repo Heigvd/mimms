@@ -1,0 +1,360 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "mimms_h2title",
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "Panel title",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'actions')}`",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "action-priority-tag",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { hasPriority } from \"./UIfacade/actionFacade\";\n!hasPriority(Context.action);",
+                          "language" : "typescript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "priorityTag",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'priority');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "actionName",
+                        "layoutStyle" : { },
+                        "name" : "actionName",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplate/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getTitle();",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "action-title",
+                    "layout" : {
+                      "alignItems" : "center",
+                      "flexDirection" : "row"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "title & priority",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutClassName" : "",
+                                "layoutStyle" : {
+                                  "padding" : "0 5px 0 0"
+                                },
+                                "name" : "taskDuration",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { formatActionDuration } from \"./UIfacade/actionFacade\";\nformatActionDuration(Context.action);",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : { },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "duration",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ]
+                      },
+                      "type" : "PlayerIf"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "variable",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'variable-duration', false);",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : { },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "duration",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ]
+                      },
+                      "type" : "PlayerElse"
+                    } ],
+                    "ifCondition" : {
+                      "@class" : "Script",
+                      "content" : "!!Context.action?.duration;",
+                      "language" : "typescript"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "If Else"
+                } ],
+                "className" : "actionHeader",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "actionHeaderActive",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { isActiveAction } from \"./gameInterface/main\";\nimport { PlayableActionTemplate } from \"./game/mainSimulationLogic\";\nisActiveAction(Context.action.uid) && (Context.action as PlayableActionTemplate).isPlayable;",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "actionHeaderDisabled",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { PlayableActionTemplate } from \"./game/mainSimulationLogic\";\n!(Context.action as PlayableActionTemplate).isPlayable;",
+                    "language" : "typescript"
+                  }
+                } ],
+                "layout" : {
+                  "alignItems" : "flex-start",
+                  "flexDirection" : "row",
+                  "justifyContent" : "space-between"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "priority" : 0,
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { actionChangeHandler } from \"./gameInterface/main\";\n\nactionChangeHandler(Context.action);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Title",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutClassName" : "aDescriptionAction",
+                            "layoutStyle" : { },
+                            "name" : "description",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplate/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getDescription();",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { StartEndTemplate } from \"./game/common/actions/actionTemplate/actionTemplateBase\";\nimport { getActionDurationText } from \"./UIfacade/actionFacade\";\n!getActionDurationText(Context.action as StartEndTemplate);",
+                              "language" : "typescript"
+                            },
+                            "layoutClassName" : "",
+                            "layoutStyle" : {
+                              "padding" : "0 10px 10px 0"
+                            },
+                            "name" : "duration",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { StartEndTemplate } from \"./game/common/actions/actionTemplate/actionTemplateBase\";\nimport { getActionDurationText } from \"./UIfacade/actionFacade\";\ngetActionDurationText(Context.action as StartEndTemplate);",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : {
+                          "justifyContent" : "space-between"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "description & duration",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "className" : "",
+                        "exposePageSizeAs" : "",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { showActionParamsPanel } from \"./gameInterface/main\";\nshowActionParamsPanel(Context.action) === \"\";",
+                          "language" : "typescript"
+                        },
+                        "initialSelectedPageId" : {
+                          "@class" : "Script",
+                          "content" : "import { showActionParamsPanel } from \"./gameInterface/main\";\nshowActionParamsPanel(Context.action);",
+                          "language" : "typescript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "requestResourcesLoader",
+                        "style" : { }
+                      },
+                      "type" : "PageLoader"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Description & play",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "className" : " button-S button-neutralColor ",
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
+                      "language" : "typescript"
+                    },
+                    "icon" : "",
+                    "id" : " ",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send')",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : {
+                      "alignSelf" : "flex-end",
+                      "padding" : "0px 10px 10px 0px"
+                    },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { registerOpenLastFeedbackAfterUpdate } from \"./UIfacade/feedbackFacade\";\nrunActionButton(Context.action);\nregisterOpenLastFeedbackAfterUpdate();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "actionInfo",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isActiveAction } from \"./gameInterface/main\";\nimport { PlayableActionTemplate } from \"./game/mainSimulationLogic\";\n!isActiveAction(Context.action.uid) || !(Context.action as PlayableActionTemplate).isPlayable;",
+                  "language" : "typescript"
+                },
+                "layout" : {
+                  "flexDirection" : "column",
+                  "justifyContent" : "space-between"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "Description, parameters & play",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "action-container",
+            "layoutStyle" : { },
+            "name" : "Action",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "className" : "",
+        "exposeAs" : "action",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAvailableActionTemplates } from \"./UIfacade/actionFacade\";\ngetAvailableActionTemplates(ActionType.ACTION);",
+          "language" : "TypeScript"
+        },
+        "id" : "",
+        "itemKey" : "uid",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "marginTop" : "0px",
+          "paddingTop" : "0px"
+        },
+        "name" : "Action",
+        "style" : { }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "className" : "fullWidth",
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "\"feedbacksList\"",
+          "language" : "typescript"
+        },
+        "layoutClassName" : "noPadding fullWidth",
+        "layoutStyle" : { },
+        "name" : "Feedbacks list",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "className" : "fullWidth",
+    "layout" : {
+      "flexDirection" : "column",
+      "justifyContent" : "flex-start"
+    },
+    "layoutClassName" : "leftSubPanel-container",
+    "layoutStyle" : { },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

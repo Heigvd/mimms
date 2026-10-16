@@ -1,8 +1,9 @@
 import { getGameModelType, getPlayer, getTestTeamId } from '../dashboard/utils';
 import { InterventionRole } from '../game/common/actors/actor';
+import { keys } from '../tools/helper';
 import { mainSimLogger } from '../tools/logger';
 
-export interface MultiplayerMatrix extends Array<PlayerMatrix> {}
+export type MultiplayerMatrix = Array<PlayerMatrix>;
 
 interface PlayerMatrix {
   id: number;
@@ -59,7 +60,6 @@ export async function registerSelf(): Promise<void> {
         ACS: preSelectAll,
         MCS: preSelectAll,
         EVASAN: preSelectAll,
-        LEADPMA: preSelectAll,
       },
     };
 
@@ -171,19 +171,16 @@ export function getPlayerRolesSelf(): PlayerRoles {
   }
   return playerRoles.roles;
 }
+
 /**
  * Check if all playable roles are currently filled by a player
  */
 export function checkAllRolesPlayed(): boolean {
-  const playersRoles = getPlayersAndRoles().map(p => Object.values(p.roles));
-  const playableRoles = new Array(5).fill(false);
+  const players = getPlayersAndRoles();
+  const first = players[0];
+  if (!first) return false;
 
-  for (const player of playersRoles) {
-    for (const [i, role] of Object.entries(player)) {
-      if (role) playableRoles[Number(i)] = role;
-    }
-  }
-  return playableRoles.every(r => r);
+  return keys(first.roles).every(role => players.some(p => p.roles[role]));
 }
 
 /**
@@ -401,7 +398,7 @@ export async function updateTeamMatrix(
 ): Promise<void> {
   const scripts: string[] = [];
 
-  for (let matrix of teamMatrix) {
+  for (const matrix of teamMatrix) {
     const payload = JSON.stringify(JSON.stringify(matrix));
 
     scripts.push(`MultiplayerHelper.updatePlayerMatrix(${teamId}, ${matrix.id}, ${payload})`);
@@ -428,7 +425,6 @@ export function getEmptyPlayerMatrix(player: SPlayer): PlayerMatrix {
       ACS: false,
       MCS: false,
       EVASAN: false,
-      LEADPMA: false,
     },
   };
 }

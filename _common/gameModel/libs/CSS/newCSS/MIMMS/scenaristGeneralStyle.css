@@ -60,6 +60,15 @@
   z-index: 2;
 }
 
+.map-configuration-page input,
+.scenarist-column-scroll input,
+.location-config-modal-container input,
+.patient-generation input,
+.hospitals input,
+.resources input {
+  resize: none;
+}
+
 
 /* - - - - -  T E X T S  - - - */
 

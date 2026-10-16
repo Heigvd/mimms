@@ -41,6 +41,14 @@ const MAX_RETRIES = 50;
  */
 const SAMPLE_VALUES_MINUTE: number[] = [15, 30, 45, 60, 90, 120];
 
+export function getMaxPatients(): number {
+  return Variable.find(gameModel, 'patientCapacity').getValue(self);
+}
+
+export function getRemainingPatientCapacity(): number {
+  return Math.max(0, getMaxPatients() - Object.keys(getPatientsBodyFactoryParams()).length);
+}
+
 type PatientSamples = Record<SimDuration, PatientState>;
 type BodyParamsWithPathology = BodyFactoryParam & { pathologyNames: string[] };
 
@@ -169,7 +177,10 @@ export function totalExistingPatients(): number {
 export async function addPatientsAsync(targetStats: InjuryCategoryStats): Promise<void> {
   const t = Date.now();
   const genCtx = getGenCtx();
-  const total = Object.values(targetStats).reduce((acc, v) => acc + v, 0);
+  const total = Math.min(
+    Object.values(targetStats).reduce((acc, v) => acc + v, 0),
+    getRemainingPatientCapacity()
+  );
   genCtx.state = Helpers.cloneDeep(genCtx.state);
   genCtx.state.status = 'generating-modal';
   genCtx.state.generation.pending = total;
@@ -181,7 +192,7 @@ export async function addPatientsAsync(targetStats: InjuryCategoryStats): Promis
   const genFunction = (ctx: GenerationCtx) => bestEffortGenerateAndStore(stillNeeded, ctx);
 
   for (let i = 0; i < total; i++) {
-    tasks.push(makeAsync(genFunction, genCtx, i * 10));
+    tasks.push(makeAsync(genFunction, genCtx, 1));
   }
   await Promise.all(tasks);
 
@@ -420,7 +431,13 @@ export function getPatientModalData(selectedTime: number | undefined = undefined
   const mainState = getTypedGenState();
   const time = selectedTime || getInitialTimeJumpSeconds();
   const patient = patientsSamplesCache[mainState.patientId]![time];
-  return { ...patient, observedBlock: '' };
+  const bodyParams = patientsBodyParamsCache[mainState.patientId];
+  return {
+    ...patient,
+    observedBlock: '',
+    showPathologies: true,
+    pathologyNames: bodyParams?.pathologyNames ?? [],
+  };
 }
 
 export function setPatientModalData(selectedTime: number | undefined = undefined) {

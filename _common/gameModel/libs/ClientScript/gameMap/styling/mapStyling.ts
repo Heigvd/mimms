@@ -33,6 +33,7 @@ function getRoadParams(feature: any, resolution: number): RoadParams {
     case 'cycleway':
     case 'steps':
     case 'platform':
+    case 'corridor':
       noStyle = true;
       break;
     case 'proposed':
@@ -40,7 +41,7 @@ function getRoadParams(feature: any, resolution: number): RoadParams {
       size = 5;
       break;
     default:
-      color = '#D9DDE1';
+      color = '#fff';
       break;
   }
 
@@ -67,7 +68,7 @@ export function getRoadStyle(feature: any, resolution: number): LayerStyleObject
     style.push({
       text: {
         type: 'TextStyle',
-        fill: { type: 'FillStyle', color: 'black' },
+        fill: { type: 'FillStyle', color: '#656e72' },
         stroke: {
           type: 'StrokeStyle',
           lineCap: 'round',
@@ -77,7 +78,7 @@ export function getRoadStyle(feature: any, resolution: number): LayerStyleObject
           color: '#FFF', //border for the road's name
         },
         text: name,
-        scale: 1.6,
+        scale: 1,
         placement: 'line',
         overflow: false,
       },
@@ -95,7 +96,7 @@ export function getRailwayStyle(resolution: number): LayerStyleObject[] {
       lineJoin: 'round',
       miterLimit: 10,
       width: 2.3 / resolution,
-      color: 'black',
+      color: '#656e72',
     },
   };
   const styleLight: LayerStyleObject = {
@@ -120,14 +121,14 @@ export function getWaterStyle(feature: any, _resolution: number): LayerStyleObje
   if (label) {
     style.text = {
       type: 'TextStyle',
-      fill: { type: 'FillStyle', color: 'lightskyblue' },
-      stroke: {
+      fill: { type: 'FillStyle', color: 'rgba(135, 206, 250, 0)' },
+      /*stroke: {
         type: 'StrokeStyle',
         lineCap: 'round',
         lineJoin: 'round',
         miterLimit: 10,
         width: 2,
-      },
+      },*/
       overflow: true,
       placement: 'line',
       scale: 1.5,
@@ -142,7 +143,40 @@ export function getWaterStyle(feature: any, _resolution: number): LayerStyleObje
     miterLimit: 10,
     color: 'rgb(80,150,200)',
   };
-  style.fill = { type: 'FillStyle', color: 'rgba(80,150,200,0.5)' };
+  style.fill = { type: 'FillStyle', color: 'rgba(158, 190, 215, 1)' };
+  return style;
+}
+
+export function getGreeneryStyle(feature: any, _resolution: number): LayerStyleObject {
+  const label = feature.getProperties().name;
+  const style: LayerStyleObject = {};
+
+  if (label) {
+    style.text = {
+      type: 'TextStyle',
+      fill: { type: 'FillStyle', color: 'rgba(205, 235, 176, 0)' },
+      /*stroke: {
+        type: 'StrokeStyle',
+        lineCap: 'round',
+        lineJoin: 'round',
+        miterLimit: 10,
+        width: 2,
+      },*/
+      overflow: true,
+      placement: 'line',
+      scale: 1.5,
+      text: label,
+    };
+  }
+
+  style.stroke = {
+    type: 'StrokeStyle',
+    lineCap: 'round',
+    lineJoin: 'round',
+    miterLimit: 10,
+    color: 'rgb(173, 209, 158)',
+  };
+  style.fill = { type: 'FillStyle', color: 'rgba(200, 220, 195, 1)' };
   return style;
 }
 
@@ -174,7 +208,7 @@ export function getBuildingStyle(_feature: any, _resolution: number): LayerStyle
 }
 
 export function getViewSelectionStyle(feature: any): LayerStyleObject {
-  const color = '#539265';
+  const color = '#554994';
   const props = feature.getProperties();
 
   const stroke: StrokeStyleObject = {

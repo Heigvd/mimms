@@ -69,12 +69,13 @@
 }
 
 .add-resource-button {
-  position: sticky;
+  /*position: sticky
   left: 0;
   bottom: 0;
   width: 100%;
-  padding-top: 10px;
-  background-color: var(--grey-white);
+  background-color: var(--grey-white);*/
+  height: 50px;
+  padding: 1.5rem 0 0 1.5rem;
 }
 
 .resources .wegas-select__option {
