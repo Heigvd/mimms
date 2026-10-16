@@ -168,25 +168,6 @@
           "props" : {
             "className" : "",
             "exposePageSizeAs" : "",
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "true",
-              "language" : "typescript"
-            },
-            "id" : "",
-            "initialSelectedPageId" : "21",
-            "layoutClassName" : "",
-            "layoutStyle" : {
-              "padding" : "0"
-            },
-            "name" : "drill-time-toolbar",
-            "style" : { }
-          },
-          "type" : "PageLoader"
-        }, {
-          "props" : {
-            "className" : "",
-            "exposePageSizeAs" : "",
             "id" : "",
             "initialSelectedPageId" : {
               "@class" : "Script",
