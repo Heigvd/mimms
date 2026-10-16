@@ -6432,15 +6432,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/pretri/liveOverview",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#93:PinW8a",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/pretri/patientProcessing",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
