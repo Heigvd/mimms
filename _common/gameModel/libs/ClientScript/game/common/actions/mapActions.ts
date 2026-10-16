@@ -4,7 +4,6 @@ import {
   GlobalEventId,
   SimDuration,
   SimTime,
-  TaskId,
   TranslationKey,
 } from '../baseTypes';
 import { SimFlag } from './actionTemplate/actionTemplateBase';
@@ -95,77 +94,6 @@ export class MapChoiceAction extends ChoiceAction {
         'built'
       )
     );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// place PC Front
-// -------------------------------------------------------------------------------------------------
-
-export class PCFrontChoiceAction extends MapChoiceAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey | ITranslatableContent,
-    ownerId: ActorId,
-    templateUid: ActionTemplateUid,
-    provideFlagsToState: SimFlag[],
-    choice: ChoiceDescriptor
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      ownerId,
-      templateUid,
-      provideFlagsToState,
-      choice,
-      LOCATION_ENUM.pcFront
-    );
-  }
-
-  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    super.dispatchEndedEvents(state);
-
-    getLocalEventManager().queueLocalEvent(
-      new MoveActorLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        actorUid: this.ownerId,
-        location: this.binding,
-      })
-    );
-
-    // First and only resource on scene comes with
-    const resourceUid = state.getInternalStateObject().resources[0]?.Uid;
-    if (resourceUid) {
-      getLocalEventManager().queueLocalEvent(
-        new MoveResourcesLocalEvent({
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          ownerUid: this.ownerId,
-          resourcesId: [resourceUid],
-          targetLocation: this.binding,
-        })
-      );
-      const idleTaskUid: TaskId | undefined = getIdleTaskUid(state, this.binding);
-
-      if (idleTaskUid != undefined) {
-        getLocalEventManager().queueLocalEvent(
-          new AssignResourcesToTaskLocalEvent({
-            parentEventId: this.eventId,
-            source: { type: 'action', id: this.Uid },
-            simTimeStamp: state.getSimTime(),
-            resourcesId: [resourceUid],
-            taskId: idleTaskUid,
-          })
-        );
-      }
-    }
   }
 }
 

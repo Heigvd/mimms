@@ -10,7 +10,6 @@ import {
   MapChoiceActionTemplate,
   ParkChoiceTemplate,
   PCChoiceTemplate,
-  PCFrontChoiceTemplate,
 } from '../../actionTemplate/mapTemplates';
 
 export interface MapChoiceActionTemplateDescriptor extends ITemplateDescriptor {
@@ -71,7 +70,7 @@ export function createMapChoiceActionTemplate(
         desc.choices
       );
     case 'PCFrontChoiceTemplate':
-      return new PCFrontChoiceTemplate(
+      return new MapChoiceActionTemplate(
         desc.uid,
         desc.title,
         desc.description,
