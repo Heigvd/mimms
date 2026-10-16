@@ -164,9 +164,7 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "toolbar",
-            "style" : {
-              "top" : "-42px"
-            }
+            "style" : { }
           },
           "type" : "FlexList"
         }, {
@@ -228,9 +226,7 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "before you begin",
-            "style" : {
-              "top" : "-30px"
-            },
+            "style" : { },
             "text" : {
               "@class" : "Script",
               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'before-you-begin');",
@@ -1228,9 +1224,7 @@
             "layoutClassName" : "fullWidth noPadding",
             "layoutStyle" : { },
             "name" : "finished session",
-            "style" : {
-              "top" : "-30px"
-            },
+            "style" : { },
             "text" : {
               "@class" : "Script",
               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'session-ended');",

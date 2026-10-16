@@ -31,10 +31,16 @@
   box-shadow: var(--shadow-card);
 }
 
+/* placed in the page top padding: offsets must match .ongoing-page / .welcome-page / .summary-page padding-top */
 .top-bar {
   position: absolute;
+  top: -42px; /* timer */
   right: 0;
   white-space: nowrap;
+}
+
+.top-bar.text-meta {
+  top: -30px; /* "before you begin", "finished session" */
 }
 
 /* panels */
@@ -42,12 +48,6 @@
 	flex: 1 1 0;
   min-height: 0;
 }
-
-/* might need to be moved to MIMMS files */
-/*.LeftPanel-container {
-	width: 40vw;
-	max-height: 90vh;
-}*/
 
 /* might be deleted once the Pretri components have been tidied */
 .rightPanel-container .pretri-card > div:nth-of-type(2) > div {

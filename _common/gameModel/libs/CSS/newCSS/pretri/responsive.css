@@ -10,13 +10,6 @@
     flex: 1 1 0;
     min-width: 0;
 	}
-
-  /* might need to be moved to MIMMS files */
-  /*.leftPanel-container {
-		padding: 0px;
-		margin: 0px;
-		flex-basis: auto;	
-	}*/
 	
 }
 
@@ -24,13 +17,53 @@
 @media screen and (max-width: 1199px){
 /* The general container for both sides */
 	.westSide-container {
-		padding: 0px;
-		margin: 0px;
+		padding: 0;
+		margin: 0 1.5rem 0 0;
 	}
+}
 
-  /* might need to be moved to MIMMS files */
-  /*.leftPanel-container {
-		padding: 0px;
-		margin: 0px;
-	}*/
+/*** LOW SCREENS (ex: 1280×720 laptops) ***/
+/* selectors are prefixed to win over the base rules whatever the stylesheet order */
+@media screen and (max-height: 800px){
+  /* tighter spacing */
+  .drillPretriPage-container .welcome-page,
+  .drillPretriPage-container .ongoing-page,
+  .drillPretriPage-container .summary-page {
+    padding: 2rem 1.5rem 1.5rem;
+  }
+
+  /* top bar: compact timer and offsets matching the 2rem top padding */
+  .drillPretriPage-container .top-bar {
+    top: -30px;
+  }
+
+  .drillPretriPage-container .top-bar.text-meta {
+    top: -22px;
+  }
+
+  .drillPretriPage-container .pretri-clock {
+    padding: .25rem .75rem;
+  }
+
+  .drillPretriPage-container .pretri-card {
+    padding: 1rem;
+  }
+
+  .drillPretriPage-container .pretri-medium-space {
+    gap: 1rem;
+  }
+
+  /* anatomical silhouette: zoom scales the image AND the fixed-size clickable zones together */
+  .ongoing-page .shadowMan {
+    zoom: .75;
+  }
+
+  /* bloody patient and pain smiley: smaller */
+  .ongoing-page .bloodyPatient-container {
+    flex-basis: 140px;
+  }
+
+  .ongoing-page .painSmiley-container {
+    flex-basis: 64px;
+  }
 }

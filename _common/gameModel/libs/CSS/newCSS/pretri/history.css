@@ -33,6 +33,7 @@
 /* texts */
 .ongoing-page .text-clock {
   flex-shrink: 0;
+  color: var(--color-muted);
   white-space: nowrap;
 }
 
@@ -60,26 +61,27 @@ CHIP / TAG
 
 .pretri-chip.mesure-chip {
   color: #8a5e16;
-  background-color: var(--color-p2-soft);
-  border-color: transparent;
+  background-color: transparent;
+  border-color: #8a5e16;
+}
+
+.log_container .pretri-chip.action-chip {
+  background-color: transparent;
+  border-color: var(--color-teal-ink);
 }
 
 /* Animation for latest result */
 .lastResult div .log_container:first-child {
-  animation-name: highlight;
-  animation-duration: 3s;
+  background-color: var(--color-teal-soft);
+  animation: highlight 1.5s ease-out;
 }
 
 @keyframes highlight {
- 	0% {
-	  background-color: rgba(var(--primary_30), .01 );
-	}
+  from {
+    background-color: transparent;
+  }
 
-  50% {
-	  background-color: var(--primary_20);
-	}
-
-	100% {
-	  background-color: rgba(var(--primary_30), .2 );
-	}
+  to {
+    background-color: var(--color-teal-soft);
+  }
 }

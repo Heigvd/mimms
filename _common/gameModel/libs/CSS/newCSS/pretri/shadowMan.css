@@ -7,6 +7,7 @@
 /* display */
 .shadowMan {
   width: 200px;
+  zoom: 90%;
 }
 
 .shadowMan__image {
@@ -22,6 +23,9 @@
 /* texts */
 .block-details .text-meta {
   margin-top: .5rem;
+  font-family: var(--font-sans);
+  font-weight: var(--boldWeight);
+  color: var(--color-teal-ink);
 }
 
 .block-details .text-meta:first-of-type {

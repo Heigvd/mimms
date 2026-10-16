@@ -721,10 +721,7 @@ function formatBlockTitle(titleArg: string, translationVar?: keyof VariableClass
 }
 
 function formatBlockSubTitle(title: string, translationVar: keyof VariableClasses): string {
-  return `<div class='text-meta' style="font-family: var(--font-sans);">${getTranslation(
-    translationVar,
-    title
-  )}</div>`;
+  return `<div class='text-meta'>${getTranslation(translationVar, title)}</div>`;
 }
 
 function formatBlockEntry(
