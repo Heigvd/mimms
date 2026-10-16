@@ -7,7 +7,7 @@ import { LOCAL_TIME_FORWARD_EVENT_PRIORITY, TimeSliceDuration } from '../constan
 import { computeNewPatientsState } from '../patients/handleState';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { LocalEventBase, SourceType } from './localEventBase';
-import { registerOpenSelectedActorPanelAfterMove as registerBringToFrontSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
+import { registerMapRefreshAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 
 /**
  * When applied to state, checks if on site actors can still plan or no.
@@ -47,7 +47,7 @@ export class TimeForwardRequestLocalEvent extends LocalEventBase {
       const generatedLocalEvents = evaluateAllTriggers(state);
       getLocalEventManager().queueLocalEvents(generatedLocalEvents);
 
-      registerBringToFrontSelectedActorPanelAfterMove();
+      registerMapRefreshAfterMove();
 
       // Creates new request to check again
       const tfw = new TimeForwardRequestLocalEvent({
