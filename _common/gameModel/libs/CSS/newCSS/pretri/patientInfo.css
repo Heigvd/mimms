@@ -1,5 +1,6 @@
 /* Drill Card (the label put on a patient: p3 to dead) */
-.ongoing-page .action-chip .cat_card {
+.ongoing-page .action-chip .cat_card,
+.patient-summary__modal .action-chip .cat_card {
   width: 1rem;
   height: 1rem;
 }

@@ -1,5 +1,6 @@
 /* - - - -  D I S P L A Y  - - - */
 .drillPretriPage-container {
+  position: relative;
   display: grid;
   width: 100%;
   height: 100%;
@@ -21,6 +22,7 @@
   width: 100%;
   height: 100%;
   padding: 3rem;
+  box-sizing: border-box;
 }
 
 .pretri-card {
@@ -43,19 +45,23 @@
   top: -30px; /* "before you begin", "finished session" */
 }
 
+.language-switcher-container {
+  position: absolute;
+  top: 8px;
+  left: 3rem;
+  padding: 0;
+  z-index: 1000;
+}
+
 /* panels */
 .rightPanel-container {
 	flex: 1 1 0;
   min-height: 0;
 }
 
-/* might be deleted once the Pretri components have been tidied */
-.rightPanel-container .pretri-card > div:nth-of-type(2) > div {
-  gap: 1rem;
-}
-
-.rightPanel-container .pretri-card > div:nth-of-type(2) > div:has(.tagSystemCategories) {
-  gap: 0;
+.patient-page__main {
+  flex: 1 1 0;
+  min-height: 0;
 }
 
 .information-container {

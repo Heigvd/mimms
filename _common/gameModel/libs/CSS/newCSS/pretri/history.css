@@ -31,7 +31,8 @@
 }
 
 /* texts */
-.ongoing-page .text-clock {
+.ongoing-page .text-clock,
+.patient-summary__modal .text-clock {
   flex-shrink: 0;
   color: var(--color-muted);
   white-space: nowrap;

@@ -504,7 +504,7 @@
                         "layout" : {
                           "flexDirection" : "column"
                         },
-                        "layoutClassName" : "noPadding fullHeight",
+                        "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
                         "name" : "patient",
                         "style" : { }
@@ -701,11 +701,6 @@
                                     "children" : [ {
                                       "props" : {
                                         "className" : "text-meta",
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getSubWheelSubmenu } from \"./game/patientZoom/currentPatientZoom\";\ngetSubWheelSubmenu(Context.patientConsole.state, \"measureMenu\").length === 0",
-                                          "language" : "typescript"
-                                        },
                                         "layoutClassName" : "noPadding",
                                         "layoutStyle" : { },
                                         "name" : "mesures",
@@ -789,8 +784,8 @@
                                     "className" : "pretri-small-space",
                                     "hideIf" : {
                                       "@class" : "Script",
-                                      "content" : "Context.patientConsole.state.selectedPanel;",
-                                      "language" : "JavaScript"
+                                      "content" : "import { getSubWheelSubmenu } from \"./game/patientZoom/currentPatientZoom\";\nContext.patientConsole.state.selectedPanel\n  || getSubWheelSubmenu(Context.patientConsole.state, \"measureMenu\").length === 0;",
+                                      "language" : "typescript"
                                     },
                                     "layout" : {
                                       "flexDirection" : "column"
@@ -806,11 +801,6 @@
                                     "children" : [ {
                                       "props" : {
                                         "className" : "text-meta",
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getSubWheelSubmenu } from \"./game/patientZoom/currentPatientZoom\";\ngetSubWheelSubmenu(Context.patientConsole.state, \"treatmentMenu\").length === 0",
-                                          "language" : "typescript"
-                                        },
                                         "layoutClassName" : "noPadding",
                                         "layoutStyle" : { },
                                         "name" : "actions",
@@ -894,8 +884,8 @@
                                     "className" : "pretri-small-space",
                                     "hideIf" : {
                                       "@class" : "Script",
-                                      "content" : "Context.patientConsole.state.selectedPanel;",
-                                      "language" : "JavaScript"
+                                      "content" : "import { getSubWheelSubmenu } from \"./game/patientZoom/currentPatientZoom\";\nContext.patientConsole.state.selectedPanel\n  || getSubWheelSubmenu(Context.patientConsole.state, \"treatmentMenu\").length === 0;",
+                                      "language" : "typescript"
                                     },
                                     "layout" : {
                                       "flexDirection" : "column"
@@ -986,53 +976,6 @@
                                         "layoutClassName" : "noPadding items",
                                         "layoutStyle" : { },
                                         "name" : "selected sub menu -> items",
-                                        "style" : { }
-                                      },
-                                      "type" : "FlexList"
-                                    }, {
-                                      "props" : {
-                                        "children" : [ {
-                                          "props" : {
-                                            "layoutStyle" : { },
-                                            "style" : {
-                                              "border" : "3px solid pink",
-                                              "color" : "pink"
-                                            },
-                                            "text" : {
-                                              "@class" : "Script",
-                                              "content" : "`Selected Action is : ${Context.patientConsole.state.selectedAction?.id}`;",
-                                              "language" : "JavaScript"
-                                            }
-                                          },
-                                          "type" : "Text"
-                                        }, {
-                                          "props" : {
-                                            "icon" : "times",
-                                            "label" : {
-                                              "@class" : "Script",
-                                              "content" : "\"\"",
-                                              "language" : "JavaScript"
-                                            },
-                                            "layoutStyle" : { },
-                                            "localScriptEval" : {
-                                              "script" : {
-                                                "@class" : "Script",
-                                                "content" : "import { selectWheelAction } from './game/patientZoom/currentPatientZoom';\n\nselectWheelAction(undefined, Context.patientConsole.setState);",
-                                                "language" : "TypeScript"
-                                              }
-                                            },
-                                            "style" : { }
-                                          },
-                                          "type" : "Button"
-                                        } ],
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "true;",
-                                          "language" : "JavaScript"
-                                        },
-                                        "layout" : { },
-                                        "layoutStyle" : { },
-                                        "name" : "header",
                                         "style" : { }
                                       },
                                       "type" : "FlexList"
@@ -1447,11 +1390,8 @@
                   "type" : "FlexList"
                 } ],
                 "layout" : { },
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : {
-                  "flex" : "1 1 0",
-                  "minHeight" : "0"
-                },
+                "layoutClassName" : "noPadding patient-page__main",
+                "layoutStyle" : { },
                 "name" : "main interface",
                 "style" : { }
               },

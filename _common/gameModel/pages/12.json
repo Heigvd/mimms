@@ -2,6 +2,68 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "pretri-button sm-size",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "pretri-primary",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { isCurrentLanguage } from \"./tools/translation\";\nisCurrentLanguage(Context.language.code);",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "pretri-secondary",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { isCurrentLanguage } from \"./tools/translation\";\n!isCurrentLanguage(Context.language.code);",
+                "language" : "typescript"
+              }
+            } ],
+            "label" : {
+              "@class" : "Script",
+              "content" : "Context.language.label;",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { setPlayerLanguage } from \"./tools/translation\";\n\nsetPlayerLanguage(Context.language.code);",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "Language",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "exposeAs" : "language",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getLanguageChoices } from \"./tools/translation\";\n  getLanguageChoices();",
+          "language" : "TypeScript"
+        },
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getLanguageChoices } from \"./tools/translation\";\ngetLanguageChoices().length < 2;",
+          "language" : "typescript"
+        },
+        "itemKey" : "code",
+        "layout" : { },
+        "layoutClassName" : "noPadding language-switcher-container",
+        "layoutStyle" : { },
+        "name" : "Language",
+        "style" : {
+          "gap" : ".5rem"
+        }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
         "attachedToId" : "drillPretriPage",
         "children" : [ {
           "props" : {
@@ -69,7 +131,7 @@
               "content" : "\"6\"",
               "language" : "TypeScript"
             },
-            "layoutClassName" : "noPadding",
+            "layoutClassName" : "fullHeight noPadding patient-summary__page",
             "layoutStyle" : { },
             "name" : "patientPageLoaderDrill",
             "style" : { }
@@ -1143,7 +1205,7 @@
                     "className" : "fullWidth welcome-images__container pain-scale__container",
                     "layout" : {
                       "alignItems" : "center",
-                      "gridTemplateColumns" : "repeat(6, 1fr)",
+                      "gridTemplateColumns" : "fit-content(7rem) repeat(5, minmax(min-content, 1fr))",
                       "gridTemplateRows" : "repeat(5, 1fr)"
                     },
                     "layoutClassName" : "noPadding",
@@ -1553,7 +1615,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "if(Context.patient.data.categorization.category == \n\tContext.patient.data.categorization.autoTriage.categoryId){\n\treturn '<p>Correct</p>'\n}\n'<p>Wrong</p>'",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\nif(Context.patient.data.categorization.category == \n\tContext.patient.data.categorization.autoTriage.categoryId){\n\treturn '<p>Correct</p>'\n}\ngetTranslation('pretriage-interface', 'wrong');",
                                   "language" : "TypeScript"
                                 }
                               },
