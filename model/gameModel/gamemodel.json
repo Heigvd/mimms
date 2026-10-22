@@ -4523,7 +4523,7 @@
         "visibility" : "INHERITED"
       }, {
         "@class" : "ObjectDescriptor",
-        "broadcastScope" : "TeamScope",
+        "broadcastScope" : "PlayerScope",
         "comments" : "",
         "defaultInstance" : {
           "@class" : "ObjectInstance",

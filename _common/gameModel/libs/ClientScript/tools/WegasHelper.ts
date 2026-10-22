@@ -161,7 +161,7 @@ export function parseObjectInstance<T>(oi: SObjectInstance): Record<string, T> {
   }, {});
 }
 
-export function saveToObjectInstance(oi: SObjectInstance, data: object) {
+export function saveToObjectInstance(oi: Readonly<SObjectInstance>, data: object) {
   const newInstance = Helpers.cloneDeep(oi.getEntity());
 
   Object.entries(data).forEach(([k, v]) => {

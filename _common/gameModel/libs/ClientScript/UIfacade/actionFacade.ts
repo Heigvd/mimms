@@ -48,6 +48,7 @@ import {
 } from '../game/common/actions/actionTemplate/patientResourceTemplates';
 import { OneMinuteDuration } from '../game/common/constants';
 import { getTranslation } from '../tools/translation';
+import { parseObjectInstance, saveToObjectInstance } from '../tools/WegasHelper';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(
@@ -70,13 +71,15 @@ export function getAvailableActionTemplateById(templateId: ActionTemplateUid) {
  * Action templates already viewed by the current player.
  * Key: action template uid, value: 'true' once viewed. Variable is viewedActionTemplates
  */
-function getViewedActionTemplates(): Record<ActionTemplateUid, string> {
-  return Variable.find(gameModel, 'viewedActionTemplates').getInstance(self).getProperties();
+function getViewedActionTemplates(): Record<ActionTemplateUid, boolean> {
+  return parseObjectInstance<boolean>(
+    Variable.find(gameModel, 'viewedActionTemplates').getInstance(self)
+  );
 }
 
 // used in page actionsList to mark the actions not viewed yet
 export function isActionTemplateViewed(templateUid: ActionTemplateUid): boolean {
-  return getViewedActionTemplates()[templateUid] === 'true';
+  return getViewedActionTemplates()[templateUid] ?? false;
 }
 
 /**
@@ -87,11 +90,12 @@ export async function markActionTemplateAsViewed(
 ): Promise<IManagedResponse | undefined> {
   if (isActionTemplateViewed(templateUid)) return;
 
-  return await APIMethods.runScript(
-    `Variable.find(gameModel, "viewedActionTemplates").getInstance(self).setProperty(${JSON.stringify(
-      templateUid
-    )}, 'true');`,
-    {}
+  const newProperty: Record<string, string> = {};
+  newProperty[templateUid] = 'true';
+
+  saveToObjectInstance(
+    Variable.find(gameModel, 'viewedActionTemplates').getInstance(self),
+    newProperty
   );
 }
 
@@ -102,7 +106,7 @@ export async function markActionTemplateAsViewed(
 export function getUnviewedActionTemplatesCountBullet(): number | undefined {
   const viewed = getViewedActionTemplates();
   const unviewedCount = getAvailableActionTemplates(ActionType.ACTION).filter(
-    t => viewed[t.uid] !== 'true'
+    t => !viewed[t.uid]
   ).length;
 
   return unviewedCount > 0 ? unviewedCount : undefined;
