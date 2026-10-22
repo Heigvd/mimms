@@ -24,6 +24,24 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { isActionTemplateViewed } from \"./UIfacade/actionFacade\";\nisActionTemplateViewed(Context.action.uid);",
+                          "language" : "typescript"
+                        },
+                        "layoutClassName" : "noPadding unread-action-dot",
+                        "layoutStyle" : { },
+                        "name" : "unreadDot",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "''",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
                         "className" : "action-priority-tag",
                         "hideIf" : {
                           "@class" : "Script",
@@ -88,6 +106,11 @@
                               },
                               "type" : "Text"
                             } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { isActionTemplateViewed } from \"./UIfacade/actionFacade\";\n!isActionTemplateViewed(Context.action.uid);",
+                              "language" : "typescript"
+                            },
                             "layout" : { },
                             "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
@@ -116,6 +139,11 @@
                               },
                               "type" : "Text"
                             } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { isActionTemplateViewed } from \"./UIfacade/actionFacade\";\n!isActionTemplateViewed(Context.action.uid);",
+                              "language" : "typescript"
+                            },
                             "layout" : { },
                             "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },

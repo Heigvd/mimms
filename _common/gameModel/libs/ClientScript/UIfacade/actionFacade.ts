@@ -66,6 +66,48 @@ export function getAvailableActionTemplateById(templateId: ActionTemplateUid) {
   return getAvailableActionTemplates().find(t => t.uid === templateId);
 }
 
+/**
+ * Action templates already viewed by the current player.
+ * Key: action template uid, value: 'true' once viewed. Variable is viewedActionTemplates
+ */
+function getViewedActionTemplates(): Record<ActionTemplateUid, string> {
+  return Variable.find(gameModel, 'viewedActionTemplates').getInstance(self).getProperties();
+}
+
+// used in page actionsList to mark the actions not viewed yet
+export function isActionTemplateViewed(templateUid: ActionTemplateUid): boolean {
+  return getViewedActionTemplates()[templateUid] === 'true';
+}
+
+/**
+ * Mark the action template as viewed by the current player, if not already done
+ */
+export async function markActionTemplateAsViewed(
+  templateUid: ActionTemplateUid
+): Promise<IManagedResponse | undefined> {
+  if (isActionTemplateViewed(templateUid)) return;
+
+  return await APIMethods.runScript(
+    `Variable.find(gameModel, "viewedActionTemplates").getInstance(self).setProperty(${JSON.stringify(
+      templateUid
+    )}, 'true');`,
+    {}
+  );
+}
+
+/**
+ * Computing bullet of not viewed actions for the actions menu item
+ */
+// used in page 43
+export function getUnviewedActionTemplatesCountBullet(): number | undefined {
+  const viewed = getViewedActionTemplates();
+  const unviewedCount = getAvailableActionTemplates(ActionType.ACTION).filter(
+    t => viewed[t.uid] !== 'true'
+  ).length;
+
+  return unviewedCount > 0 ? unviewedCount : undefined;
+}
+
 export function isAvailable(template: ActionTemplateBase): boolean {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   if (template && currentActorUid) {

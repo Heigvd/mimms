@@ -12,6 +12,8 @@
   border-right: solid 2px var(--primary_base);
   border-top: solid 2px var(--primary_base);
   border-bottom: solid 2px var(--primary_base);
+  /* same horizontal borders as .not-active-selected-item, so the content and unread bullet stay aligned */
+  border-left: 2px solid transparent;
 }
 
 .not-active-selected-item {
@@ -19,6 +21,7 @@
 	cursor: pointer;
 	background-color: var(--grey-white);
 	border-left: 2px solid var(--grey_20);
+  border-right: 2px solid transparent;
 }
 
 .menu-container {

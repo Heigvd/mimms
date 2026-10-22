@@ -11,6 +11,7 @@ import {
   isCustomDurationActionTemplate,
   isPlayable,
   isPriorityActionPending,
+  markActionTemplateAsViewed,
   planAction,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
@@ -112,6 +113,10 @@ export function actionClickHandler(template: ActionTemplateBase, params: any): v
 export function actionChangeHandler(actionTemplate: ActionTemplateBase): void {
   if (actionTemplate && !isPlayable(actionTemplate)) {
     return;
+  }
+
+  if (actionTemplate) {
+    markActionTemplateAsViewed(actionTemplate.uid);
   }
 
   const updatedState: Partial<InterfaceState> = {

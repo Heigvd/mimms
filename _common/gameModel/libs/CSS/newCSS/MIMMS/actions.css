@@ -50,6 +50,16 @@
   margin: 0;
 }
 
+/* action not viewed yet by the player */
+.unread-action-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  margin-right: 2px; /* 10px from the title with the .action-title gap */
+  border-radius: 50%;
+  background-color: var(--primary_base);
+}
+
 .action-priority-tag {
   background-color: var(--grey_100);
   color: var(--grey_0);
