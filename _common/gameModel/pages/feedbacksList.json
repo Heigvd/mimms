@@ -42,6 +42,11 @@
             "language" : "typescript"
           }
         } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { feedbackSectionHidden } from \"./UIfacade/feedbackFacade\";\nfeedbackSectionHidden();",
+          "language" : "typescript"
+        },
         "layout" : {
           "alignItems" : "center",
           "justifyContent" : "space-between"
