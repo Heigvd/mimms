@@ -298,18 +298,6 @@
       "@class" : "Folder",
       "items" : [ {
         "@class" : "Page",
-        "id" : "30",
-        "name" : "Main Scenarist Page",
-        "scenaristPage" : false,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
-        "id" : "21",
-        "name" : "Game Mode",
-        "scenaristPage" : null,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
         "id" : "scenaristMainMenu",
         "name" : "Content Edition",
         "scenaristPage" : true,

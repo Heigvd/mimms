@@ -395,18 +395,6 @@
     "note" : "",
     "visibility" : "INTERNAL"
   },
-  "/mask _mimms.webp" : {
-    "description" : "",
-    "mimeType" : "image/webp",
-    "note" : "",
-    "visibility" : "INTERNAL"
-  },
-  "/mask_drill.webp" : {
-    "description" : "",
-    "mimeType" : "image/webp",
-    "note" : "",
-    "visibility" : "INTERNAL"
-  },
   "/patient/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
@@ -548,18 +536,6 @@
   "/patient/scales/painsScale_FR.png" : {
     "description" : "",
     "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "INTERNAL"
-  },
-  "/texte_drill_pretri_droite_inverse.webp" : {
-    "description" : "",
-    "mimeType" : "image/webp",
-    "note" : "",
-    "visibility" : "INTERNAL"
-  },
-  "/texte_mimms.webp" : {
-    "description" : "",
-    "mimeType" : "image/webp",
     "note" : "",
     "visibility" : "INTERNAL"
   },
