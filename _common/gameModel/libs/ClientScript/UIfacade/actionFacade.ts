@@ -48,6 +48,7 @@ import {
 } from '../game/common/actions/actionTemplate/patientResourceTemplates';
 import { OneMinuteDuration } from '../game/common/constants';
 import { getTranslation } from '../tools/translation';
+import { parseObjectInstance, saveToObjectInstance } from '../tools/WegasHelper';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(
@@ -64,6 +65,51 @@ export function getAvailableActionTemplates(
 // used for choice actions in page 31
 export function getAvailableActionTemplateById(templateId: ActionTemplateUid) {
   return getAvailableActionTemplates().find(t => t.uid === templateId);
+}
+
+/**
+ * Action templates already viewed by the current player.
+ * Key: action template uid, value: 'true' once viewed. Variable is viewedActionTemplates
+ */
+function getViewedActionTemplates(): Record<ActionTemplateUid, boolean> {
+  return parseObjectInstance<boolean>(
+    Variable.find(gameModel, 'viewedActionTemplates').getInstance(self)
+  );
+}
+
+// used in page actionsList to mark the actions not viewed yet
+export function isActionTemplateViewed(templateUid: ActionTemplateUid): boolean {
+  return getViewedActionTemplates()[templateUid] ?? false;
+}
+
+/**
+ * Mark the action template as viewed by the current player, if not already done
+ */
+export async function markActionTemplateAsViewed(
+  templateUid: ActionTemplateUid
+): Promise<IManagedResponse | undefined> {
+  if (isActionTemplateViewed(templateUid)) return;
+
+  const newProperty: Record<string, string> = {};
+  newProperty[templateUid] = 'true';
+
+  saveToObjectInstance(
+    Variable.find(gameModel, 'viewedActionTemplates').getInstance(self),
+    newProperty
+  );
+}
+
+/**
+ * Computing bullet of not viewed actions for the actions menu item
+ */
+// used in page 43
+export function getUnviewedActionTemplatesCountBullet(): number | undefined {
+  const viewed = getViewedActionTemplates();
+  const unviewedCount = getAvailableActionTemplates(ActionType.ACTION).filter(
+    t => !viewed[t.uid]
+  ).length;
+
+  return unviewedCount > 0 ? unviewedCount : undefined;
 }
 
 export function isAvailable(template: ActionTemplateBase): boolean {

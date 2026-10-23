@@ -327,7 +327,12 @@
                                               }
                                             },
                                             "name" : "action",
-                                            "style" : { }
+                                            "style" : { },
+                                            "unreadCount" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getUnviewedActionTemplatesCountBullet } from \"./UIfacade/actionFacade\";\ngetUnviewedActionTemplatesCountBullet();",
+                                              "language" : "TypeScript"
+                                            }
                                           },
                                           "type" : "Icon"
                                         }, {

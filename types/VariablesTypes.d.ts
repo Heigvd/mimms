@@ -138,6 +138,7 @@ interface VariableClasses {
   "startHours": SNumberDescriptor;
   "startMenuPageLoader": SNumberDescriptor;
   "readRadioMessagesByChannel": SObjectDescriptor;
+  "viewedActionTemplates": SObjectDescriptor;
   "multiplayer": SListDescriptor;
   "multiplayerMatrix": SObjectDescriptor;
   "trainer_Zix3IY": SListDescriptor;

@@ -4567,6 +4567,37 @@
         "scopeType" : "PlayerScope",
         "version" : null,
         "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "PlayerScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:#726:Vw4cTi"
+        },
+        "description" : "Action templates viewed by the player. Key: action template uid, value: 'true' once viewed",
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:#726:Vw4cTl",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:#726:Vw4cTl::EN",
+              "status" : "",
+              "translation" : "viewedActionTemplates"
+            }
+          }
+        },
+        "name" : "viewedActionTemplates",
+        "properties" : { },
+        "refId" : "ObjectDescriptor:#726:Vw4cTd",
+        "scopeType" : "PlayerScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
