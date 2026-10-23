@@ -136,3 +136,7 @@ export function toggleFeedbackSectionVisibility(): void {
     showFeedbackSection: !getTypedInterfaceState().showFeedbackSection,
   });
 }
+
+export function feedbackSectionHidden(): boolean {
+  return getCompletedActions().length === 0;
+}
