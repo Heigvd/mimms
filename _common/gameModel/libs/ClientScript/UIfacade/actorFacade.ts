@@ -21,6 +21,11 @@ export function getAllActors(): Readonly<Actor[]> {
   return getCurrentState().getAllActors();
 }
 
+//
+export function getSelectedActor(): Readonly<Actor> | undefined {
+  return getActor(getTypedInterfaceState()?.currentActorUid || 0);
+}
+
 // used in page 43
 export function selectActor(id: ActorId): InterfaceState {
   const newState = Helpers.cloneDeep(getTypedInterfaceState());

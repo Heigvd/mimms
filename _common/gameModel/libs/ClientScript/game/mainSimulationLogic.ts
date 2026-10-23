@@ -256,7 +256,7 @@ function getAvailableActionTemplatesOfActor(
   state: Readonly<MainSimulationState>,
   actor: Readonly<Actor>
 ): ActionTemplateBase[] {
-  if(actor.isOnSite()){
+  if (actor.isOnSite()) {
     return Object.values(getActionTemplates()).filter(at => at.isAvailable(state, actor));
   }
   return [];

@@ -16,6 +16,26 @@
       "type" : "Text"
     }, {
       "props" : {
+        "className" : "no-action-available",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getSelectedActor } from \"./UIfacade/actorFacade\";\ngetSelectedActor()?.isOnSite() || false;",
+          "language" : "typescript"
+        },
+        "id" : "",
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "Not on site message",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'no-action-available');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
