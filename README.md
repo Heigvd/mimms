@@ -14,12 +14,12 @@ Major Incident Medical Management System serious game for Wegas React
 - Pages
 
 ## basic_scenario content
-- a gameModel.json that has basic playable content; all variables are set to PRIVATE rights to simplify development
+- a gamemodel.json that has basic playable content; all variables are set to PRIVATE rights to simplify development
 - content files (mainly icons and maps data)
 - filesmeta.json: a descriptor for each file
 
 ## model content
-- gameModel.json: empty model variables with appropriate visibility rights
+- gamemodel.json: empty model variables with appropriate visibility rights
 - content files (mainly icons and maps data)
 - filesmeta.json: a descriptor for each file
 
@@ -109,7 +109,7 @@ See [checkImports/README.md](checkImports/README.md)
 
 ### yarn check-libraries
 Checks that the library files on disk in `_common/gameModel/libs/` match the `libraries` descriptors
-declared in every `<scenario>/gameModel/gameModel.json`.
+declared in every `<scenario>/gameModel/gamemodel.json`.
 
 Can be run with `--fix` to fix both `model` and `basic_scenario`
 
