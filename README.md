@@ -66,10 +66,14 @@ Then, run `./updateFromZip.sh <EXPORT.zip> [target]`.
 
 ### Patch a scenario in Wegas
 
+Use when developing and testing features
+
 1. Run `./createZip.sh` (defaults to `basic_scenario`)
 1. In Wegas, patch a scenario (Gamemodel settings -> "export" tab -> update from ZIP).
 
 ### Patch a Model in Wegas
+
+Use when testing the model
 
 1. Run `./createZip.sh model`
 1. (If creating a new model, go to admin -> create an empty React model)
@@ -79,6 +83,8 @@ Then, run `./updateFromZip.sh <EXPORT.zip> [target]`.
 Note: you cannot duplicate an existing model and patch it (newly generated refIds will conflict). You can either start from an empty model, or patch an existing (non-duplicated) one.
 
 ### Linking a model to basic_scenario
+
+Use when doing a full test model + scenario
 
 1. Create your model following the steps above (Patch a Model in Wegas)
 2. Run `./createZip.sh -p` to package `basic_scenario` with variable visibilities matching the model
