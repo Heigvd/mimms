@@ -33,9 +33,12 @@ When done, report the relevant changes done in `basic_scenario` to the model fol
 ### Wegas variables updates
 New variable declarations should be reported to the model.Check their visibility value and their default content.
 
-Deleted variables should also be deleted from the model. Remove them from `types/VariablesTypes.d.ts`, which is used for compilation.
+Deleted variables should also be deleted from the model.
 
-Report the changes in the translations.
+In both deletion and creation cases update the `types/VariablesTypes.d.ts`, which is used for compilation.
+
+Report the changes in the translations or other relevant variables.
+
 ### Files
 New and deleted files must be reflected in the model, including their file metadata, and their required visibility must be evaluated.
 
