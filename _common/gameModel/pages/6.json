@@ -309,6 +309,14 @@
                                                 "content" : "Context.block.selectable;",
                                                 "language" : "JavaScript"
                                               }
+                                            }, {
+                                              "applyOn" : "Inside",
+                                              "className" : "onlyChoiceBlock",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "Context.patientConsole.state.availableBlocks.length === 1",
+                                                "language" : "typescript"
+                                              }
                                             } ],
                                             "layoutClassName" : "block",
                                             "layoutStyle" : { },
@@ -504,7 +512,7 @@
                         "layout" : {
                           "flexDirection" : "column"
                         },
-                        "layoutClassName" : "noPadding",
+                        "layoutClassName" : "noPadding fullHeight",
                         "layoutStyle" : { },
                         "name" : "patient",
                         "style" : { }

@@ -108,11 +108,16 @@
 }
 
 /* selection blocks -> pulse when they appear (an action needing a zone has been chosen),
-   to show that a zone must be chosen. Stops as soon as a zone is selected */
-.observe:not(:has(.selectedBlock)) .forTreatmentBlock svg:last-child rect {
+   to show that a zone must be chosen */
+.observe .forTreatmentBlock svg:last-child rect {
 	fill: var(--color-teal);
 	fill-opacity: 0;
-	animation: treatment-zone-pulse 1s ease-in-out 3;
+	animation: treatment-zone-pulse 1s ease-in-out;
+}
+
+/* selection blocks -> only one zone available (auto-selected) */
+.observe .forTreatmentBlock.onlyChoiceBlock svg:last-child rect {
+	animation: treatment-zone-pulse--selected 1s ease-in-out;
 }
 
 @keyframes treatment-zone-pulse {
@@ -124,4 +129,19 @@
 		stroke-width: 4px;
 		fill-opacity: .25;
 	}
+}
+
+@keyframes treatment-zone-pulse--selected {
+	0% {
+		stroke-width: 1px;
+		fill-opacity: 0;
+	}
+	50% {
+		stroke-width: 4px;
+		fill-opacity: .25;
+	}
+  100% {
+    stroke-width: 4px;
+		fill-opacity: 0;
+  }
 }

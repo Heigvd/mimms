@@ -1,18 +1,3 @@
-@media screen and (min-width: 1200px){
-	.westSide-container {
-    flex: 1 1 0;
-    min-width: 0;
-		padding: 0;
-		margin: 0 1.5rem 0 0;
-	}
-
-	.eastSide-container {
-    flex: 1 1 0;
-    min-width: 0;
-	}
-	
-}
-
 /*** LOW SCREENS (ex: 1280×720 laptops) ***/
 /* selectors are prefixed to win over the base rules whatever the stylesheet order */
 @media screen and (max-height: 800px){
