@@ -347,7 +347,7 @@
                                           "content" : "import { getAllLocalizedBlocks } from './game/patientZoom/graphics';\ngetAllLocalizedBlocks()",
                                           "language" : "TypeScript"
                                         },
-                                        "itemKey" : "blockName",
+                                        "itemKey" : "key",
                                         "itemsOnly" : true,
                                         "layout" : { },
                                         "layoutClassName" : "observe",
