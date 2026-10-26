@@ -11,19 +11,13 @@ import { getContainerDef, resolveResourceRequest } from '../resources/emergencyD
 import { AddActorLocalEvent } from './localEventActors';
 import { getLocalEventManager } from './localEventManager';
 import { ResourceType } from '../resources/resourceType';
-import {
-  AddMessageLocalEvent,
-  AddNotificationLocalEvent,
-  AddRadioMessageLocalEvent,
-} from './localEventRadio';
-import * as RadioLogic from '../radio/radioLogic';
+import { AddMessageLocalEvent, AddRadioMessageLocalEvent } from './localEventRadio';
 import * as ResourceLogic from '../resources/resourceLogic';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { resourceLogger } from '../../../tools/logger';
 import { LOCATION_ENUM } from '../simulationState/locationState';
-import { entries, keys } from '../../../tools/helper';
+import { entries } from '../../../tools/helper';
 import * as ResourceState from '../simulationState/resourceStateAccess';
-import { getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
 import { FailedRessourceArrivalDelay } from '../constants';
 import { ResourceContainerType } from '../resources/resourceContainer';
 import { getTranslation } from '../../../tools/translation';
@@ -190,22 +184,6 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 
             ResourceState.addIncomingResources(state, resourceType, resourcesAmount, location);
           });
-
-        keys(sentResourcesByLocations).forEach((location: LOCATION_ENUM) => {
-          const greetingActors = getHighestAuthorityActorsByLocation(state, location);
-
-          greetingActors.forEach((actorId: ActorId) => {
-            getLocalEventManager().queueLocalEvent(
-              new ResourceArrivalAnnouncementLocalEvent({
-                parentEventId: this.props.parentEventId,
-                source: this.props.source,
-                simTimeStamp: this.props.simTimeStamp,
-                recipientActor: actorId,
-                resources: sentResourcesByLocations[location]!,
-              })
-            );
-          });
-        });
       }
     } else {
       // missing ambulance or helicopter park location
@@ -252,35 +230,5 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
       channel: RadioType.CASU,
       omitTranslation: true,
     });
-  }
-}
-
-export class ResourceArrivalAnnouncementLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly recipientActor: ActorId;
-      readonly resources: Partial<Record<ResourceType, number>>;
-    }
-  ) {
-    super({ ...props, type: 'ResourceArrivalAnnouncementLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    getLocalEventManager().queueLocalEvent(
-      new AddNotificationLocalEvent({
-        parentEventId: this.props.parentEventId,
-        source: this.props.source,
-        simTimeStamp: state.getSimTime(),
-        senderName: RadioLogic.getResourceAsSenderName(),
-        recipientId: this.props.recipientActor,
-        message: 'incoming-resources',
-        messageValues: [
-          ResourceLogic.formatResourceTypesAndNumber(this.props.resources).join(',<br/>'),
-        ],
-      })
-    );
   }
 }

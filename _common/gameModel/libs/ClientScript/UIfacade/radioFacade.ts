@@ -22,6 +22,7 @@ import { selectActorAndOpenMapLocation } from './actorFacade';
 import { isRadioSchemaActivated } from './flagsFacade';
 import { getSimTime } from './timeFacade';
 import { RadioDrivenAction } from '../game/common/actions/radioActions';
+import { SimFlag } from '../game/common/actions/actionTemplate/actionTemplateBase';
 
 // -------------------------------------------------------------------------------------------------
 // radio channels choice
@@ -263,22 +264,24 @@ function getUnreadMessagesCount(channel: RadioType): number {
  * Computing bullet not read messages for radio panel
  */
 export function getAllUnreadMessagesCountBullet(): number | undefined {
+  if (Context.interfaceState.state.selectedPanel === SelectedPanel.radios) {
+    return undefined;
+  }
+
   const readMsgsProperties = Variable.find(gameModel, 'readRadioMessagesByChannel')
     .getInstance(self)
     .getProperties();
-  let totalAmount = 0;
 
-  if (Context.interfaceState.state.selectedPanel !== SelectedPanel.radios) {
-    totalAmount = Object.entries(readMsgsProperties)
-      .filter(([k, _]) =>
-        [RadioType.CASU, RadioType.ACTORS, RadioType.RESOURCES, RadioType.EVASAN].includes(
-          k as RadioType
-        )
-      )
-      .reduce((prev, [k, v]) => {
-        return prev + getAvailableRadioMessagesForChannel(String(k) as RadioType).length - +v;
-      }, 0);
-  }
+  const radioSchemeActive = getCurrentState().isSimFlagEnabled(SimFlag.RADIO_SCHEMA_ACTIVATED);
+  const activeChannels = radioSchemeActive
+    ? [RadioType.CASU, RadioType.ACTORS, RadioType.RESOURCES, RadioType.EVASAN]
+    : [RadioType.CASU];
+  const totalAmount = Object.entries(readMsgsProperties)
+    .filter(([channel]) => activeChannels.includes(channel as RadioType))
+    .reduce((total, [channel, readCount]) => {
+      const availableCount = getAvailableRadioMessagesForChannel(channel as RadioType).length;
+      return total + availableCount - Number(readCount);
+    }, 0);
 
   return totalAmount > 0 ? totalAmount : undefined;
 }

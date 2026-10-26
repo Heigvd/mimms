@@ -211,7 +211,7 @@
                         },
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
-                        "name" : "requestResourcesLoader",
+                        "name" : "actionContents",
                         "style" : { }
                       },
                       "type" : "PageLoader"

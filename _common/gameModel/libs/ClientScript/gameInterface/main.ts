@@ -43,8 +43,20 @@ export function isGameRunning(): boolean {
  * @returns boolean whether an action can be planned by current actor
  */
 export function canPlanAction(): boolean {
-  const actorUid = Context.interfaceState.state.currentActorUid;
-  return canActorPlanAction(actorUid);
+  const iState = getTypedInterfaceState();
+  const actorUid = iState.currentActorUid;
+  if (actorUid && canActorPlanAction(actorUid)) {
+    if (isChoiceTemplate(Context.action)) {
+      // verify that a the selected choice exists
+      const choice = getAvailableChoices(Context.action).find(
+        c => c.uid === iState.selectedActionChoiceUid
+      );
+      return choice !== undefined;
+    }
+
+    return true;
+  }
+  return false;
 }
 
 export function canActorPlanAction(actorId: number): boolean {
