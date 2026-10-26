@@ -46,7 +46,7 @@
                       "props" : {
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import { isActionTemplateViewed } from \"./UIfacade/actionFacade\";\nisActionTemplateViewed(Context.action.uid);",
+                          "content" : "import { isActiveAction } from \"./gameInterface/main\";\nimport { isActionTemplateViewed } from \"./UIfacade/actionFacade\";\nisActionTemplateViewed(Context.action.uid) || isActiveAction(Context.action.uid);",
                           "language" : "typescript"
                         },
                         "layoutClassName" : "noPadding unread-action-dot",
