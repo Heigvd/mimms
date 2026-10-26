@@ -243,7 +243,6 @@
                   "props" : {
                     "layoutStyle" : {
                       "key3overf" : "",
-                      "max-width" : "50rem",
                       "maxWidth" : "50rem",
                       "width" : "50rem"
                     },

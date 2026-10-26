@@ -1,30 +1,19 @@
 import { Actor } from '../game/common/actors/actor';
-import {
-  ActionTemplateUid,
-  HospitalId,
-  PatientId,
-  PatientUnitId,
-  TaskId,
-} from '../game/common/baseTypes';
-import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
+import { ActionId, ActionTemplateUid, ActorId, PatientId } from '../game/common/baseTypes';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
-import { RadioType } from '../game/common/radio/communicationType';
+import { Uid } from '../game/common/interfaces';
+import { CommMedia, RadioType } from '../game/common/radio/communicationType';
 import {
   ResourceContainerType,
   ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
-import { CommMedia } from '../game/common/resources/resourceReachLogic';
-import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { mainSimLogger } from '../tools/logger';
-import { getDefaultSituationUpdateDuration } from '../UIfacade/actionFacade';
 import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
-import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 import { applyPendingCallbacks } from './afterUpdateCallbacks';
 import { SelectedPanel } from './selectedPanel';
 
 export enum ResourcesManagementActivityType {
-  assignTask = 'assignTask',
   requestReport = 'requestReport',
 }
 
@@ -33,12 +22,20 @@ export type CasuAction = 'CasuMessage' | 'channelsActivation' | undefined;
 export interface InterfaceState {
   currentActorUid: number | undefined;
   currentActionUid: ActionTemplateUid | undefined; // TODO SAM rename to ActTemplate
+  currentFeedbackUid: Partial<Record<ActorId, ActionId>>;
+  showAction: boolean;
+  showFeedbackSection: boolean;
   moveActorChosenLocation: LOCATION_ENUM | undefined;
-  situationUpdateDuration: number;
+  customDurations: Record<Uid, number>;
   hospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
+  showEvacuationModal: boolean;
+  showResourcesManagementModal: boolean;
+  showPatientFlowModal: boolean;
+  resourceManagementSourceLocation: LOCATION_ENUM | undefined;
+  resourceManagementCommMedia?: CommMedia;
   selectedPatient: PatientId | undefined;
-  timeForwardAwaitingConfirmation: boolean;
+  patientModalLocation: LOCATION_ENUM | undefined;
   showLeftPanel: boolean;
   showNotificationsPanel: boolean;
   selectedPanel: SelectedPanel;
@@ -48,37 +45,12 @@ export interface InterfaceState {
   radioMessageInput: Partial<Record<RadioType, string>>;
   selectedCasuAction: CasuAction;
   casuMessage: CasuMessage;
+  dismissedPriorityActions: Partial<Record<ActionTemplateUid, boolean>>;
   resources: {
-    allocateResources: {
-      currentTaskId: TaskId | undefined;
-      targetLocation: LOCATION_ENUM | undefined;
-      targetTaskId: TaskId | undefined;
-    } & Partial<Record<ResourceType, number>>;
-    allocateResourcesRadio: {
-      currentLocation: LOCATION_ENUM | undefined;
-      currentTaskId: TaskId | undefined;
-      targetLocation: LOCATION_ENUM | undefined;
-      targetTaskId: TaskId | undefined;
-    } & Partial<Record<ResourceType, number>>;
     requestedResources: Partial<Record<ResourceContainerType, number>>;
   };
   resourcesManagement: {
     activityType: ResourcesManagementActivityType | undefined;
-    pretriageReportRequestLocation: LOCATION_ENUM | undefined;
-  };
-  evacuation: {
-    data: {
-      patientId: PatientId | undefined;
-      hospitalId: HospitalId | undefined;
-      patientUnitId: PatientUnitId | undefined;
-      transportSquad: EvacuationSquadType | undefined;
-      doResourcesComeBack: boolean;
-    };
-    form: {
-      showPatientChoice: boolean;
-      showDestinationChoice: boolean;
-      showVectorChoice: boolean;
-    };
   };
 }
 
@@ -97,6 +69,9 @@ export function getInitialInterfaceState(): InterfaceState {
   return {
     currentActorUid: getCurrentPlayerDefaultActor()?.Uid,
     currentActionUid: undefined,
+    currentFeedbackUid: {},
+    showAction: true,
+    showFeedbackSection: true,
     casuMessage: {
       messageType: '',
       major: '',
@@ -107,17 +82,19 @@ export function getInitialInterfaceState(): InterfaceState {
       victims: '',
     },
     resources: {
-      allocateResources: getEmptyAllocateResources(),
-      allocateResourcesRadio: getEmptyAllocateResourcesRadio(),
       requestedResources: getEmptyResourceRequest(),
     },
-    evacuation: getEmptyEvacuationInterfaceState(),
     moveActorChosenLocation: undefined,
-    situationUpdateDuration: getDefaultSituationUpdateDuration(),
+    customDurations: {},
     hospitalInfoChosenProximity: undefined,
     showPatientModal: false,
+    showEvacuationModal: false,
+    showResourcesManagementModal: false,
+    showPatientFlowModal: false,
+    resourceManagementSourceLocation: undefined,
+    resourceManagementCommMedia: undefined,
     selectedPatient: undefined,
-    timeForwardAwaitingConfirmation: false,
+    patientModalLocation: undefined,
     showLeftPanel: true,
     showNotificationsPanel: false,
     selectedActionChoiceUid: '',
@@ -126,9 +103,9 @@ export function getInitialInterfaceState(): InterfaceState {
     updatedChannelMessagesAt: 0,
     radioMessageInput: {},
     selectedCasuAction: undefined,
+    dismissedPriorityActions: {},
     resourcesManagement: {
       activityType: undefined,
-      pretriageReportRequestLocation: undefined,
     },
   };
 }
@@ -137,64 +114,12 @@ function getCurrentPlayerDefaultActor(): Actor | undefined {
   return getCurrentPlayerActors()[0];
 }
 
-export function getEmptyAllocateResourcesRadio(): InterfaceState['resources']['allocateResourcesRadio'] {
-  const resources = getEmptyResources();
-
-  return {
-    currentLocation: undefined,
-    currentTaskId: undefined,
-    targetLocation: undefined,
-    targetTaskId: undefined,
-    ...resources,
-  };
-}
-
-export function getEmptyAllocateResources(): InterfaceState['resources']['allocateResources'] {
-  const resources = getEmptyResources();
-
-  return {
-    currentTaskId: initResourceManagementCurrentTaskId(
-      getCurrentPlayerDefaultActor()?.Uid,
-      getCurrentPlayerDefaultActor()?.Location,
-      CommMedia.Direct
-    ),
-    targetLocation: undefined,
-    targetTaskId: undefined,
-    ...resources,
-  };
-}
-
-function getEmptyResources(): Partial<Record<ResourceType, number>> {
-  const resources: Partial<Record<ResourceType, number>> = {};
-  ResourcesArray.forEach(t => {
-    resources[t] = 0;
-  });
-  return resources;
-}
-
 export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType, number>> {
   const resourceRequest: Partial<Record<ResourceContainerType, number>> = {};
   ResourceContainerTypeArray.forEach(t => {
     resourceRequest[t] = 0;
   });
   return resourceRequest;
-}
-
-export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation'] {
-  return {
-    data: {
-      patientId: undefined,
-      hospitalId: undefined,
-      patientUnitId: undefined,
-      transportSquad: undefined,
-      doResourcesComeBack: true,
-    },
-    form: {
-      showPatientChoice: false,
-      showDestinationChoice: false,
-      showVectorChoice: false,
-    },
-  };
 }
 
 export function triggerInterfaceStateUpdate(state: InterfaceState) {

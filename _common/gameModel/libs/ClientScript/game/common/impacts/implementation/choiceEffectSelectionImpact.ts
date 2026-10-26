@@ -1,11 +1,9 @@
+import { SimTime } from '../../baseTypes';
 import { Uid } from '../../interfaces';
-import {
-  LocalEventBase,
-  SelectChoiceEffectLocalEvent,
-  SourceType,
-} from '../../localEvents/localEventBase';
+import { LocalEventBase, SourceType } from '../../localEvents/localEventBase';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ImpactBase } from '../impact';
+import { SelectChoiceEffectLocalEvent } from '../../localEvents/localEventActivable';
 
 export interface ChoiceEffectSelectionImpact extends ImpactBase {
   type: 'effectSelection';
@@ -16,9 +14,10 @@ export interface ChoiceEffectSelectionImpact extends ImpactBase {
 export function convertChoiceEffectSelectionImpact(
   state: Readonly<MainSimulationState>,
   impact: ChoiceEffectSelectionImpact,
-  source: SourceType
+  source: SourceType,
+  anchorTime: SimTime
 ): LocalEventBase[] {
-  const time = state.getSimTime() + impact.delaySeconds;
+  const time = anchorTime + impact.delaySeconds;
   return [
     new SelectChoiceEffectLocalEvent({
       parentEventId: state.getLastEventId(),

@@ -5,7 +5,7 @@
         "className" : "patient-modal__title",
         "layoutClassName" : "noPadding",
         "layoutStyle" : {
-          "flex-shrink" : "0"
+          "flexShrink" : "0"
         },
         "name" : "title",
         "style" : { },
@@ -27,7 +27,7 @@
                 "layoutStyle" : { },
                 "name" : "existing patients",
                 "style" : {
-                  "margin-bottom" : ".75rem"
+                  "marginBottom" : ".75rem"
                 },
                 "text" : {
                   "@class" : "Script",
@@ -272,10 +272,15 @@
                 } ],
                 "layout" : { },
                 "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
-                "name" : "texts",
-                "style" : {
-                  "gap" : ".25rem"
+                "layoutStyle" : {
+                  "marginTop" : "4px"
+                },
+                "name" : "patients to be generated",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getMaxPatients, totalPendingPatients } from \"./edition/UIfacade/patientGenFacade\";\n\"Generate \" + totalPendingPatients() + \" new patient(s). Maximum patient capacity: \" + getMaxPatients();",
+                  "language" : "TypeScript"
                 }
               },
               "type" : "FlexList"
@@ -339,7 +344,7 @@
             },
             "name" : "back",
             "style" : {
-              "margin-top" : "1.5rem"
+              "marginTop" : "1.5rem"
             }
           },
           "type" : "Button"
@@ -363,7 +368,7 @@
             },
             "name" : "generate",
             "style" : {
-              "margin-top" : "1.5rem"
+              "marginTop" : "1.5rem"
             }
           },
           "type" : "Button"
@@ -374,7 +379,7 @@
         },
         "layoutClassName" : "noPadding",
         "layoutStyle" : {
-          "flex-shrink" : "0"
+          "flexShrink" : "0"
         },
         "name" : "button",
         "style" : {

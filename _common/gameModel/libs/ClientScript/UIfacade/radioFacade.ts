@@ -1,4 +1,4 @@
-import { ActionBase, RadioDrivenAction } from '../game/common/actions/actionBase';
+import { ActionBase } from '../game/common/actions/actionBase';
 import { ActorId } from '../game/common/baseTypes';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import { CommType, NotifType, RadioType } from '../game/common/radio/communicationType';
@@ -15,12 +15,13 @@ import {
   InterfaceState,
   setInterfaceState,
 } from '../gameInterface/interfaceState';
-import { canCancelOnGoingAction, formatTime, getSimStartDateTime } from '../gameInterface/main';
+import { formatTime, getSimStartDateTime } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { getTranslation } from '../tools/translation';
 import { selectActorAndOpenMapLocation } from './actorFacade';
 import { isRadioSchemaActivated } from './flagsFacade';
 import { getSimTime } from './timeFacade';
+import { RadioDrivenAction } from '../game/common/actions/radioActions';
 
 // -------------------------------------------------------------------------------------------------
 // radio channels choice
@@ -342,22 +343,12 @@ export function getOngoingRadioMessagesOnChannelAsRadioMessages(
     senderName: undefined,
     recipientId: rm.getRecipientId(),
     timeStamp: getCurrentState().getSimTime(),
-    message: rm.getMessage(),
+    message: I18n.createTranslatableContent(rm.getMessage()),
     uid: rm.getEventId(),
     channel: rm.getChannel(),
     isRadioMessage: true,
     pending: true,
   }));
-}
-
-export function isChannelBusy(channel: RadioType): boolean {
-  if (
-    getOngoingRadioMessagesForActorOnChannel(Context.interfaceState.state.currentActorUid, channel)
-      .length > 0
-  ) {
-    return !canCancelOnGoingAction();
-  }
-  return false;
 }
 
 export function showActorNotifications(actorUid: ActorId) {

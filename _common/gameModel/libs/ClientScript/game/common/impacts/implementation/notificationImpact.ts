@@ -1,11 +1,9 @@
 import { Actor, InterventionRole } from '../../actors/actor';
-import {
-  AddNotificationLocalEvent,
-  LocalEventBase,
-  SourceType,
-} from '../../localEvents/localEventBase';
+import { SimTime } from '../../baseTypes';
+import { LocalEventBase, SourceType } from '../../localEvents/localEventBase';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ImpactBase } from '../impact';
+import { AddNotificationLocalEvent } from '../../localEvents/localEventRadio';
 
 /**
  * Extends the intervention roles with a dynamic value 'Initiator'
@@ -22,9 +20,10 @@ export interface NotificationMessageImpact extends ImpactBase {
 export function convertNotificationImpact(
   state: Readonly<MainSimulationState>,
   impact: NotificationMessageImpact,
-  source: SourceType
+  source: SourceType,
+  anchorTime: SimTime
 ): LocalEventBase[] {
-  const time = state.getSimTime() + impact.delaySeconds;
+  const time = anchorTime + impact.delaySeconds;
 
   const concernedActors: Set<Readonly<Actor>> = new Set<Actor>();
   // add initiator if present
@@ -52,8 +51,7 @@ export function convertNotificationImpact(
         simTimeStamp: time,
         // no sender, the sender can be written directly in the message text
         recipientId: actor.Uid,
-        message: I18n.translate(impact.message),
-        omitTranslation: true,
+        message: impact.message,
       })
   );
 }

@@ -4,12 +4,7 @@ import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/cho
 import { Uid } from '../../game/common/interfaces';
 import { generateId } from '../../tools/helper';
 import { createOrUpdateTranslation } from '../../tools/translation';
-import {
-  ALL_EDITABLE,
-  Definition,
-  EXPERT_ONLY,
-  MapToFlatType,
-} from '../typeDefinitions/definition';
+import { ALL_EDITABLE, Definition, MapToFlatType } from '../typeDefinitions/definition';
 import { choiceDescriptorValidator } from './validation/choiceValidation';
 import { ActionValidationContext } from './validation/validationContext';
 
@@ -48,7 +43,7 @@ export function getChoiceDefinition(): ChoiceDefinition {
       title: createOrUpdateTranslation('', undefined),
       parent: 'no parent',
       displayedMapEntity: '', // should there be a default one ?
-      tag: 'New choice',
+      tag: '',
       repeats: 1,
       durationDeltaSec: 0,
       index: 0,
@@ -73,7 +68,7 @@ export function getChoiceDefinition(): ChoiceDefinition {
       displayedMapEntity: ALL_EDITABLE,
       tag: ALL_EDITABLE,
       repeats: ALL_EDITABLE,
-      durationDeltaSec: EXPERT_ONLY,
+      durationDeltaSec: ALL_EDITABLE,
     },
   };
 }

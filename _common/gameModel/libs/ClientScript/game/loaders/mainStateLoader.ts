@@ -28,20 +28,20 @@ export function eraseInitialState(): void {
 }
 
 function buildStartingMainState(): MainSimulationState {
-  const testAL = new Actor('AL', LOCATION_ENUM.chantier);
-  const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
+  const AL = new Actor('AL', LOCATION_ENUM.pcFront);
+  const CASU = new Actor('CASU', LOCATION_ENUM.remote);
 
   const tasks = loadTasks();
-  const waitingTaskId = getWaitingTaskId(tasks);
-  const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, waitingTaskId)];
+  const waitingTaskId = getWaitingTaskId(tasks, LOCATION_ENUM.pcFront);
+  const initialResources = [new Resource('ambulancier', LOCATION_ENUM.pcFront, waitingTaskId)];
 
   return new MainSimulationState(
     {
       simulationTimeSec: 0,
       actions: [],
-      cancelledActions: [],
-      actors: [testAL, testCASU],
+      actors: [AL, CASU],
       patients: loadPatients(),
+      pretriageSnapShot: { timeStamp: 0, patientsStats: {} },
       tasks: tasks,
       radioMessages: [],
       resources: initialResources,
@@ -64,9 +64,9 @@ export function shallowState(): MainSimulationState {
     {
       simulationTimeSec: 0,
       actions: [],
-      cancelledActions: [],
       actors: [],
       patients: [],
+      pretriageSnapShot: { timeStamp: 0, patientsStats: {} },
       tasks: [],
       radioMessages: [],
       resources: [],

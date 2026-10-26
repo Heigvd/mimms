@@ -88,7 +88,8 @@
                                 "className" : "noPadding noMargin",
                                 "layoutClassName" : "noPadding noMargin",
                                 "layoutStyle" : {
-                                  "stroke" : "var(--color-teal-ink)"
+                                  "paddingLeft" : "1em",
+                                  "stroke" : "black"
                                 },
                                 "name" : "category",
                                 "style" : { },
@@ -705,7 +706,9 @@
                                     "layoutClassName" : "noPadding",
                                     "layoutStyle" : { },
                                     "name" : "mesures",
-                                    "style" : { },
+                                    "style" : {
+                                      "paddingLeft" : "5px"
+                                    },
                                     "text" : {
                                       "@class" : "Script",
                                       "content" : "import { getTranslation } from \"./tools/translation\";\n\ngetTranslation('pretriage-interface', 'measures');",
@@ -810,7 +813,9 @@
                                     "layoutClassName" : "noPadding",
                                     "layoutStyle" : { },
                                     "name" : "actions",
-                                    "style" : { },
+                                    "style" : {
+                                      "paddingLeft" : "5px"
+                                    },
                                     "text" : {
                                       "@class" : "Script",
                                       "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'treatments');",
@@ -1040,7 +1045,7 @@
                                         "className" : "pretri-button pretri-primary sm-size text-brand",
                                         "disableIf" : {
                                           "@class" : "Script",
-                                          "content" : "import { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\nisInterfaceDisabled();",
+                                          "content" : "import { isInterfaceDisabled } from \"./game/pretri/drillMode\";\nisInterfaceDisabled();",
                                           "language" : "typescript"
                                         },
                                         "flexShrink" : 1,
@@ -1078,7 +1083,7 @@
                                     "name" : "measure selected",
                                     "style" : {
                                       "maxHeight" : "255px",
-                                      "min-Height" : "200px"
+                                      "minHeight" : "200px"
                                     }
                                   },
                                   "type" : "FlexList"
@@ -1143,7 +1148,7 @@
                                         "className" : "pretri-button pretri-primary sm-size text-brand",
                                         "disableIf" : {
                                           "@class" : "Script",
-                                          "content" : "import { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| isInterfaceDisabled()",
+                                          "content" : "import { isInterfaceDisabled } from \"./game/pretri/drillMode\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| isInterfaceDisabled()",
                                           "language" : "typescript"
                                         },
                                         "flexShrink" : 1,
@@ -1154,7 +1159,9 @@
                                           "language" : "JavaScript"
                                         },
                                         "layoutClassName" : "noPadding",
-                                        "layoutStyle" : { },
+                                        "layoutStyle" : {
+                                          "alignContent" : "flex-end"
+                                        },
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
@@ -1511,7 +1518,7 @@
                                           "applyOn" : "Inside",
                                           "className" : {
                                             "@class" : "Script",
-                                            "content" : "import { getCurrentPatientId, getHuman } from \"./game/legacy/the_world\";\nimport { preTriSummaryCategory } from \"./game/pretri/triage\";\nconst id = getCurrentPatientId();\nconst human = getHuman(id);\npreTriSummaryCategory(human?.category?.autoTriage.categoryId);",
+                                            "content" : "import { getCurrentPatientId, getHuman } from \"./game/pretri/patientProcessing\";\nimport { preTriSummaryCategory } from \"./game/pretri/triage\";\nconst id = getCurrentPatientId();\nconst human = getHuman(id);\npreTriSummaryCategory(human?.category?.autoTriage.categoryId);",
                                             "language" : "TypeScript"
                                           }
                                         } ],

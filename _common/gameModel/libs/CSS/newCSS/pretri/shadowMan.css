@@ -18,6 +18,13 @@
   left: 0;
 }
 
+/* the shadow man's children are absolutely positioned (AbsoluteLayout), so the container
+   gets the drawn body's height: SVG width (200px - 2 * 10px margin) * viewBox ratio (636 / 294)
+   + vertical margins */
+.shadowMan {
+  width: 200px;
+  height: calc(180px * 636 / 294 + 20px);
+}
 
 /* texts */
 .block-details .text-meta {

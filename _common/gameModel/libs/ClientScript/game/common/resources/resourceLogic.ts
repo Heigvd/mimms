@@ -1,14 +1,11 @@
 import { entries } from '../../../tools/helper';
+import { resourceLogger } from '../../../tools/logger';
 import { hierarchyLevels } from '../actors/actor';
 import { ActorId } from '../baseTypes';
 import { locationEnumConfig } from '../mapEntities/locationEnumConfig';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import * as ResourceState from '../simulationState/resourceStateAccess';
-import * as TaskState from '../simulationState/taskStateAccess';
-import { Resource } from './resource';
 import { ResourceContainerType } from './resourceContainer';
-import { CommMedia } from './resourceReachLogic';
 import { isHuman, ResourceType } from './resourceType';
 
 /**
@@ -21,12 +18,12 @@ export function resourceArrivalLocationResolution(
   const so = state.getInternalStateObject();
 
   if (isHuman(resourceType)) {
-    const acsArrived = so.flags.ACS_ARRIVED;
-    const mcsArrived = so.flags.MCS_ARRIVED;
-    const pcBuilt = so.flags.PC_BUILT;
-
-    if (acsArrived && mcsArrived && pcBuilt) {
+    if (so.flags.PC_BUILT) {
       return LOCATION_ENUM.PC;
+    } else if (so.flags.PCFRONT_BUILT) {
+      return LOCATION_ENUM.pcFront;
+    } else {
+      return LOCATION_ENUM.entreeChantier;
     }
   }
 
@@ -38,7 +35,12 @@ export function resourceArrivalLocationResolution(
     return LOCATION_ENUM.helicopterPark;
   }
 
-  return LOCATION_ENUM.pcFront;
+  if (resourceType === 'PMA') {
+    return LOCATION_ENUM.PMA;
+  }
+
+  resourceLogger.warn('Could not resolve on site location for ' + resourceType);
+  return LOCATION_ENUM.remote;
 }
 
 /**
@@ -96,21 +98,4 @@ export function formatResourceTypesAndNumber(
     });
 
   return resourcesAsText;
-}
-
-export function getFreeDirectReachableHumanResourcesByLocation(
-  state: Readonly<MainSimulationState>,
-  actorId: ActorId | undefined,
-  location: LOCATION_ENUM
-): Resource[] {
-  return ResourceState.getFreeHumanResourcesByLocation(state, location).filter(
-    (resource: Resource) =>
-      TaskState.isReachable(
-        state,
-        actorId,
-        resource.currentLocation,
-        resource.currentActivity!,
-        CommMedia.Direct
-      )
-  );
 }

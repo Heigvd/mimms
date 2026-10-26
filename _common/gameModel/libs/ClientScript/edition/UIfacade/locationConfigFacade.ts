@@ -6,11 +6,12 @@ import { MapConfig } from '../../gameMap/utils/mapConfig';
 import { patchX } from '../../tools/helper';
 import { getLocationTranslation } from '../../UIfacade/locationFacade';
 import { getMapEntityController } from '../controllers/controllerInstances';
-import { MapEntityCreationOptions, MapEntityFlatType } from '../controllers/dataController';
+import { MapEntityFlatType } from '../controllers/dataControllerBase';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
 import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
 import { addNew, getItems, ModalState } from '../UIfacade/genericConfigFacade';
 import { GenericScenaristInterfaceState } from './genericConfigFacade';
+import { MapEntityCreationOptions } from '../controllers/mapEntityController';
 
 export type SupportedDrawType = Exclude<DrawType, 'Circle'>;
 
@@ -51,7 +52,10 @@ export function updateItem<T extends MapEntityFlatType>(uid: Uid, newData: Parti
 
 export function canInsertMapEntity(): boolean {
   const state = getMapEntityController().getLatestIState();
-  return state.selectedFilter !== LOCATION_ENUM.chantier;
+  return (
+    state.selectedFilter !== LOCATION_ENUM.chantier &&
+    state.selectedFilter !== LOCATION_ENUM.entreeChantier
+  );
 }
 
 export function setLocationFilter(location: LOCATION_ENUM): void {
