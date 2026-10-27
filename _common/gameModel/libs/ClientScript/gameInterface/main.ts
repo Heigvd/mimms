@@ -1,21 +1,21 @@
-import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
+import { ActionTemplateBase } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ActionTemplateUid } from '../game/common/baseTypes';
-import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
-import { getCurrentState } from '../game/mainSimulationLogic';
 import { endMapAction, startMapChoice } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
 import {
-  cancelAction,
   getAllActions,
   getAvailableChoices,
   hasMapChoices,
   isChoiceTemplate,
   isMoveActorActionTemplate,
-  isSituationUpdateActionTemplate,
+  isCustomDurationActionTemplate,
+  isPlayable,
+  isPriorityActionPending,
+  markActionTemplateAsViewed,
   planAction,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
-import { setInterfaceState } from './interfaceState';
+import { getTypedInterfaceState, setInterfaceState, InterfaceState } from './interfaceState';
 
 export enum GameState {
   NOT_INITIATED = 'NOT_INITIATED',
@@ -43,8 +43,20 @@ export function isGameRunning(): boolean {
  * @returns boolean whether an action can be planned by current actor
  */
 export function canPlanAction(): boolean {
-  const actorUid = Context.interfaceState.state.currentActorUid;
-  return canActorPlanAction(actorUid);
+  const iState = getTypedInterfaceState();
+  const actorUid = iState.currentActorUid;
+  if (actorUid && canActorPlanAction(actorUid)) {
+    if (isChoiceTemplate(Context.action)) {
+      // verify that a the selected choice exists
+      const choice = getAvailableChoices(Context.action).find(
+        c => c.uid === iState.selectedActionChoiceUid
+      );
+      return choice !== undefined;
+    }
+
+    return true;
+  }
+  return false;
 }
 
 export function canActorPlanAction(actorId: number): boolean {
@@ -54,9 +66,7 @@ export function canActorPlanAction(actorId: number): boolean {
   if (actions[actorId] === undefined) return true;
 
   for (const action of actions[actorId]!) {
-    // Is a future action planned ?
-    if (action.startTime === currentTime) return false;
-    // Is a previous action finished ?
+    // Is an action still running ? (zero-duration actions never block the actor)
     if (action.startTime + action.duration() > currentTime) return false;
   }
 
@@ -64,21 +74,13 @@ export function canActorPlanAction(actorId: number): boolean {
 }
 
 /**
- * Check if player is owner of the action and can thus cancel it
+ * Can current actor plan a new action that is not prioritized (resources, evacuation, radio, ...)
+ * Not possible while an action with a priority is pending
+ *
+ * @returns boolean whether a non prioritized action can be planned by current actor
  */
-export function canCancelOnGoingAction(): boolean {
-  const currentTime = getSimTime();
-  const actorUid = Context.interfaceState.state.currentActorUid;
-  const actions = getOngoingActionsForActor(getCurrentState(), actorUid);
-
-  for (const action of actions!) {
-    // Is a future action planned ?
-    if (action.startTime === currentTime) return true;
-    // Is a previous action finished ?
-    if (action.startTime + action.duration() > currentTime) return true;
-  }
-
-  return false;
+export function canPlanNonPrioritizedAction(): boolean {
+  return canPlanAction() && !isPriorityActionPending();
 }
 
 /**
@@ -93,7 +95,8 @@ export function isPlannedAction(actTemplateId: ActionTemplateUid | undefined): b
   const actions = getAllActions()[actorUid];
 
   if (actorUid && actions) {
-    const action = actions.find(a => a.startTime === getSimTime());
+    // Zero-duration actions are never "currently planned" : they are over as soon as they are planned
+    const action = actions.find(a => a.startTime === getSimTime() && a.duration() > 0);
     if (action) {
       return actTemplateId == action.getTemplateId();
     }
@@ -113,42 +116,45 @@ export function actionClickHandler(template: ActionTemplateBase, params: any): v
 
   if (canPlanAction()) {
     planAction(template, actorId, params);
-  } else if (isPlannedAction(template.uid)) {
-    cancelAction(actorId, template.uid);
   }
 }
 
 /**
  * Update state whenever user changes action
  */
-export function actionChangeHandler(): void {
-  // TODO Could we set Context.action.Uid as param ?
-  const actTemplate = Context.action as ActionTemplateBase;
+export function actionChangeHandler(actionTemplate: ActionTemplateBase): void {
+  if (actionTemplate && !isPlayable(actionTemplate)) {
+    return;
+  }
 
-  if (!canPlanAction()) return;
+  if (actionTemplate) {
+    markActionTemplateAsViewed(actionTemplate.uid);
+  }
 
-  Context.interfaceState.setState({
-    ...Context.interfaceState.state,
-    currentActionUid: actTemplate.uid,
-  });
+  const updatedState: Partial<InterfaceState> = {
+    showAction: true,
+    currentActionUid: actionTemplate?.uid,
+  };
 
-  endMapAction();
+  if (canPlanAction() && actionTemplate) {
+    endMapAction();
 
-  if (isChoiceTemplate(actTemplate) && canPlanAction()) {
-    const choiceUid = getAvailableChoices(actTemplate)[0]?.uid;
+    if (isChoiceTemplate(actionTemplate)) {
+      const choiceUid = getAvailableChoices(actionTemplate)[0]?.uid;
 
-    if (choiceUid) {
-      setInterfaceState({
-        currentActionUid: actTemplate.uid,
-        selectedActionChoiceUid: choiceUid,
-      });
-      if (hasMapChoices(actTemplate)) {
-        startMapChoice();
+      if (choiceUid) {
+        updatedState.selectedActionChoiceUid = choiceUid;
+
+        if (hasMapChoices(actionTemplate)) {
+          startMapChoice();
+        }
+      } else {
+        actionLogger.error(`The choice template ${actionTemplate.uid} has no available choice`);
       }
-    } else {
-      actionLogger.error(`The choice template ${actTemplate.uid} as no available choice`);
     }
   }
+
+  setInterfaceState(updatedState);
 }
 
 function getDayZero(): Date {
@@ -208,8 +214,8 @@ export function formatTime(dateTime: Date): string {
 export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
   if (isMoveActorActionTemplate(actionTemplate)) {
     return '66';
-  } else if (isSituationUpdateActionTemplate(actionTemplate)) {
-    return 'actionSituationUpdateParam';
+  } else if (isCustomDurationActionTemplate(actionTemplate)) {
+    return 'customDurationActionParam';
   } else if (isChoiceTemplate(actionTemplate)) {
     return '31';
   }
@@ -220,8 +226,9 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
  * Returns true if the action is planned for the current actor or selected
  */
 export function isActiveAction(templateUid: ActionTemplateUid): boolean {
-  if (canPlanAction()) {
-    return Context.interfaceState.state.currentActionUid == templateUid;
+  if (!getTypedInterfaceState().showAction) {
+    return false;
   }
-  return isPlannedAction(templateUid);
+
+  return Context.interfaceState.state.currentActionUid == templateUid;
 }

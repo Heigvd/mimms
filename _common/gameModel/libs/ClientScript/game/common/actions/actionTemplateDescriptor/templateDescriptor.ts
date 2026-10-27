@@ -53,6 +53,11 @@ export interface ITemplateDescriptor extends IActivableDescriptor, IDescriptor, 
    * Comment, only visible by the scenarist
    */
   comment: string;
+  /**
+   * Priority of the action, 0 means no priority.
+   * When available, only the actions with the highest priority can be played
+   */
+  priority: number;
 }
 
 // TODO see if binding should be in a subtype ?

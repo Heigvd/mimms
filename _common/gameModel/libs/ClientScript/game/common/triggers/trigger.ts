@@ -3,14 +3,14 @@ import { triggerLogger } from '../../../tools/logger';
 import { getTriggers } from '../../loaders/triggerLoader';
 import { convertToLocalEvents, Impact } from '../impacts/impact';
 import { IActivableDescriptor, IDescriptor, Indexed, Typed } from '../interfaces';
-import {
-  ChangeActivableStatusLocalEvent,
-  IncrementCountLocalEvent,
-  LocalEventBase,
-} from '../localEvents/localEventBase';
+import { LocalEventBase } from '../localEvents/localEventBase';
 import { getTriggerActivable, TriggerActivable } from '../simulationState/activableState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Condition, evaluateCondition } from './condition';
+import {
+  ChangeActivableStatusLocalEvent,
+  IncrementCountLocalEvent,
+} from '../localEvents/localEventActivable';
 
 /**
  * A trigger is a collection of conditions and impacts.
@@ -87,7 +87,7 @@ function evaluateTriggerImpacts(
   trigger: Trigger
 ): LocalEventBase[] {
   return trigger.impacts.flatMap((impact: Impact) =>
-    convertToLocalEvents(state, impact, { type: 'trigger', id: trigger.uid })
+    convertToLocalEvents(state, impact, { type: 'trigger', id: trigger.uid }, state.getSimTime())
   );
 }
 

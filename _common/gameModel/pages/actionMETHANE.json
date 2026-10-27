@@ -420,7 +420,10 @@
                         }
                       },
                       "type" : "Text"
-                    } ]
+                    } ],
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
@@ -529,7 +532,9 @@
               "content" : "import { getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\n!getSelectedCasuMessageType().endsWith('E');",
               "language" : "typescript"
             },
-            "layout" : { },
+            "layout" : {
+              "alignItems" : "flex-start"
+            },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "LetterE",
@@ -597,7 +602,7 @@
                 "layout" : { },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : {
-                  "margin-left" : "-5px"
+                  "marginLeft" : "-5px"
                 },
                 "style" : { }
               },
@@ -624,21 +629,21 @@
                 "className" : "button-secondaryColor button-S",
                 "conditionnalClassNames" : [ {
                   "applyOn" : "Inside",
-                  "className" : "abort",
+                  "className" : "disabled",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\ncanCancel(uniqueActionTemplates()?.CasuMessageTemplate);",
+                    "content" : "import { canPlanNonPrioritizedAction } from './gameInterface/main';\n!canPlanNonPrioritizedAction();",
                     "language" : "typescript"
                   }
                 } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isMethaneSendDisabled } from \"./UIfacade/actionFacade\";\nisMethaneSendDisabled();",
+                  "content" : "import { isMethaneSendDisabled } from \"./UIfacade/actionFacade\";\nimport { canPlanNonPrioritizedAction } from './gameInterface/main';\nisMethaneSendDisabled() || !canPlanNonPrioritizedAction() ;",
                   "language" : "typescript"
                 },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { getTranslation } from \"./tools/translation\";\nconst isPlanned = canCancel(uniqueActionTemplates()?.CasuMessageTemplate);\ngetTranslation('mainSim-interface', isPlanned ? 'cancel' : 'send-one-minute');",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send-one-minute');",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "",

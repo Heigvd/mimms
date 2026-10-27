@@ -1,6 +1,10 @@
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getPatientsByLocation, PatientState } from '../game/common/simulationState/patientState';
-import { HumanHealth } from '../game/legacy/the_world';
+import {
+  getHospitalizedPatientsSize,
+  getPatientsByLocation,
+  PatientState,
+} from '../game/common/simulationState/patientState';
+import { HumanHealth } from '../game/pretri/patientProcessing';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import {
   AfflictedBlockDetails,
@@ -15,11 +19,21 @@ import {
   getBackgroundColorByCategoryId,
   getCategoryById,
   PreTriageResult,
+  STANDARD_CATEGORY_ARRAY,
+  STANDARD_CATEGORY_COLORS,
 } from '../game/pretri/triage';
 import { BodyState, HumanBody } from '../HUMAn/human';
 import { computeDiastolicPressure, computeSystolicPressure } from '../HUMAn/physiologicalModel';
 import { getBlockTranslation, getTranslation } from '../tools/translation';
 import { getCachedHospitalById, getCachedPatientUnitById } from '../game/loaders/hospitalLoader';
+import { setInterfaceState } from '../gameInterface/interfaceState';
+import {
+  getPretriageStatsForLocation,
+  PatientCategoryColorLegendEntry,
+} from '../UIfacade/patientSnapshotFacade';
+import { LocationInfo } from '../game/common/location/locationLogic';
+import { getAccessibleLocationsInfo } from '../UIfacade/locationFacade';
+import { getPathology } from '../HUMAn/registries';
 
 /**
  * @returns All currently present patients
@@ -29,11 +43,99 @@ export function getAllPatients(): Readonly<PatientState[]> {
 }
 
 export function getPatientsForLocation(location: LOCATION_ENUM): Readonly<PatientState[]> {
+  if (!location) {
+    return [];
+  }
   return getPatientsByLocation(getCurrentState(), 'FixedMapEntity', location);
+}
+
+export function getPretriagedPatientsForLocation(
+  location: LOCATION_ENUM
+): Readonly<PatientState[]> {
+  if (!location) {
+    return [];
+  }
+  return getPatientsForLocation(location).filter(patient => patient.preTriageResult !== undefined);
 }
 
 export function getPatient(id: string): Readonly<PatientState | undefined> {
   return getAllPatients().find(patient => patient.patientId === id);
+}
+
+/** Open the Patient Flow modal (see page 43) */
+export function openPatientFlowModal(): void {
+  setInterfaceState({ showPatientFlowModal: true });
+}
+
+/** Close the Patient Flow modal (see page 43) */
+export function closePatientFlowModal(): void {
+  setInterfaceState({ showPatientFlowModal: false });
+}
+
+/**
+ * @returns The locations to display in the Patient Flow modal (see page 13): every built and active
+ * location that has a slot in the Patient Flow grid (including the ambulance and helicopter parks,
+ * which are not accessible to patients), plus the "remote" location (hospitals). The latter is
+ * always included, even though it is never a built/active map entity.
+ */
+export function getPatientFlowLocationsInfo(): LocationInfo[] {
+  const locations = getAccessibleLocationsInfo('AnyKind').filter(
+    location => PATIENT_FLOW_GRID_CLASS_NAMES[location.id] !== undefined
+  );
+  const hospitals: LocationInfo = {
+    id: LOCATION_ENUM.remote,
+    name: getTranslation('mainSim-locations', 'location-hospitals'),
+    icon: 'hospital',
+    actors: [],
+    resources: [],
+    ambulances: [],
+    helicopters: [],
+    comingTo: [],
+  };
+  return [...locations, hospitals];
+}
+
+/**
+ * @returns The number of patients that have already arrived at a hospital, across all hospitals
+ * and patient units combined (patients still being evacuated are not counted)
+ */
+export function getHospitalizedPatientsCount(): number {
+  return getHospitalizedPatientsSize(getCurrentState());
+}
+
+/**
+ * @returns The color legend for all standard pretriage categories for the given location, in the
+ * Patient Flow modal (see page 13), including categories with no patient at all (unlike
+ * patientSnapshotFacade's getPatientCategoryColorLegend, used by the other flow modals, which omits them)
+ */
+export function getPatientFlowCategoryColorLegend(
+  location: LOCATION_ENUM
+): PatientCategoryColorLegendEntry[] {
+  const stats = getPretriageStatsForLocation(location);
+
+  return STANDARD_CATEGORY_ARRAY.map(categoryId => ({
+    categoryId,
+    color: STANDARD_CATEGORY_COLORS[categoryId],
+    label: getTranslation('mainSim-actions-tasks', 'pretriage-category-' + categoryId),
+    count: stats?.[categoryId] ?? 0,
+  }));
+}
+
+const PATIENT_FLOW_GRID_CLASS_NAMES: Partial<Record<LOCATION_ENUM, string>> = {
+  chantier: 'patient-flow__chantier',
+  nidDeBlesses: 'patient-flow__nid-blesses',
+  PMA: 'patient-flow__pma',
+  helicopterPark: 'patient-flow__parc-helico',
+  ambulancePark: 'patient-flow__parc-ambulance',
+  remote: 'patient-flow__hospitals',
+};
+
+/**
+ * @returns The CSS class placing the given location in the Patient flow overlay grid,
+ * or an empty string for a location that has no dedicated slot in that grid
+ */
+export function getPatientFlowGridClassName(location: LOCATION_ENUM): string {
+  return PATIENT_FLOW_GRID_CLASS_NAMES[location] ?? '';
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -42,6 +144,20 @@ export function getPatient(id: string): Readonly<PatientState | undefined> {
 
 export function getTranslatedBlockName(blockName: string): string {
   return getBlockTranslation(blockName);
+}
+
+/**
+ * @returns the short descriptions of the patient's pathologies
+ * The patient generation modal provides them as pathologyNames, the in-game patient modal does not,
+ * so they are then read from the patient's revived pathologies
+ */
+export function getPathologyNames(patient: PatientState & { pathologyNames?: string[] }): string {
+  const names =
+    patient.pathologyNames ??
+    (patient.humanBody?.revivedPathologies ?? []).map(
+      pathology => getPathology(pathology.pathologyId)?.shortDescription ?? ''
+    );
+  return names.filter(name => name).join(', ');
 }
 
 export function getAfflictedBlocksDetails(patient: PatientState): AfflictedBlockDetails[] {
@@ -82,7 +198,7 @@ export function getDivForCategory(patientId: string): string {
   const categoryId = patient.preTriageResult?.categoryId;
   const category = categoryId != undefined ? getCategoryById(categoryId) : undefined;
 
-  return `<div class='listTag-container' style='color: ${
+  return `<div class='patient-list__tag' style='color: ${
     category ? category.color : 'black'
   }; background-color: ${category ? category.bgColor : '#f6f7f9ff'}'/>`;
 }

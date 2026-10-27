@@ -1,0 +1,114 @@
+/* - - - - -  D I S P L A Y  - - - */
+
+/* completes the generic flow modal root (see modals.css) */
+#globalInterfaceId > div:has(.evacuation-modal) {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.evacuation-modal {
+  padding: 0;
+}
+
+.evacuation-modal * {
+  box-sizing: border-box;
+}
+
+.evacuation__close {
+  position: fixed;
+  top: 2.75rem;
+  right: 2.75rem;
+}
+
+.evacuation__footer {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+}
+
+/* columns */
+.evacuation__column {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 3rem 0 3rem 3rem;
+  overflow: hidden;
+}
+
+.evacuation-list__container {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.evacuation__list {
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: 20px;
+  margin: 0;
+  padding-right: 3rem;
+  border-right: 2px dashed #65696B;
+  overflow: auto;
+}
+
+.evacuation__column:last-of-type .evacuation__list {
+  border-right: none;
+}
+
+/* text */
+.evacuation__column .flow-modal__title {
+    margin-bottom: 3rem;
+}
+
+
+/* - - - - -  L O C A T I O N   C A R D S  - - - */
+
+.evacuation__list .fixedEntities-container {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.evacuation__card-content {
+  min-height: 0;
+  max-height: 240px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* selectable items: patients, vectors and hospital services */
+.evacuation__item {
+  gap: 5px;
+  padding: 2.5px 5px;
+  font-size: var(--XS_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_100);
+  background-color: var(--grey_0);
+  border-radius: var(--XXS_borderRadius);
+}
+
+.evacuation__item svg {
+  color: var(--grey_80);
+}
+
+.evacuation-modal .patient-color,
+.evacuation__item {
+  cursor: pointer;
+  transition: box-shadow .3s ease-in-out;
+}
+
+.evacuation__item--selected {
+  box-shadow: inset 0 0 0 2px var(--grey_80);
+}
+
+/* outlined with the patient category color (set as text color by .patient-color--<color>) */
+.evacuation-modal .patient-color--selected {
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+/* icons */
+.evacuation__patient-button.iconOnly {
+  color: inherit;
+}
+
+.evacuation__patient-button svg {
+  height: 14px;
+}

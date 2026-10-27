@@ -16,6 +16,7 @@ import {
   getActivationImpactDef,
   getChoiceEffectSelectionImpactDef,
   getEmptyImpactDef,
+  getFeedbackImpactDef,
   getMapActivationImpactDef,
   getNotificationImpactDef,
   getRadioImpactDef,
@@ -30,7 +31,7 @@ import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefi
 import { getMapChoiceActionTemplateDef } from '../typeDefinitions/templateDefinitions/mapChoiceTemplate';
 import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
 import { getTriggerDefinition } from '../typeDefinitions/triggerDefinition';
-import { FlatTypes, SuperTypeNames } from './dataController';
+import { FlatTypes, SuperTypeNames } from './dataControllerBase';
 
 /**
  * Removes the superType and parent fields
@@ -73,6 +74,7 @@ const viewTree: Views = {
     notification: getNotificationImpactDef().view,
     radio: getRadioImpactDef().view,
     empty: getEmptyImpactDef().view,
+    feedback: getFeedbackImpactDef().view,
   },
   condition: {
     mapEntity: getMapEntityConditionDef().view,

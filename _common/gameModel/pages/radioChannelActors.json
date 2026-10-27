@@ -49,7 +49,7 @@
         },
         "layoutClassName" : "noPadding",
         "layoutStyle" : {
-          "flex-direction" : "column",
+          "flexDirection" : "column",
           "height" : "100%",
           "width" : "100%"
         },

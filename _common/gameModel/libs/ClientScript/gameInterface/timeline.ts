@@ -1,8 +1,7 @@
 import { StartEndAction } from '../game/common/actions/actionBase';
 import { getAllActions } from '../UIfacade/actionFacade';
-import { getAllActors, getCurrentPlayerActors } from '../UIfacade/actorFacade';
+import { getAllActors } from '../UIfacade/actorFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
-import { isGodView } from './interfaceConfiguration';
 import { formatTime, getSimStartDateTime } from './main';
 
 interface Action {
@@ -24,23 +23,21 @@ interface Timeline {
  * @return {Timeline[]}
  */
 export function buildTimelineObject(): Timeline[] {
-  const timelines: any = [];
+  const timelines: Timeline[] = [];
 
-  const actors = isGodView()
-    ? getAllActors().filter(a => a.Role !== 'CASU')
-    : getCurrentPlayerActors();
-  const actions = getAllActions();
+  const actors = getAllActors().filter(a => a.Role !== 'CASU');
+  const actionsPerActor = getAllActions();
 
   for (const actor of actors) {
     const timeline: Action[] = [];
-    if (actions[actor.Uid] !== undefined) {
-      for (const action of actions[actor.Uid]!) {
-        timeline.push({
-          startTime: action.startTime,
-          duration: action.duration(),
-          title: (action as StartEndAction).getTitle(),
-        });
-      }
+    // Zero-duration actions are not displayed
+    const actions = (actionsPerActor[actor.Uid] || []).filter(a => a.duration() > 0);
+    for (const action of actions) {
+      timeline.push({
+        startTime: action.startTime,
+        duration: action.duration(),
+        title: (action as StartEndAction).getTitle(),
+      });
     }
     timelines.push({
       id: actor.Uid,

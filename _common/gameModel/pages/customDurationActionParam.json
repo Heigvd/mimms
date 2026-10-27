@@ -1,0 +1,47 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "choices" : {
+          "@class" : "Script",
+          "content" : "Context.action.getSelectOptions().all;",
+          "language" : "typescript"
+        },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "padding" : "0 10px 10px 10px"
+        },
+        "onVariableChange" : {
+          "client" : {
+            "@class" : "Script",
+            "content" : "import { updateCustomDurationsState } from \"./UIfacade/actionFacade\";\n\nupdateCustomDurationsState(Context.action.uid, +(Context.duration))",
+            "language" : "TypeScript"
+          },
+          "exposeVariableAs" : {
+            "@class" : "Script",
+            "content" : "\"duration\"",
+            "language" : "TypeScript"
+          }
+        },
+        "script" : {
+          "@class" : "Script",
+          "content" : "import { updateCustomDurationsState } from \"./UIfacade/actionFacade\";\nif (Context.interfaceState.state.customDurations[Context.action.uid] === undefined) {\n  updateCustomDurationsState(Context.action.uid, Context.action.getSelectOptions().default)\n}\n\nContext.interfaceState.state.customDurations[Context.action.uid] || '';",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Select input"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

@@ -189,6 +189,48 @@
     "description" : "",
     "mimeType" : "application/zip",
     "note" : "",
+    "visibility" : "INTERNAL"
+  },
+  "/maps/GVA-lignon/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
+  "/maps/GVA-lignon/bbox.data" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
+  "/maps/GVA-lignon/buildings.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
+  "/maps/GVA-lignon/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
+  "/maps/GVA-lignon/rails.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
+  "/maps/GVA-lignon/roads.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
+  "/maps/GVA-lignon/water.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/GVA/" : {
@@ -317,7 +359,19 @@
     "note" : "",
     "visibility" : "INTERNAL"
   },
+  "/maps/mapIcons/entreeChantier.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "INTERNAL"
+  },
   "/maps/mapIcons/helicopter-park.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "INTERNAL"
+  },
+  "/maps/mapIcons/hospital.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
@@ -335,15 +389,9 @@
     "note" : "",
     "visibility" : "INTERNAL"
   },
-  "/mask _mimms.webp" : {
+  "/maps/mapIcons/white-background.svg" : {
     "description" : "",
-    "mimeType" : "image/webp",
-    "note" : "",
-    "visibility" : "INTERNAL"
-  },
-  "/mask_drill.webp" : {
-    "description" : "",
-    "mimeType" : "image/webp",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "INTERNAL"
   },
@@ -488,18 +536,6 @@
   "/patient/scales/painsScale_FR.png" : {
     "description" : "",
     "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "INTERNAL"
-  },
-  "/texte_drill_pretri_droite_inverse.webp" : {
-    "description" : "",
-    "mimeType" : "image/webp",
-    "note" : "",
-    "visibility" : "INTERNAL"
-  },
-  "/texte_mimms.webp" : {
-    "description" : "",
-    "mimeType" : "image/webp",
     "note" : "",
     "visibility" : "INTERNAL"
   },

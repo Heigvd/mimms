@@ -1,14 +1,12 @@
 import { getMapEntityController } from '../../controllers/controllerInstances';
 import {
-  ActionTemplateDataController,
-  MapEntityController,
-  TriggerDataController,
-} from '../../controllers/dataController';
-import {
   getCurrentController,
   getItemsTyped,
   isSelected,
 } from '../../UIfacade/genericConfigFacade';
+import { ActionTemplateDataController } from '../../controllers/actionTemplateController';
+import { TriggerDataController } from '../../controllers/triggerController';
+import { MapEntityController } from '../../controllers/mapEntityController';
 
 /**
  * Returns true if the feature shares its location binding with the current location type

@@ -36,11 +36,11 @@ export function getMoveTemplateDef(): Definition<
         AL: true,
         CASU: false,
         EVASAN: true,
-        LEADPMA: true,
       },
       showAllChoices: true,
       comment: '',
       index: 0,
+      priority: 0,
     }),
     validator: moveActionTemplateValidator,
     view: {} as any, // TODO hide almost all fields for the move template

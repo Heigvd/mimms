@@ -1,16 +1,16 @@
 import { ITemplateDescriptor } from '../../actions/actionTemplateDescriptor/templateDescriptor';
 import { ChoiceDescriptor } from '../../actions/choiceDescriptor/choiceDescriptor';
+import { SimTime } from '../../baseTypes';
 import { Uid } from '../../interfaces';
-import {
-  ChangeActivableStatusLocalEvent,
-  ChangeMapActivableStatusLocalEvent,
-  LocalEventBase,
-  SourceType,
-} from '../../localEvents/localEventBase';
+import { LocalEventBase, SourceType } from '../../localEvents/localEventBase';
 import { BuildStatus, MapEntityDescriptor } from '../../mapEntities/mapEntityDescriptor';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { Trigger } from '../../triggers/trigger';
 import { ImpactBase } from '../impact';
+import {
+  ChangeActivableStatusLocalEvent,
+  ChangeMapActivableStatusLocalEvent,
+} from '../../localEvents/localEventActivable';
 
 export type ActivationOperator = 'activate' | 'deactivate';
 
@@ -29,9 +29,10 @@ export interface ActivationImpact extends ImpactBase {
 export function convertActivationImpact(
   state: Readonly<MainSimulationState>,
   impact: ActivationImpact,
-  source: SourceType
+  source: SourceType,
+  anchorTime: SimTime
 ): LocalEventBase[] {
-  const time = state.getSimTime() + impact.delaySeconds;
+  const time = anchorTime + impact.delaySeconds;
   return [
     new ChangeActivableStatusLocalEvent({
       parentEventId: state.getLastEventId(),
@@ -53,9 +54,10 @@ export interface MapActivationImpact extends ImpactBase {
 export function convertMapActivationImpact(
   state: Readonly<MainSimulationState>,
   impact: MapActivationImpact,
-  source: SourceType
+  source: SourceType,
+  anchorTime: SimTime
 ): LocalEventBase[] {
-  const time = state.getSimTime() + impact.delaySeconds;
+  const time = anchorTime + impact.delaySeconds;
   return [
     new ChangeMapActivableStatusLocalEvent(
       {

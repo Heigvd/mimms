@@ -3,11 +3,7 @@ import { getTranslation } from '../../../tools/translation';
 import { getContainersDefinitions } from '../../loaders/resourceLoader';
 import { getCasuActorId } from '../actors/actorLogic';
 import { ActorId, GlobalEventId, ResourceContainerDefinitionId } from '../baseTypes';
-import {
-  AddRadioMessageLocalEvent,
-  ResourceMobilizationLocalEvent,
-  SourceType,
-} from '../localEvents/localEventBase';
+import { SourceType } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -15,7 +11,10 @@ import {
   ResourceContainerConfig,
   ResourceContainerDefinition,
   ResourceContainerType,
+  ResourceContainerTypeArray,
 } from './resourceContainer';
+import { AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
+import { ResourceMobilizationLocalEvent } from '../localEvents/localEventResourceArrival';
 
 export function getContainerDef(id: ResourceContainerDefinitionId): ResourceContainerDefinition {
   return getContainersDefinitions()[id]!;
@@ -76,8 +75,10 @@ export function resolveResourceRequest(
       const reqAmount = requestedAmount || 0;
       // fetch the containers that still have an amount
       const cs: ResourceContainerConfig[] = (containers[typeId] || []).filter(c => c.amount > 0);
-      // ordered by time of availability
-      cs.sort((a, b) => a.availabilityTime - b.availabilityTime);
+      // ordered by expected arrival time on site, then by time of availability
+      const arrivalTime = (c: ResourceContainerConfig) =>
+        Math.max(c.availabilityTime, now) + c.travelTime;
+      cs.sort((a, b) => arrivalTime(a) - arrivalTime(b) || a.availabilityTime - b.availabilityTime);
       let foundAmount = 0;
       for (let i = 0; i < cs.length && foundAmount < reqAmount; i++) {
         const c = cs[i]!;
@@ -107,6 +108,7 @@ export function resolveResourceRequest(
 
 /**
  * Generates one radio message per departure time containing all the sent ressources at that time
+ * Resources are ordered by type, then by travel time
  * @param sentContainers
  * @param globalEventId
  * @param senderId
@@ -122,11 +124,6 @@ function queueResourceDepartureRadioMessageEvents(
 ): void {
   Object.entries(sentContainers).forEach(([depTime, sent]) => {
     const dtime = parseInt(depTime);
-    const msgs: string[] = [];
-
-    Object.values(sent).forEach(v => {
-      msgs.push(buildRadioText(v.travelTime, v.def, v.name));
-    });
 
     const evt = new AddRadioMessageLocalEvent({
       parentEventId: globalEventId,
@@ -134,7 +131,7 @@ function queueResourceDepartureRadioMessageEvents(
       simTimeStamp: dtime,
       senderId: getCasuActorId(),
       recipientId: senderId,
-      message: msgs.join('\n'),
+      message: buildRadioText(sent),
       channel: RadioType.CASU,
       omitTranslation: true,
     });
@@ -142,13 +139,34 @@ function queueResourceDepartureRadioMessageEvents(
   });
 }
 
-function buildRadioText(travelTime: number, c: ResourceContainerDefinition, name: string): string {
-  const parts: string[] = [];
-  parts.push(getTranslation('mainSim-resources', 'sending'));
-  parts.push(name); // Specific name (e.g. AMB002)
-  parts.push('(' + getTranslation('mainSim-resources', c.name) + ')'); // type
-  parts.push(getTranslation('mainSim-resources', 'arrival-in', false));
-  parts.push(Math.round(travelTime / 60) + '');
-  parts.push(getTranslation('mainSim-resources', 'minutes', false));
-  return parts.join(' ');
+function buildRadioText(
+  sent: { name: string; def: ResourceContainerDefinition; travelTime: number }[]
+): string {
+  // by type, then by definition (e.g. emergency before intermediate ambulance), then by travel time
+  const sorted = [...sent].sort(
+    (a, b) =>
+      ResourceContainerTypeArray.indexOf(a.def.type) -
+        ResourceContainerTypeArray.indexOf(b.def.type) ||
+      a.def.uid - b.def.uid ||
+      a.travelTime - b.travelTime
+  );
+
+  const groups: string[][] = [];
+  let previousDefId: ResourceContainerDefinitionId | undefined = undefined;
+  sorted.forEach(v => {
+    if (v.def.uid !== previousDefId) {
+      groups.push([]);
+      previousDefId = v.def.uid;
+    }
+    const typeName = getTranslation('mainSim-resources', v.def.name);
+    const minutes = Math.round(v.travelTime / 60);
+    groups[groups.length - 1]!.push(`- ${typeName} ${v.name}: ${minutes}’`);
+  });
+
+  const header = [
+    getTranslation('mainSim-resources', 'sending'),
+    getTranslation('mainSim-resources', 'arrival-in'),
+  ].join('\n');
+
+  return header + '\n' + groups.map(g => g.join('\n')).join('\n');
 }

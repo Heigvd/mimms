@@ -54,7 +54,6 @@ export function getInitialDashboardUIState(): DashboardUIState {
       message: '',
       roles: {
         AL: true,
-        LEADPMA: false,
         ACS: false,
         MCS: false,
         EVASAN: false,
@@ -86,7 +85,6 @@ export function resetModalCustom(dashboardState: DashboardUIStateCtx): void {
   newState.radio.mode = 'radio';
   newState.radio.roles = {
     AL: true,
-    LEADPMA: false,
     ACS: false,
     MCS: false,
     EVASAN: false,

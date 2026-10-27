@@ -1485,7 +1485,7 @@
                                       "applyOn" : "Inside",
                                       "className" : {
                                         "@class" : "Script",
-                                        "content" : "import { getCurrentPatientId, getHuman } from \"./game/legacy/the_world\";\nimport { preTriSummaryCategory } from \"./game/pretri/triage\";\nconst id = getCurrentPatientId();\nconst human = getHuman(id);\npreTriSummaryCategory(human?.category?.autoTriage.categoryId);",
+                                        "content" : "import { getCurrentPatientId, getHuman } from \"./game/pretri/patientProcessing\";\nimport { preTriSummaryCategory } from \"./game/pretri/triage\";\nconst id = getCurrentPatientId();\nconst human = getHuman(id);\npreTriSummaryCategory(human?.category?.autoTriage.categoryId);",
                                         "language" : "TypeScript"
                                       }
                                     } ],

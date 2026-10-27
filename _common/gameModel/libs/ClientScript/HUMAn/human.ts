@@ -14,7 +14,7 @@ import {
   compLogger,
   visitorLogger,
 } from '../tools/logger';
-import { Point } from '../map/point2D';
+import { Point } from '../tools/point2D';
 
 import {
   ActDefinition,

@@ -1,50 +1,36 @@
 import {
-  getDefaultSituationUpdateDuration,
   hasMapChoices,
-  isAvailable,
   isCasuMessageActionTemplate,
   isChoiceTemplate,
+  isCustomDurationActionTemplate,
   isEvacuationActionTemplate,
   isMoveActorActionTemplate,
   isMoveResourcesAssignTaskActionTemplate,
-  isPretriageReportTemplate,
+  isPlayable,
   isRadioActionTemplate,
-  isSituationUpdateActionTemplate,
 } from '../UIfacade/actionFacade';
-import { getActor, getSelectedActorLocation } from '../UIfacade/actorFacade';
-import { getReportLocationRequest, setReportLocationRequest } from '../UIfacade/resourceFacade';
-import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
-import {
-  ActionTemplateBase,
-  PretriageReportActionPayload,
-} from '../game/common/actions/actionTemplateBase';
+import { getResourceOrdersPayload } from '../UIfacade/resourceOrdersFacade';
+import { ActionTemplateBase } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
-import { Actor } from '../game/common/actors/actor';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../game/common/events/casuMessageEvent';
-import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import { RadioType } from '../game/common/radio/communicationType';
-import { CommMedia } from '../game/common/resources/resourceReachLogic';
-import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
-import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getChoiceDescriptor } from '../game/loaders/mapEntitiesLoader';
 import { endMapAction, startMapChoice } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
 import {
-  getEmptyAllocateResources,
-  getEmptyAllocateResourcesRadio,
-  getEmptyEvacuationInterfaceState,
   getEmptyResourceRequest,
   getTypedInterfaceState,
   setInterfaceState,
 } from './interfaceState';
 import { actionClickHandler, canPlanAction } from './main';
-import { SelectedPanel } from './selectedPanel';
+import { CustomDurationActionTemplateType } from '../game/common/actions/actionTemplate/actorTemplates';
+import { getEvacuationOrderPayload } from '../UIfacade/evacuationFacade';
 
 /**
  * Plans an action with a given template and the current interface state
@@ -53,8 +39,8 @@ import { SelectedPanel } from './selectedPanel';
  */
 // used in several pages
 export function runActionButton(actTemplate: ActionTemplateBase | undefined): void {
-  if (!actTemplate || !isAvailable(actTemplate)) {
-    actionLogger.debug('action not available ' + JSON.stringify(actTemplate?.getTitle()));
+  if (!actTemplate || !isPlayable(actTemplate)) {
+    actionLogger.debug('action not playable ' + JSON.stringify(actTemplate?.getTitle()));
     return;
   }
   actionLogger.debug('run action button for ' + JSON.stringify(actTemplate?.getTitle()));
@@ -72,7 +58,7 @@ export function runActionButton(actTemplate: ActionTemplateBase | undefined): vo
       endMapAction();
     }
   } else if (isMoveResourcesAssignTaskActionTemplate(actTemplate)) {
-    params = fetchMoveResourcesAssignTaskValues();
+    params = getResourceOrdersPayload();
   } else if (isCasuMessageActionTemplate(actTemplate)) {
     params = fetchCasuMessageRequestValues();
   } else if (isRadioActionTemplate(actTemplate, RadioType.CASU)) {
@@ -81,12 +67,10 @@ export function runActionButton(actTemplate: ActionTemplateBase | undefined): vo
     params = fetchRadioMessageRequestValues(RadioType.ACTORS);
   } else if (isMoveActorActionTemplate(actTemplate)) {
     params = fetchMoveActorLocation();
-  } else if (isSituationUpdateActionTemplate(actTemplate)) {
-    params = fetchSituationUpdateValues();
+  } else if (isCustomDurationActionTemplate(actTemplate)) {
+    params = fetchCustomDurationValues(actTemplate);
   } else if (isEvacuationActionTemplate(actTemplate)) {
-    params = fetchEvacuationActionValues();
-  } else if (isPretriageReportTemplate(actTemplate)) {
-    params = fetchPretriageReportActionValues();
+    params = getEvacuationOrderPayload() || {};
   }
 
   actionClickHandler(actTemplate, params);
@@ -102,69 +86,6 @@ function fetchChoiceActionValues(): ChoiceDescriptor | undefined {
     Context.interfaceState.state.currentActionUid,
     Context.interfaceState.state.selectedActionChoiceUid
   );
-}
-
-/**
- * Generate a MoveResourcesAssignTaskPayload from interface state
- *
- * @returns MoveResourcesAssignTaskPayload
- */
-function fetchMoveResourcesAssignTaskValues() {
-  // TODO Add Type
-  const sentResources: ResourceTypeAndNumber = {};
-
-  let paramKey = '';
-  let currentLoc: LOCATION_ENUM | undefined;
-  let commMedia: CommMedia;
-  const panel = Context.interfaceState.state.selectedPanel;
-  if (panel === SelectedPanel.resources) {
-    paramKey = 'allocateResources';
-    currentLoc = getSelectedActorLocation();
-    commMedia = CommMedia.Direct;
-  } else {
-    paramKey = 'allocateResourcesRadio';
-    currentLoc = Context.interfaceState.state.resources[paramKey]?.currentLocation;
-    commMedia = CommMedia.Radio;
-  }
-
-  ResourcesArray.forEach(resourceType => {
-    const amount = Context.interfaceState.state.resources[paramKey][resourceType];
-    if (amount) {
-      sentResources[resourceType] = amount;
-    }
-  });
-
-  const payload = {
-    commMedia: commMedia,
-    // source fetched from drop down if radio, or actor location if location panel
-    sourceLocation: currentLoc,
-    targetLocation: Context.interfaceState.state.resources[paramKey]?.targetLocation,
-    sentResources: sentResources,
-    sourceTaskId: +Context.interfaceState.state.resources[paramKey].currentTaskId,
-    targetTaskId: +Context.interfaceState.state.resources[paramKey].targetTaskId,
-  };
-
-  // Reset interfaceState
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  if (panel === SelectedPanel.resources) {
-    const currentActorUid: number | undefined = getTypedInterfaceState().currentActorUid;
-    const currentActor: Readonly<Actor> | undefined = currentActorUid
-      ? getActor(currentActorUid)
-      : undefined;
-
-    newState.resources[paramKey] = getEmptyAllocateResources();
-    if (currentActor) {
-      newState.resources[paramKey].currentTaskId = initResourceManagementCurrentTaskId(
-        currentActor.Uid,
-        currentActor.Location
-      );
-    }
-  } else if (panel === SelectedPanel.radios) {
-    newState.resources[paramKey] = getEmptyAllocateResourcesRadio();
-  }
-  Context.interfaceState.setState(newState);
-
-  return payload;
 }
 
 /**
@@ -188,22 +109,17 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
 
     return payload;
   } else {
-    const msgType = casuMessage.messageType as 'METHANE' | 'MET' | 'HANE' | 'E';
-    const payload: MethaneMessagePayload = { messageType: msgType };
-
-    if (casuMessage.messageType.startsWith('MET')) {
-      payload.major = casuMessage.major;
-      payload.exact = casuMessage.exact;
-      payload.incidentType = casuMessage.incidentType;
-    }
-    if (casuMessage.messageType.endsWith('HANE')) {
-      payload.hazards = casuMessage.hazards;
-      payload.access = casuMessage.access;
-      payload.victims = casuMessage.victims;
-    }
-    if (casuMessage.messageType.endsWith('E')) {
-      payload.resourceRequest = resources.requestedResources;
-    }
+    const msgType = casuMessage.messageType as 'METHANE' | 'E';
+    const payload: MethaneMessagePayload = {
+      messageType: msgType,
+      major: casuMessage.major,
+      exact: casuMessage.exact,
+      incidentType: casuMessage.incidentType,
+      hazards: casuMessage.hazards,
+      access: casuMessage.access,
+      victims: casuMessage.victims,
+      resourceRequest: resources.requestedResources,
+    };
 
     // Reset interfaceState
     const newState = Helpers.cloneDeep(Context.interfaceState.state);
@@ -253,31 +169,14 @@ function fetchMoveActorLocation() {
   return location;
 }
 
-function fetchSituationUpdateValues() {
-  const params = { duration: +getTypedInterfaceState().situationUpdateDuration };
+function fetchCustomDurationValues(at: CustomDurationActionTemplateType) {
+  const customDurations = getTypedInterfaceState().customDurations;
+  const params = { duration: customDurations[at.uid] };
+
   // Reset interfaceState
-  setInterfaceState({ situationUpdateDuration: getDefaultSituationUpdateDuration() });
+  const updatedState = { ...customDurations };
+  updatedState[at.uid] = at.getSelectOptions().default;
+  setInterfaceState({ customDurations: updatedState });
+
   return params;
-}
-
-function fetchEvacuationActionValues() {
-  const res: EvacuationActionPayload = { ...Context.interfaceState.state.evacuation.data };
-
-  // Reset interface state
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.evacuation = getEmptyEvacuationInterfaceState();
-  Context.interfaceState.setState(newState);
-
-  return res;
-}
-
-function fetchPretriageReportActionValues() {
-  const res: PretriageReportActionPayload = {
-    pretriageLocation: getReportLocationRequest()!,
-  };
-
-  // Reset interface state
-  setReportLocationRequest(undefined);
-
-  return res;
 }
