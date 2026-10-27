@@ -1,10 +1,59 @@
 /* Drill Card (the label put on a patient: p3 to dead) */
-.ongoing-page .action-chip svg {
+.ongoing-page .action-chip .cat_card,
+.patient-summary__modal .action-chip .cat_card {
   width: 1rem;
-  height: auto;
+  height: 1rem;
 }
 
 .cat_card.undefined {
 	background: transparent;
 }
 
+/* patient tag (icon + id): white until sorted, then category color (computed class in page) */
+.pretri-chip.action-chip.patient-tag {
+  color: var(--color-fg);
+  background-color: var(--color-card);
+  border-color: var(--color-border);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out, border-color .3s ease-in-out;
+}
+
+.patient-tag .text-meta {
+  color: inherit;
+}
+
+.patient-tag svg {
+  stroke: currentColor;
+}
+
+.pretri-chip.action-chip.patient-tag.pretri-pill__p1,
+.pretri-chip.action-chip.patient-tag.pretri-pill__p2,
+.pretri-chip.action-chip.patient-tag.pretri-pill__p3,
+.pretri-chip.action-chip.patient-tag.pretri-pill__dead {
+  border-color: currentColor;
+}
+
+/* same colors as triage buttons (drill.css .tri-*): soft background, dark text and icon */
+.pretri-chip.action-chip.patient-tag.pretri-pill__p1 {
+  color: var(--color-p1);
+  background-color: var(--color-p1-soft);
+}
+
+.pretri-chip.action-chip.patient-tag.pretri-pill__p2 {
+  color: var(--color-p2);
+  background-color: var(--color-p2-soft);
+}
+
+.pretri-chip.action-chip.patient-tag.pretri-pill__p3 {
+  color: var(--color-p3);
+  background-color: var(--color-p3-soft);
+}
+
+.pretri-chip.action-chip.patient-tag.pretri-pill__dead {
+  color: var(--color-dead);
+  background-color: var(--color-dead-soft);
+}
+
+/* tag icon is filled by the script: align it with the text color !useful for the transition animation! */
+.patient-tag[class*='pretri-pill__'] svg path {
+  fill: currentColor;
+}

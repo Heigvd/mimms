@@ -7,6 +7,7 @@
 /* display */
 .shadowMan {
   width: 200px;
+  zoom: 90%;
 }
 
 .shadowMan__image {
@@ -29,6 +30,9 @@
 /* texts */
 .block-details .text-meta {
   margin-top: .5rem;
+  font-family: var(--font-sans);
+  font-weight: var(--boldWeight);
+  color: var(--color-teal-ink);
 }
 
 .block-details .text-meta:first-of-type {
@@ -40,7 +44,7 @@
 .observe .block:not(.forTreatmentBlock, .afflictedBlock) {
 	position: absolute;
 	fill: none;
-	stroke: var(--grey_50);
+	stroke: var(--color-anatomy-line);
 	stroke-dasharray:  "2 2";
 	pointer-events: none;
 }
@@ -76,7 +80,7 @@
 }
 
 .afflictedBlock svg:first-child rect {
-	fill: var(--orange_100);
+	fill: var(--color-anatomy-zone);
 }
 
 /* afflicted block for wich we display textual information*/
@@ -87,14 +91,14 @@
 /*selection blocks -> the ones that can be selected */
 .forTreatmentBlock svg:last-child rect {
   position: relative;
-	stroke: var(--primary_base);
+	stroke: var(--color-teal);
 	z-index: 1;
 }
 
 /*selection blocks -> the selected one */
 .forTreatmentBlock.selectedBlock svg:last-child rect {
   position: relative;
-	stroke: var(--color-teal);
+	stroke: var(--color-teal-ink);
 	stroke-width: 4px;
 	transition: 0.2s;
 	z-index: 2;
@@ -103,9 +107,48 @@
 /*selection blocks -> the ones that can be selected while beeing hovered */
 .forTreatmentBlock:not(.selectedBlock):hover svg:last-child rect {
   position: relative;
-	stroke: var(--primary_base);
+	stroke: var(--color-teal);
 	stroke-width: 4px;
 	cursor: pointer;
 	transition: 0.2s;
 	z-index: 1;
+}
+
+/* selection blocks -> pulse when they appear (an action needing a zone has been chosen),
+   to show that a zone must be chosen */
+.observe .forTreatmentBlock svg:last-child rect {
+	fill: var(--color-teal);
+	fill-opacity: 0;
+	animation: treatment-zone-pulse 1s ease-in-out;
+}
+
+/* selection blocks -> only one zone available (auto-selected) */
+.observe .forTreatmentBlock.onlyChoiceBlock svg:last-child rect {
+	animation: treatment-zone-pulse--selected 1s ease-in-out;
+}
+
+@keyframes treatment-zone-pulse {
+	0%, 100% {
+		stroke-width: 1px;
+		fill-opacity: 0;
+	}
+	50% {
+		stroke-width: 4px;
+		fill-opacity: .25;
+	}
+}
+
+@keyframes treatment-zone-pulse--selected {
+	0% {
+		stroke-width: 1px;
+		fill-opacity: 0;
+	}
+	50% {
+		stroke-width: 4px;
+		fill-opacity: .25;
+	}
+  100% {
+    stroke-width: 4px;
+		fill-opacity: 0;
+  }
 }

@@ -135,12 +135,14 @@ interface PatientZoomState {
   selectedColumn: 'first' | 'second' | 'third';
 }
 
+const DEFAULT_MENU_ID = 'aMenu';
+
 export function getInitialPatientZoomState(): PatientZoomState {
   return {
     selectedAction: undefined,
     selectedPanel: undefined,
-    selectedMenu: undefined,
-    selectedSubMenu: undefined,
+    selectedMenu: DEFAULT_MENU_ID,
+    selectedSubMenu: getFirstNonEmptySubMenuId(DEFAULT_MENU_ID),
     availableBlocks: [],
     selectedBlock: undefined,
     //logs: [],
@@ -506,14 +508,22 @@ function internalSelectAction(state: PatientZoomState, action?: WheelAction): Pa
   }
 }
 
-export function selectWheelMainMenu(menuId: string, setState: SetZoomState) {
+function getFirstNonEmptySubMenu(menuId: string): WheelMenuItem | undefined {
   const wheel = getWheel();
   const selectedMenu = wheel.mainMenu.find(sub => sub.id === menuId);
 
-  // select first non-empty subMenu automatically
-  const subMenu = selectedMenu?.items.find(item => {
+  return selectedMenu?.items.find(item => {
     return item.items.length > 0;
   });
+}
+
+function getFirstNonEmptySubMenuId(menuId: string): string | undefined {
+  return getFirstNonEmptySubMenu(menuId)?.id;
+}
+
+export function selectWheelMainMenu(menuId: string, setState: SetZoomState) {
+  // select first non-empty subMenu automatically
+  const subMenu = getFirstNonEmptySubMenu(menuId);
 
   // select first action if any
   const action = subMenu?.items[0];
@@ -641,6 +651,9 @@ export function doWheelMeasure(
       fastForward(duration);
     }
 
+    // deselect the measure once it has been launched
+    setState(state => internalSelectAction(state, undefined));
+
     return sendEvent({
       ...initEmitterIds(),
       type: 'HumanMeasure',
@@ -681,6 +694,9 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
       source: source,
       blocks: block ? [block] : [],
     });
+
+    // deselect the treatment (and its zone) once it has been launched
+    setState(state => internalSelectAction(state, undefined));
   }
 }
 
@@ -693,10 +709,7 @@ function formatBlockTitle(titleArg: string, translationVar?: keyof VariableClass
 }
 
 function formatBlockSubTitle(title: string, translationVar: keyof VariableClasses): string {
-  return `<div class='text-meta' style="font-family: var(--font-sans);">${getTranslation(
-    translationVar,
-    title
-  )}</div>`;
+  return `<div class='text-meta'>${getTranslation(translationVar, title)}</div>`;
 }
 
 function formatBlockEntry(
@@ -1013,6 +1026,16 @@ function painFormatter(value: unknown): string {
   }
 }
 
+/**
+ * Append the unit only to a measurable value, so that we never get "unmeasurable sec"
+ */
+function withUnit(value: unknown, unit: string, format: (value: number) => string): string {
+  if (typeof value === 'number') {
+    return format(value) + unit;
+  }
+  return getTranslation('pretriage-interface', 'unmeasurable');
+}
+
 export function formatMetric(metric: BodyStateKeys, value: unknown): [string, string] {
   const metricName = getTranslation('human-general', metric, true);
   switch (metric) {
@@ -1045,33 +1068,33 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
           : getTranslation('human-general', 'no', true),
       ];
     case 'vitals.cardio.MAP':
-      return [metricName, intFormatter(value) + ' mmHg'];
+      return [metricName, withUnit(value, ' mmHg', intFormatter)];
     case 'vitals.cardio.hr':
-      return [metricName, intFormatter(value) + '/min'];
+      return [metricName, withUnit(value, '/min', intFormatter)];
     case 'vitals.respiration.SaO2':
       return [metricName, percentFormatter(value)];
     case 'vitals.respiration.SpO2':
       return [metricName, percentFormatter(value)];
     case 'vitals.respiration.rr':
-      return [metricName, intFormatter(value) + '/min'];
+      return [metricName, withUnit(value, '/min', intFormatter)];
     case 'vitals.capillaryRefillTime_s':
-      return [metricName, oneDecimalFormatter(value) + ' sec'];
+      return [metricName, withUnit(value, ' sec', intFormatter)];
     case 'vitals.respiration.PaO2':
-      return [metricName, oneDecimalFormatter(value) + ' mmHg'];
+      return [metricName, withUnit(value, ' mmHg', oneDecimalFormatter)];
     case 'vitals.respiration.PaCO2':
-      return [metricName, oneDecimalFormatter(value) + ' mmHg'];
+      return [metricName, withUnit(value, ' mmHg', oneDecimalFormatter)];
     case 'vitals.respiration.tidalVolume_L':
-      return [metricName, intFormatter((value as number) * 1000) + ' mL'];
+      return [metricName, withUnit(value, ' mL', v => intFormatter(v * 1000))];
     case 'vitals.respiration.alveolarVolume_L':
-      return [metricName, intFormatter((value as number) * 1000) + ' mL'];
+      return [metricName, withUnit(value, ' mL', v => intFormatter(v * 1000))];
     case 'vitals.cardio.totalVolume_mL':
-      return [metricName, twoDecimalFormatter((value as number) / 1000) + ' L'];
+      return [metricName, withUnit(value, ' L', v => twoDecimalFormatter(v / 1000))];
     case 'vitals.cardio.endSystolicVolume_mL':
-      return [metricName, intFormatter(value) + ' mL'];
+      return [metricName, withUnit(value, ' mL', intFormatter)];
     case 'vitals.cardio.strokeVolume_mL':
-      return [metricName, intFormatter(value) + ' mL'];
+      return [metricName, withUnit(value, ' mL', intFormatter)];
     case 'vitals.brain.ICP_mmHg':
-      return [metricName, intFormatter(value) + ' mmHg'];
+      return [metricName, withUnit(value, ' mmHg', intFormatter)];
   }
 
   return [String(metric), String(value)];
@@ -1516,9 +1539,12 @@ export function getCurrentPatientAutoTriage() {
  * Returns the time needed to perform the action in seconds
  */
 export function getSelectedActionDuration(
-  selectedAction: WheelAction,
+  selectedAction: WheelAction | undefined,
   actionType: 'ActionBodyEffect' | 'ActionBodyMeasure'
 ): number {
+  if (!selectedAction) {
+    return 0;
+  }
   const action = resolveAction<HumanAction>(selectedAction, actionType);
   let skillLevel: SkillLevel | undefined;
   if (action) {

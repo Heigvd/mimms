@@ -11,7 +11,7 @@ TAB
   font-size: 13.5px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: var(--color-muted);
+  color: var(--color-fg);
   background-color: transparent;
   border-bottom: 2px solid transparent;
   border-radius: 0;
@@ -40,4 +40,12 @@ TAB
 /* Container de tout le menu */
 .ABCDETT_Menu-container {
   margin: 0 0 1rem 0;
+}
+
+.subMenu:has(.pretri-button) {
+  position: sticky;
+  bottom: 0;
+  padding-top: 1rem;
+  background-color: var(--color-card);
+  z-index: 1;
 }

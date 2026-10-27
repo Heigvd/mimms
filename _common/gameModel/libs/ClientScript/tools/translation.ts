@@ -114,6 +114,24 @@ export function getCurrentLanguageCode(): string {
   return I18n.currentLanguageCode;
 }
 
+/**
+ * active languages of the game model, used by the player language switcher
+ */
+export function getLanguageChoices(): { code: string; label: string }[] {
+  return gameModel
+    .getLanguages()
+    .filter(l => l.isActive())
+    .map(l => ({ code: l.getCode(), label: l.getCode().toUpperCase() }));
+}
+
+export function isCurrentLanguage(code: string): boolean {
+  return getCurrentLanguageCode().toUpperCase() === code.toUpperCase();
+}
+
+export function setPlayerLanguage(code: string): void {
+  Editor.setLanguage({ code });
+}
+
 export function createOrUpdateTranslation(
   value: string,
   existing: ITranslatableContent | undefined

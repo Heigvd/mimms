@@ -2,6 +2,68 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "pretri-button sm-size",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "pretri-primary",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { isCurrentLanguage } from \"./tools/translation\";\nisCurrentLanguage(Context.language.code);",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "pretri-secondary",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { isCurrentLanguage } from \"./tools/translation\";\n!isCurrentLanguage(Context.language.code);",
+                "language" : "typescript"
+              }
+            } ],
+            "label" : {
+              "@class" : "Script",
+              "content" : "Context.language.label;",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { setPlayerLanguage } from \"./tools/translation\";\n\nsetPlayerLanguage(Context.language.code);",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "Language",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "exposeAs" : "language",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getLanguageChoices } from \"./tools/translation\";\n  getLanguageChoices();",
+          "language" : "TypeScript"
+        },
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getLanguageChoices } from \"./tools/translation\";\ngetLanguageChoices().length < 2;",
+          "language" : "typescript"
+        },
+        "itemKey" : "code",
+        "layout" : { },
+        "layoutClassName" : "noPadding language-switcher-container",
+        "layoutStyle" : { },
+        "name" : "Language",
+        "style" : {
+          "gap" : ".5rem"
+        }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
         "attachedToId" : "drillPretriPage",
         "children" : [ {
           "props" : {
@@ -69,7 +131,7 @@
               "content" : "\"6\"",
               "language" : "TypeScript"
             },
-            "layoutClassName" : "noPadding",
+            "layoutClassName" : "fullHeight noPadding patient-summary__page",
             "layoutStyle" : { },
             "name" : "patientPageLoaderDrill",
             "style" : { }
@@ -164,9 +226,7 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "toolbar",
-            "style" : {
-              "top" : "-42px"
-            }
+            "style" : { }
           },
           "type" : "FlexList"
         }, {
@@ -211,9 +271,7 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "before you begin",
-            "style" : {
-              "top" : "-30px"
-            },
+            "style" : { },
             "text" : {
               "@class" : "Script",
               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'before-you-begin');",
@@ -260,11 +318,121 @@
                         "className" : "noMargin pretri-chip action-chip text-pill",
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
-                        "name" : "temporality chip",
+                        "name" : "objective chip",
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
                           "content" : "\"<p>01</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "text-section",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "objective title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n    getTranslation('pretriage-interface', 'objective');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "pretri-sm-space pretri-small-margin",
+                    "layout" : {
+                      "alignItems" : "center"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "objective header",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "className" : "text-body-lg pretri-large-margin",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "objective explanation",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'objective-explanation');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin pretri-chip action-chip text-pill",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "injured chip",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>02</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "text-section",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "injured title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n    getTranslation('pretriage-interface', 'injured');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "pretri-sm-space pretri-small-margin",
+                    "layout" : {
+                      "alignItems" : "center"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "injured header",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "className" : "text-body-lg pretri-large-margin",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "injured explanation",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'injured-explanation');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin pretri-chip action-chip text-pill",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "temporality chip",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>03</p>\"",
                           "language" : "TypeScript"
                         }
                       },
@@ -319,7 +487,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>02</p>\"",
+                          "content" : "\"<p>04</p>\"",
                           "language" : "TypeScript"
                         }
                       },
@@ -358,7 +526,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\n  const algorithm = I18n.toString(Variable.find(gameModel, 'tagSystem'));\n  const text = getTranslation('pretriage-interface', 'category-explanation');\n  const tagSystem =\n\t  `<p class=\"text-body-lg\"><span class=\"pretri-chip action-chip text-clock\">${algorithm}</span>${' ' + text}</p>`\n  tagSystem;",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\n  const algorithm = I18n.toString(Variable.find(gameModel, 'tagSystem'));\n  const text = getTranslation('pretriage-interface', 'category-explanation');\n  const tagSystem =\n\t  `<p class=\"text-body-lg\">${text + ' '}<span class=\"pretri-chip action-chip text-clock\">${algorithm}</span></p>`\n  tagSystem;",
                       "language" : "TypeScript"
                     }
                   },
@@ -1024,7 +1192,7 @@
                     "className" : "fullWidth welcome-images__container pain-scale__container",
                     "layout" : {
                       "alignItems" : "center",
-                      "gridTemplateColumns" : "repeat(6, 1fr)",
+                      "gridTemplateColumns" : "fit-content(7rem) repeat(5, minmax(min-content, 1fr))",
                       "gridTemplateRows" : "repeat(5, 1fr)"
                     },
                     "layoutClassName" : "noPadding",
@@ -1105,9 +1273,7 @@
             "layoutClassName" : "fullWidth noPadding",
             "layoutStyle" : { },
             "name" : "finished session",
-            "style" : {
-              "top" : "-30px"
-            },
+            "style" : { },
             "text" : {
               "@class" : "Script",
               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'session-ended');",
@@ -1436,7 +1602,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "if(Context.patient.data.categorization.category == \n\tContext.patient.data.categorization.autoTriage.categoryId){\n\treturn '<p>Correct</p>'\n}\n'<p>Wrong</p>'",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\nif(Context.patient.data.categorization.category == \n\tContext.patient.data.categorization.autoTriage.categoryId){\n\treturn '<p>Correct</p>'\n}\ngetTranslation('pretriage-interface', 'wrong');",
                                   "language" : "TypeScript"
                                 }
                               },

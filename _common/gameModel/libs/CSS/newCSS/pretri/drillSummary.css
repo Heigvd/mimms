@@ -154,6 +154,11 @@ TRIAGE PILL
   background: var(--color-p3);
 }
 
+/* no background in summary table, so categories stand back from wrong / correct */
+.patient-summary--line .tagCategory {
+  background: transparent;
+}
+
 .patient-summary--line .tagCategory:hover {
   cursor: default;
 }
@@ -191,5 +196,13 @@ TRIAGE PILL
 
 /* modal */
 .patient-summary__modal > div {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
+  box-sizing: border-box;
   overflow: auto;
+}
+
+.patient-summary__modal .patient-summary__page {
+  min-height: 0;
 }

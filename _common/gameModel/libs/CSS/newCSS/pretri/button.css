@@ -82,7 +82,6 @@ Ex: Position de sécurité, LVAS, Ballon de ventilation, Guedel…
 }
 
 .pretri-action-button.selected {
-  font-weight: 600;
   color: var(--color-teal);
   background-color: var(--color-teal-soft);
   border-color: var(--color-teal);
