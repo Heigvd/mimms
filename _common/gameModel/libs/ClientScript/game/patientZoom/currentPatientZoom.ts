@@ -1539,9 +1539,12 @@ export function getCurrentPatientAutoTriage() {
  * Returns the time needed to perform the action in seconds
  */
 export function getSelectedActionDuration(
-  selectedAction: WheelAction,
+  selectedAction: WheelAction | undefined,
   actionType: 'ActionBodyEffect' | 'ActionBodyMeasure'
 ): number {
+  if (!selectedAction) {
+    return 0;
+  }
   const action = resolveAction<HumanAction>(selectedAction, actionType);
   let skillLevel: SkillLevel | undefined;
   if (action) {
