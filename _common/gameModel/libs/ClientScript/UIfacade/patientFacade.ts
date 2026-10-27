@@ -1,4 +1,3 @@
-import { PatientId } from '../game/common/baseTypes';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getPatientsByLocation, PatientState } from '../game/common/simulationState/patientState';
 import { HumanHealth } from '../game/legacy/the_world';
@@ -73,8 +72,8 @@ export function getLocalizedAffictedBlocks(patient: PatientState) {
   return getLocalizedBlocks([...afflictedBlocks]).localized;
 }
 
-export function getHumanVisualInfos(id: string) {
-  const human = getHumanAndCategory(id);
+export function getHumanVisualInfos(patient: PatientState | undefined) {
+  const human = getHumanAndCategory(patient);
   return getHumanVisualInfosOfHuman(human);
 }
 
@@ -98,14 +97,17 @@ export function getCategoryCardSvg(patient: PatientState) {
  * Get a structure compatible with currentPatientZoom.ts.
  * <p>
  * For the moment, we do not have a use for the category, so we can leave it undefined.
+ * <p>
+ * The patient is taken as is (not looked up in the simulation state), so that it also works
+ * for patients that are not part of the simulation (e.g. samples in the patient generation page).
  */
 function getHumanAndCategory(
-  id: PatientId
+  patient: PatientState | undefined
 ): (HumanBody & { category: Categorization | undefined }) | undefined {
-  const patient = getPatient(id)!;
-  const human = patient.humanBody;
-  //
-  return { ...human, category: undefined };
+  if (patient?.humanBody == undefined) {
+    return undefined;
+  }
+  return { ...patient.humanBody, category: undefined };
 }
 
 // -------------------------------------------------------------------------------------------------

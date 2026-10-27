@@ -448,7 +448,7 @@
                                       "className" : "patient-header-button--active",
                                       "condition" : {
                                         "@class" : "Script",
-                                        "content" : "Context.currentPatient.state.humanBody.state.time === Context.item.value;",
+                                        "content" : "Context.currentPatient?.state?.humanBody?.state?.time === Context.item.value;",
                                         "language" : "typescript"
                                       }
                                     } ],

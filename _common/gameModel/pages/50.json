@@ -87,7 +87,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getHumanVisualInfos } from \"./UIfacade/patientFacade\";\ngetHumanVisualInfos(Context.currentPatient.state.patientId);",
+                  "content" : "import { getHumanVisualInfos } from \"./UIfacade/patientFacade\";\ngetHumanVisualInfos(Context.currentPatient.state);",
                   "language" : "TypeScript"
                 }
               },
