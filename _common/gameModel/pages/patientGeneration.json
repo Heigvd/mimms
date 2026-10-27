@@ -590,7 +590,7 @@
                 },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "localState" : false,
+                "localState" : true,
                 "name" : "current patient",
                 "style" : { }
               },
