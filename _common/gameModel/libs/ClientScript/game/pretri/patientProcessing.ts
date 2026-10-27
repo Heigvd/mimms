@@ -52,8 +52,10 @@ import {
   HumanTreatmentEvent,
   PathologyEvent,
 } from '../common/events/eventTypes';
-import { MeasureMetric } from '../../HUMAn/registry/acts';
+import { MeasureMetric, PRETRI_ACTION_ID_OPEN_AIRWAYS } from '../../HUMAn/registry/acts';
 import { ConsoleLog, MeasureLog, TreatmentLog } from './consoleLog';
+
+const POSTURE_ORDER_ACTS = ['getUp', 'sitDown', 'supineDecubitus', 'proneDecubitus'];
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
@@ -765,9 +767,6 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
   });
 }
 
-/**
- * apply treatment at given time
- */
 function doTreatment(
   time: number,
   { source, actionId, action, label }: ResolvedAction,
@@ -796,7 +795,18 @@ function doTreatment(
 
   const { snapshot, futures } = getHumanSnapshotAtTime(objId, event.time);
 
-  const message = getTranslation('pretriage-interface', 'treatment') + ': ' + label;
+  let message = label;
+
+  // posture orders: the position patch is only applied when glasgow motor is 6 (see human.ts)
+  if (source.type === 'act' && POSTURE_ORDER_ACTS.includes(source.id)) {
+    if (snapshot.state.bodyState.vitals.glasgow.motor < 6) {
+      message += ' - ' + getTranslation('human-general', 'no_response', true);
+    }
+  }
+
+  if (source.type === 'act' && source.id === PRETRI_ACTION_ID_OPEN_AIRWAYS) {
+    message += ' - ' + getTranslation('human-general', 'airways-opened', true);
+  }
 
   const entry: TreatmentLog = {
     time: event.time,
@@ -810,7 +820,6 @@ function doTreatment(
     f.state.console.push(entry);
   });
 }
-
 function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
   const resolvedAction = resolveAction(event.payload);
 
@@ -974,7 +983,7 @@ export function getHumanMeta(humanId: string): HumanMeta | undefined {
 
 export function getHumanConsole(id: string): ConsoleLog[] {
   const human = worldState.humans[`Human::${id}`];
-  return human?.human ? human.human.console : [];
+  return human?.human ? [...human.human.console] : [];
 }
 
 export function getCurrentPatientId() {

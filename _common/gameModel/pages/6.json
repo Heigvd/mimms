@@ -995,7 +995,7 @@
                                             "className" : "pretri-button pretri-primary sm-size text-brand",
                                             "disableIf" : {
                                               "@class" : "Script",
-                                              "content" : "import { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\nisInterfaceDisabled();",
+                                              "content" : "import { isInterfaceDisabled } from \"./game/pretri/drillMode\";\nisInterfaceDisabled();",
                                               "language" : "typescript"
                                             },
                                             "flexShrink" : 1,
@@ -1098,7 +1098,7 @@
                                             "className" : "pretri-button pretri-primary sm-size text-brand",
                                             "disableIf" : {
                                               "@class" : "Script",
-                                              "content" : "import { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| isInterfaceDisabled()",
+                                              "content" : "import { isInterfaceDisabled } from \"./game/pretri/drillMode\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| isInterfaceDisabled()",
                                               "language" : "typescript"
                                             },
                                             "flexShrink" : 1,
