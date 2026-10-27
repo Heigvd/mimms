@@ -4,98 +4,29 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "children" : [ {
-              "props" : {
-                "className" : "",
-                "layout" : { },
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
-                "name" : "painSmiley",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\nimport { getVisualDetailsFrom } from './game/patientZoom/graphics';\ngetVisualDetailsFrom(Context.currentPatient.state.humanBody);",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "mimms_h1title",
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
-                    "name" : "ID",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "String((Context.currentPatient.state.patientId))",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "className" : "mimms_h2title noPadding",
-                    "layoutClassName" : "noPadding noMargin ",
-                    "layoutStyle" : { },
-                    "name" : "sex and age",
-                    "style" : {
-                      "margin" : "0px"
-                    },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getRoundedAge } from \"./game/patientZoom/currentPatientZoom\";\nimport { getTranslation } from \"./tools/translation\";\n getTranslation('human-general', Context.currentPatient.state.humanBody.meta.sex, true) + ', ' + getRoundedAge(Context.currentPatient.state.humanBody.meta.age)",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "className" : "constant-title",
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
-                    "name" : "state",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getHumanVisualInfos } from \"./UIfacade/patientFacade\";\ngetHumanVisualInfos(Context.currentPatient.state.patientId);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                } ],
-                "className" : "smallGap",
-                "layout" : {
-                  "flexDirection" : "column"
-                },
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
-                "name" : "iD name & state",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            } ],
-            "layout" : {
-              "alignItems" : "center"
-            },
-            "layoutClassName" : "noPadding",
+            "className" : "",
+            "layout" : { },
+            "layoutClassName" : "",
             "layoutStyle" : {
-              "width" : "33%"
+              "heigth" : "6rem",
+              "paddingBottom" : "1rem",
+              "width" : "5rem"
             },
-            "name" : "painSmiley iD name & state",
-            "style" : {
-              "gap" : "2rem"
+            "name" : "painSmiley",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\nimport { getVisualDetailsFrom } from './game/patientZoom/graphics';\ngetVisualDetailsFrom(Context.currentPatient.state.humanBody);",
+              "language" : "JavaScript"
             }
           },
-          "type" : "FlexList"
+          "type" : "Text"
         }, {
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutClassName" : "noPadding",
                 "layoutStyle" : {
+                  "alignItem" : "flex-end",
                   "margin" : "auto",
                   "stroke" : "#43494C",
                   "strokeWidth" : "1",
@@ -110,11 +41,22 @@
                 }
               },
               "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "ID",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "String((Context.currentPatient.state.patientId))",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
             } ],
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "iD&tag",
             "style" : { }
@@ -164,7 +106,6 @@
             "children" : [ {
               "props" : {
                 "className" : "mimms_h2title noPadding noMargin",
-                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "pathologies",
                 "style" : {
@@ -179,20 +120,17 @@
               "type" : "Text"
             }, {
               "props" : {
-                "className" : "constant-title",
-                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "pathologies",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getPathologyNames } from \"./UIfacade/patientFacade\";\ngetPathologyNames(Context.currentPatient.state);",
+                  "content" : "Context.currentPatient.state.pathologyNames.join(\", \")",
                   "language" : "TypeScript"
                 }
               },
               "type" : "Text"
             } ],
-            "className" : "smallGap",
             "hideIf" : {
               "@class" : "Script",
               "content" : "APP_CONTEXT !== \"Editor\";",
@@ -201,24 +139,22 @@
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "noPadding",
+            "layoutClassName" : "",
             "layoutStyle" : { },
             "name" : "pathologies",
             "style" : { }
           },
           "type" : "FlexList"
         } ],
-        "className" : "",
+        "className" : "noPadding noMargin",
         "layout" : {
-          "alignItems" : "center",
+          "alignItems" : "flex-end",
           "justifyContent" : "flex-start"
         },
-        "layoutClassName" : "noPadding",
+        "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
         "name" : "headerPatient",
-        "style" : {
-          "gap" : "2rem"
-        }
+        "style" : { }
       },
       "type" : "FlexList"
     }, {
