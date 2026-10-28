@@ -115,6 +115,14 @@ Can be run with `--fix` to fix both `model` and `basic_scenario`
 
 See [checkLibraries/README.md](checkLibraries/README.md)
 
+### yarn check-files
+Checks that each `filesmeta.json` matches its `files/` folder, and that `model` has the same files and metadata
+as `basic_scenario` (visibility aside).
+
+Can be run with `--fix` to apply `basic_scenario` to `model`
+
+See [checkFiles/README.md](checkFiles/README.md)
+
 ## Patch scripts
 Tools to keep basic_scenario and model coherent, in terms of refs and visibility
 

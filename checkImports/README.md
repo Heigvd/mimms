@@ -32,9 +32,9 @@ Example:
    Language: TypeScript
 
 📝 Code:
- 1 │ import { HumanTreatmentEvent } from './game/legacy/the_world';
+ 1 │ import { HumanTreatmentEvent } from './game/pretri/patientProcessing';
  2 │ ...
 
 ❌ Error:
-   Module "./game/legacy/the_world" does not export: HumanTreatmentEvent
+   Module "./game/pretri/patientProcessing" does not export: HumanTreatmentEvent
 ```

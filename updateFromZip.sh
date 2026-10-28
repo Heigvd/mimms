@@ -176,5 +176,15 @@ if [ $? -gt 0 ]; then
 fi
 
 echo
+echo "Checking files and filesmeta.json"
+yarn check-files
+
+if [ $? -gt 0 ]; then
+    echo
+    echo "Files mismatch(es), run 'yarn check-files --fix'";
+    echo
+fi
+
+echo
 echo "Done"
 echo "Please review changes"
