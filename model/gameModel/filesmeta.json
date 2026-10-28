@@ -79,31 +79,31 @@
   },
   "/maps/CERN-meyrin/buildings.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/CERN-meyrin/greenery.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/CERN-meyrin/rails.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/CERN-meyrin/roads.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/CERN-meyrin/water.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
@@ -121,31 +121,31 @@
   },
   "/maps/CERN-point5/buildings.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/CERN-point5/greenery.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/CERN-point5/rails.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/CERN-point5/roads.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/CERN-point5/water.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
@@ -512,18 +512,6 @@
   "/patient/scales/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
-    "note" : "",
-    "visibility" : "INTERNAL"
-  },
-  "/patient/scales/colorScale_EN.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "INTERNAL"
-  },
-  "/patient/scales/colorScale_FR.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "INTERNAL"
   },
