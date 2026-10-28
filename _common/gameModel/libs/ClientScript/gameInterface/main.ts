@@ -136,7 +136,8 @@ export function actionChangeHandler(actionTemplate: ActionTemplateBase): void {
     currentActionUid: actionTemplate?.uid,
   };
 
-  if (canPlanAction() && actionTemplate) {
+  const actorUid = getTypedInterfaceState().currentActorUid;
+  if (actionTemplate && actorUid && canActorPlanAction(actorUid)) {
     endMapAction();
 
     if (isChoiceTemplate(actionTemplate)) {
@@ -149,7 +150,7 @@ export function actionChangeHandler(actionTemplate: ActionTemplateBase): void {
           startMapChoice();
         }
       } else {
-        actionLogger.error(`The choice template ${actionTemplate.uid} has no available choice`);
+        actionLogger.warn(`The choice template ${actionTemplate.uid} has no available choice`);
       }
     }
   }
