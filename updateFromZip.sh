@@ -186,5 +186,15 @@ if [ $? -gt 0 ]; then
 fi
 
 echo
+echo "Checking translations"
+yarn check-translations
+
+if [ $? -gt 0 ]; then
+    echo
+    echo "Translation mismatch(es), run 'yarn check-translations --fix'";
+    echo
+fi
+
+echo
 echo "Done"
 echo "Please review changes"

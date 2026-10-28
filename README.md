@@ -123,6 +123,14 @@ Can be run with `--fix` to apply `basic_scenario` to `model`
 
 See [checkFiles/README.md](checkFiles/README.md)
 
+### yarn check-translations
+Checks that `model` has the same translations as `basic_scenario` (the `localization` tables): missing, added and
+different ones.
+
+Can be run with `--fix` to copy the translations of `basic_scenario` to `model`
+
+See [checkTranslations/README.md](checkTranslations/README.md)
+
 ## Patch scripts
 Tools to keep basic_scenario and model coherent, in terms of refs and visibility
 

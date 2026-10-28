@@ -15,7 +15,8 @@
     "check-page-scripts": "node checkImports/checkPageScripts.js",
     "check-libraries": "node checkLibraries/checkLibraries.js",
     "check-files": "node checkFiles/checkFiles.js",
-    "check-all": "tsc && npm run check-page-scripts && npm run check-libraries && npm run check-files"
+    "check-translations": "node checkTranslations/checkTranslations.js",
+    "check-all": "tsc && npm run check-page-scripts && npm run check-libraries && npm run check-files && npm run check-translations"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.174",
