@@ -5,45 +5,55 @@
  */
 
 import { IUniqueActionTemplates } from '../game/actionTemplatesData';
-import { ActionBase, ChoiceAction } from '../game/common/actions/actionBase';
+import { ActionBase, ActionClass, ChoiceAction } from '../game/common/actions/actionBase';
 import * as ActionLogic from '../game/common/actions/actionLogic';
 import {
   ActionTemplateBase,
-  CasuMessageTemplate,
   ChoiceTemplate,
-  EvacuationActionTemplate,
-  MoveActorActionTemplate,
-  MoveResourcesAssignTaskActionTemplate,
-  PretriageReportTemplate,
-  SendRadioMessageTemplate,
   SimFlag,
-  SituationUpdateActionTemplate,
-} from '../game/common/actions/actionTemplateBase';
+  StartEndTemplate,
+} from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
 import { ActionTemplateUid, ActorId } from '../game/common/baseTypes';
-import { situationUpdateDurations, TimeSliceDuration } from '../game/common/constants';
 import { Uid } from '../game/common/interfaces';
 import { RadioType } from '../game/common/radio/communicationType';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
 import {
-  buildAndLaunchActionCancellation,
   buildAndLaunchActionFromTemplate,
   fetchAvailableActionTemplates,
   getCurrentState,
+  getMaxPriority,
+  getPrioritizedActionTemplates,
   getUniqueActionTemplates,
+  isActionTemplatePlayable,
+  PlayableActionTemplate,
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
-import { canPlanAction, isPlannedAction } from '../gameInterface/main';
 import { refreshSelectionLayer } from '../gameMap/main';
-import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActors } from './actorFacade';
+import {
+  CasuMessageTemplate,
+  SendRadioMessageTemplate,
+} from '../game/common/actions/actionTemplate/radioTemplates';
+import {
+  CustomDurationActionTemplate,
+  CustomDurationActionTemplateType,
+  MoveActorActionTemplate,
+} from '../game/common/actions/actionTemplate/actorTemplates';
+import {
+  EvacuationActionTemplate,
+  MoveResourcesAssignTaskActionTemplate,
+} from '../game/common/actions/actionTemplate/patientResourceTemplates';
+import { OneMinuteDuration } from '../game/common/constants';
+import { getTranslation } from '../tools/translation';
+import { parseObjectInstance, saveToObjectInstance } from '../tools/WegasHelper';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(
   actionType: ActionType = ActionType.ACTION
-): ActionTemplateBase[] {
+): PlayableActionTemplate[] {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   if (currentActorUid) {
     return fetchAvailableActionTemplates(currentActorUid, actionType);
@@ -55,6 +65,51 @@ export function getAvailableActionTemplates(
 // used for choice actions in page 31
 export function getAvailableActionTemplateById(templateId: ActionTemplateUid) {
   return getAvailableActionTemplates().find(t => t.uid === templateId);
+}
+
+/**
+ * Action templates already viewed by the current player.
+ * Key: action template uid, value: 'true' once viewed. Variable is viewedActionTemplates
+ */
+function getViewedActionTemplates(): Record<ActionTemplateUid, boolean> {
+  return parseObjectInstance<boolean>(
+    Variable.find(gameModel, 'viewedActionTemplates').getInstance(self)
+  );
+}
+
+// used in page actionsList to mark the actions not viewed yet
+export function isActionTemplateViewed(templateUid: ActionTemplateUid): boolean {
+  return getViewedActionTemplates()[templateUid] ?? false;
+}
+
+/**
+ * Mark the action template as viewed by the current player, if not already done
+ */
+export async function markActionTemplateAsViewed(
+  templateUid: ActionTemplateUid
+): Promise<IManagedResponse | undefined> {
+  if (isActionTemplateViewed(templateUid)) return;
+
+  const newProperty: Record<string, string> = {};
+  newProperty[templateUid] = 'true';
+
+  saveToObjectInstance(
+    Variable.find(gameModel, 'viewedActionTemplates').getInstance(self),
+    newProperty
+  );
+}
+
+/**
+ * Computing bullet of not viewed actions for the actions menu item
+ */
+// used in page 43
+export function getUnviewedActionTemplatesCountBullet(): number | undefined {
+  const viewed = getViewedActionTemplates();
+  const unviewedCount = getAvailableActionTemplates(ActionType.ACTION).filter(
+    t => !viewed[t.uid]
+  ).length;
+
+  return unviewedCount > 0 ? unviewedCount : undefined;
 }
 
 export function isAvailable(template: ActionTemplateBase): boolean {
@@ -69,26 +124,92 @@ export function isAvailable(template: ActionTemplateBase): boolean {
   return false;
 }
 
+/**
+ * @returns true if the template is available for the current actor and has the highest priority
+ */
+export function isPlayable(template: ActionTemplateBase | undefined): boolean {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (template && currentActorUid) {
+    return isActionTemplatePlayable(template, currentActorUid);
+  }
+  return false;
+}
+
+// used in page actionsList to display the priority tag
+export function hasPriority(template: ActionTemplateBase): boolean {
+  return template.getPriority(getCurrentState()) > 0;
+}
+
+/**
+ * @returns true if an action with a priority is available for the current actor,
+ * then only this action can be played
+ */
+export function isPriorityActionPending(): boolean {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (currentActorUid) {
+    return getMaxPriority(currentActorUid) > 0;
+  }
+  return false;
+}
+
+export interface PriorityActionNotice {
+  /** actors of the player having at least one priority action */
+  actors: { uid: ActorId; shortName: string }[];
+  /** priority actions currently pending for the actors of the player */
+  templateUids: ActionTemplateUid[];
+}
+
+function getPriorityActionNotice(): PriorityActionNotice {
+  const notice: PriorityActionNotice = { actors: [], templateUids: [] };
+
+  getCurrentPlayerActors().forEach(actor => {
+    const templates = getPrioritizedActionTemplates(actor.Uid);
+    if (templates.length > 0) {
+      notice.actors.push({ uid: actor.Uid, shortName: actor.ShortName });
+      templates.forEach(template => {
+        if (!notice.templateUids.includes(template.uid)) {
+          notice.templateUids.push(template.uid);
+        }
+      });
+    }
+  });
+
+  return notice;
+}
+
+/**
+ * The notice is displayed while the actors of the player have priority actions,
+ * unless all of them have already been dismissed
+ */
+// used in page 43
+export function isPriorityActionNoticeVisible(): boolean {
+  const dismissed = getTypedInterfaceState().dismissedPriorityActions ?? {};
+  return getPriorityActionNotice().templateUids.some(uid => !dismissed[uid]);
+}
+
+// used in page 43
+export function getPriorityActionNoticeActors(): PriorityActionNotice['actors'] {
+  return getPriorityActionNotice().actors;
+}
+
+/**
+ * Dismisses the notice for the currently pending priority actions,
+ * it will be displayed again when a new priority action appears
+ */
+// used in page 43
+export function dismissPriorityActionNotice(): void {
+  const dismissed: Record<ActionTemplateUid, boolean> = {};
+  getPriorityActionNotice().templateUids.forEach(uid => (dismissed[uid] = true));
+  setInterfaceState({ dismissedPriorityActions: dismissed });
+}
+
 export function getAvailableChoices(template: ChoiceTemplate): ChoiceDescriptor[] {
   return ActionLogic.getAvailableChoices(getCurrentState(), template);
 }
 
-/**
- * @param template
- * @returns true if the action can be played or is currently planned, thus can be cancelled
- */
-export function canCancel(template: ActionTemplateBase | undefined): boolean {
-  if (!template) return false;
-  return isAvailable(template) && isPlannedAction(template.uid);
-}
-
-/**
- * @param template
- * @returns true if an action can be planned by the current actor
- * or that the current actor can cancel an action based on this template
- */
-export function canPlanOrCancel(template: ActionTemplateBase | undefined): boolean {
-  return canPlanAction() || canCancel(template);
+// used in page 31 to know whether a single choice is worth displaying on its own
+export function choiceHasContent(choice: ChoiceDescriptor): boolean {
+  return !!I18n.translate(choice.title)?.trim() || !!I18n.translate(choice.description)?.trim();
 }
 
 export function uniqueActionTemplates(): IUniqueActionTemplates | undefined {
@@ -111,20 +232,6 @@ export async function planAction(
   return await buildAndLaunchActionFromTemplate(actionTemplate, selectedActor, params);
 }
 
-// TODO Maybe ensure only owning actor can cancel actions
-/**
- *
- * @param selectedActor The actor that cancels the action
- * @param templateId The template of the action to cancel
- * @returns
- */
-export async function cancelAction(
-  selectedActor: ActorId,
-  templateId: ActionTemplateUid
-): Promise<IManagedResponse | undefined> {
-  return await buildAndLaunchActionCancellation(selectedActor, templateId);
-}
-
 /**
  * @returns All the actions that have been planned
  */
@@ -132,54 +239,24 @@ export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
 }
 
-export function getAllCancelledActions(): Readonly<ActionBase[]> {
-  return getCurrentState().getAllCancelledActions();
-}
-
-export function getDefaultSituationUpdateDuration(): number {
-  return TimeSliceDuration * situationUpdateDurations[0]!;
-}
-
-export function getDurationChoicesForSituationUpdateAction(): { label: string; value: string }[] {
-  return situationUpdateDurations.map((nbMinutes: number) => {
-    return {
-      label: `${nbMinutes} ${getTranslation('mainSim-resources', 'minutes', false)}`,
-      value: `${TimeSliceDuration * nbMinutes}`,
-    };
-  });
-}
-export function isCurrentActorDoing<T extends ActionBase>(actionClass: {
-  new (...args: any[]): T;
-}): boolean {
-  const currentActorUid = getTypedInterfaceState().currentActorUid;
-  const state = getCurrentState();
-
-  if (currentActorUid) {
-    return isOngoingAndStartedAction(state, currentActorUid, actionClass);
+/**
+ * Duration to display with the action description.
+ * Empty when the action has no duration, or when it is a choice action
+ * (the duration is already displayed on each choice).
+ */
+export function getActionDurationText(template: StartEndTemplate): string {
+  if (isChoiceTemplate(template) || !template.duration) {
+    return '';
   }
-
-  return false;
+  return `${template.duration / 60} ${getTranslation('mainSim-resources', 'minutes', false)}`;
 }
 
-export function areAllActorsDoing<T extends ActionBase>(actionClass: {
-  new (...args: any[]): T;
-}): boolean {
+export function areAllActorsDoing<T extends ActionBase>(actionClass: ActionClass<T>): boolean {
   const state = getCurrentState();
   const playerActors: Readonly<Actor[]> = getCurrentPlayerActors();
 
   return playerActors.every((actor: Actor) =>
     isOngoingAndStartedAction(state, actor.Uid, actionClass)
-  );
-}
-
-export function getActorsNotDoing<T extends ActionBase>(actionClass: {
-  new (...args: any[]): T;
-}): Actor[] {
-  const state = getCurrentState();
-  const playerActors: Readonly<Actor[]> = getCurrentPlayerActors();
-
-  return playerActors.filter(
-    (actor: Actor) => !isOngoingAndStartedAction(state, actor.Uid, actionClass)
   );
 }
 
@@ -218,16 +295,14 @@ export function isMoveActorActionTemplate(template: ActionTemplateBase | undefin
   return template instanceof MoveActorActionTemplate;
 }
 
-export function isSituationUpdateActionTemplate(template: ActionTemplateBase | undefined): boolean {
-  return template instanceof SituationUpdateActionTemplate;
+export function isCustomDurationActionTemplate(
+  template: ActionTemplateBase | undefined
+): template is CustomDurationActionTemplateType {
+  return template instanceof CustomDurationActionTemplate;
 }
 
 export function isEvacuationActionTemplate(template: ActionTemplateBase | undefined): boolean {
   return template instanceof EvacuationActionTemplate;
-}
-
-export function isPretriageReportTemplate(template: ActionTemplateBase | undefined): boolean {
-  return template instanceof PretriageReportTemplate;
 }
 
 /**
@@ -238,9 +313,6 @@ export function isPCFrontBuilt(): boolean {
 }
 
 export function isMethaneSendDisabled(): boolean {
-  if (canCancel(uniqueActionTemplates()?.CasuMessageTemplate)) {
-    return false;
-  }
   const { casuMessage, hospitalInfoChosenProximity } = getTypedInterfaceState();
   return casuMessage.messageType === 'R' && hospitalInfoChosenProximity === undefined;
 }
@@ -248,4 +320,47 @@ export function isMethaneSendDisabled(): boolean {
 export function updateChoice(choiceUid: Uid): void {
   setInterfaceState({ selectedActionChoiceUid: choiceUid });
   refreshSelectionLayer();
+}
+
+export function updateCustomDurationsState(uid: number, newValue: number) {
+  const updatedCustomDurations = { ...getTypedInterfaceState().customDurations };
+
+  updatedCustomDurations[uid] = newValue;
+  setInterfaceState({ customDurations: updatedCustomDurations });
+}
+
+/**
+ * formats display of a duration range
+ * @param min duration in seconds
+ * @param max duration in seconds if applicable
+ */
+export function formatDurationMinMax(min: number, max: number | undefined = undefined): string {
+  const minMinutes = (min || 0) / OneMinuteDuration;
+  if (max !== undefined && min < max) {
+    return `${minMinutes} - ${max / OneMinuteDuration}'`;
+  }
+  return minMinutes + "'";
+}
+
+/**
+ * @returns formats display of a choice duration
+ */
+export function formatChoiceDuration(template: StartEndTemplate, choice: ChoiceDescriptor): string {
+  return formatDurationMinMax(Math.max(0, template.duration + (choice.durationDeltaSec || 0)));
+}
+
+/**
+ * formats the duration of an action template.
+ * For choice templates, displays the range of durations among the available choices
+ */
+export function formatActionDuration(template: ActionTemplateBase): string {
+  if (template instanceof ChoiceTemplate) {
+    const durations = getAvailableChoices(template).map(c => template.getChoiceDuration(c));
+    if (durations.length > 0) {
+      return formatDurationMinMax(Math.min(...durations), Math.max(...durations));
+    }
+  } else if (template instanceof StartEndTemplate) {
+    return formatDurationMinMax(template.duration);
+  }
+  return formatDurationMinMax(0);
 }

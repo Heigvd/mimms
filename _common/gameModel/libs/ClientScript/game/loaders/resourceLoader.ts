@@ -1,6 +1,6 @@
 import { resourceLogger } from '../../tools/logger';
 import { parseObjectDescriptor } from '../../tools/WegasHelper';
-import { SimFlag } from '../common/actions/actionTemplateBase';
+import { SimFlag } from '../common/actions/actionTemplate/actionTemplateBase';
 import { InterventionRole } from '../common/actors/actor';
 import { ResourceContainerDefinitionId, TranslationKey } from '../common/baseTypes';
 import {
@@ -124,11 +124,8 @@ function initContainerDefinitions(): void {
   );
 
   definitionsMapping['PMA'] = addContainerDefinition('PMA', 'pma', {
-    secouriste: 4,
-  });
-
-  definitionsMapping['PICA'] = addContainerDefinition('PICA', 'pica', {
     secouriste: 10,
+    PMA: 1,
   });
 
   definitionsMapping['PC-San'] = addContainerDefinition(

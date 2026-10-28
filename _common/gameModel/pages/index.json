@@ -105,16 +105,10 @@
           "scenaristPage" : false,
           "trainerPage" : false
         }, {
-          "@class" : "Page",
-          "id" : "54",
-          "name" : "time forward waiting",
-          "scenaristPage" : null,
-          "trainerPage" : false
-        }, {
           "@class" : "Folder",
           "items" : [ {
             "@class" : "Page",
-            "id" : "45",
+            "id" : "actionsList",
             "name" : "actions list",
             "scenaristPage" : null,
             "trainerPage" : null
@@ -132,9 +126,15 @@
             "trainerPage" : null
           }, {
             "@class" : "Page",
-            "id" : "actionSituationUpdateParam",
-            "name" : "situation update action",
+            "id" : "customDurationActionParam",
+            "name" : "custom duration param",
             "scenaristPage" : false,
+            "trainerPage" : null
+          }, {
+            "@class" : "Page",
+            "id" : "feedbacksList",
+            "name" : "feedbacks list",
+            "scenaristPage" : null,
             "trainerPage" : null
           } ],
           "name" : "action"
@@ -202,32 +202,10 @@
           "name" : "radio"
         }, {
           "@class" : "Page",
-          "id" : "67",
-          "name" : "resources management",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
           "id" : "68",
-          "name" : "resources management and reports",
+          "name" : "resources requests",
           "scenaristPage" : null,
           "trainerPage" : null
-        }, {
-          "@class" : "Folder",
-          "items" : [ {
-            "@class" : "Page",
-            "id" : "locationBase",
-            "name" : "location panel",
-            "scenaristPage" : null,
-            "trainerPage" : null
-          }, {
-            "@class" : "Page",
-            "id" : "pmaLocationPanel",
-            "name" : "PMA location",
-            "scenaristPage" : null,
-            "trainerPage" : null
-          } ],
-          "name" : "location"
         }, {
           "@class" : "Page",
           "id" : "patientsListModale",
@@ -238,6 +216,24 @@
           "@class" : "Page",
           "id" : "64",
           "name" : "notifications",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "evacuationView",
+          "name" : "evacuation",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "resourcesManagement",
+          "name" : "resources management",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "patientFlow",
+          "name" : "patient flow",
           "scenaristPage" : null,
           "trainerPage" : null
         } ],
@@ -301,18 +297,6 @@
     }, {
       "@class" : "Folder",
       "items" : [ {
-        "@class" : "Page",
-        "id" : "30",
-        "name" : "Main Scenarist Page",
-        "scenaristPage" : false,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
-        "id" : "21",
-        "name" : "Game Mode",
-        "scenaristPage" : null,
-        "trainerPage" : null
-      }, {
         "@class" : "Page",
         "id" : "scenaristMainMenu",
         "name" : "Content Edition",
@@ -441,22 +425,6 @@
         "scenaristPage" : true,
         "trainerPage" : null
       }, {
-        "@class" : "Folder",
-        "items" : [ {
-          "@class" : "Page",
-          "id" : "13",
-          "name" : "bagsConfig",
-          "scenaristPage" : false,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "16",
-          "name" : "skills config",
-          "scenaristPage" : false,
-          "trainerPage" : null
-        } ],
-        "name" : "Legacy"
-      }, {
         "@class" : "Page",
         "id" : "2",
         "name" : "Data Edition",
@@ -489,6 +457,12 @@
         "id" : "scenaristValidation",
         "name" : "Validation",
         "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "16",
+        "name" : "Skills Configuration",
+        "scenaristPage" : false,
         "trainerPage" : null
       } ],
       "name" : "Scenarist"
@@ -618,7 +592,13 @@
           "@class" : "Page",
           "id" : "59",
           "name" : "mainSim_events",
-          "scenaristPage" : null,
+          "scenaristPage" : false,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "60",
+          "name" : "mainSim_local events",
+          "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",

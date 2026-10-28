@@ -1,7 +1,5 @@
-import { toMinutes } from '../../../tools/helper';
 import { taskLogger } from '../../../tools/logger';
-import { getTranslation } from '../../../tools/translation';
-import { InterventionRole } from '../actors/actor';
+import { Actor, InterventionRole } from '../actors/actor';
 import {
   ActorId,
   GlobalEventId,
@@ -12,20 +10,13 @@ import {
   TranslationKey,
 } from '../baseTypes';
 import { EvacuationSquadDefinition } from '../evacuation/evacuationSquadDef';
-import {
-  AddRadioMessageLocalEvent,
-  AssignResourcesToWaitingTaskLocalEvent,
-  MovePatientLocalEvent,
-  MoveResourcesAtArrivalLocationLocalEvent,
-  MoveResourcesLocalEvent,
-} from '../localEvents/localEventBase';
+import { MovePatientLocalEvent } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
-import { RadioType } from '../radio/communicationType';
-import * as RadioLogic from '../radio/radioLogic';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { EvacuationSubTask } from './subTask';
 import { TaskBase, TaskType } from './taskBase';
+import { MoveResourcesLocalEvent } from '../localEvents/localEventResources';
 
 // -------------------------------------------------------------------------------------------------
 // Evacuation task
@@ -34,24 +25,24 @@ import { TaskBase, TaskType } from './taskBase';
 export class EvacuationTask extends TaskBase<EvacuationSubTask> {
   public constructor(
     title: TranslationKey,
-    description: TranslationKey,
-    nbMinResources: number,
-    nbMaxResources: number,
-    ownerRole: InterventionRole,
-    availableToLocations: LOCATION_ENUM[],
-    availableToRoles?: InterventionRole[]
+    location: LOCATION_ENUM,
+    availableToRoles?: InterventionRole[],
+    maximumIdleTime?: number
   ) {
-    super(
-      TaskType.Evacuation,
-      title,
-      description,
-      nbMinResources,
-      nbMaxResources,
-      ownerRole,
-      availableToLocations,
-      availableToRoles,
-      false
-    );
+    super(TaskType.Evacuation, title, location, availableToRoles, maximumIdleTime);
+  }
+
+  /**
+   * Resources engaged in an evacuation cannot be taken off it.
+   *
+   * @see dispatchInProgressEvents
+   */
+  protected override isAvailableCustom(
+    _state: Readonly<MainSimulationState>,
+    _actor: Readonly<Actor>,
+    _location: Readonly<LOCATION_ENUM>
+  ): boolean {
+    return false;
   }
 
   public createSubTask(
@@ -61,7 +52,6 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     patientId: PatientId,
     hospitalId: HospitalId,
     patientUnitId: PatientUnitId,
-    doResourcesComeBack: boolean,
     travelTime: number,
     feedbackWhenReturning: TranslationKey,
     squadDef: EvacuationSquadDefinition
@@ -71,7 +61,6 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
       patientId,
       hospitalId,
       patientUnitId,
-      doResourcesComeBack,
       parentEventId,
       ownerId,
       travelTime,
@@ -85,13 +74,18 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
   protected override dispatchInProgressEvents(
     state: Readonly<MainSimulationState>,
     timeJump: number
-  ): void {
+  ): ResourceId[] {
     taskLogger.debug('evacuation task');
 
     taskLogger.debug('Sub tasks before changes : ', JSON.stringify(Object.values(this.subTasks)));
 
     // no need to clean up sub-tasks from unallocated resources
     // we cannot unallocate an evacuation resource
+
+    // the resources involved in a sub-task are the ones that are able to work during the time slice
+    const workingResourcesId: ResourceId[] = Object.values(this.subTasks).flatMap(
+      (subTask: EvacuationSubTask) => subTask.resources
+    );
 
     Object.values(this.subTasks).forEach((subTask: EvacuationSubTask) => {
       subTask.cumulatedTime += timeJump;
@@ -106,22 +100,8 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
 
         this.launchEventsWhenArriveAtHospital(state, subTask);
 
-        if (subTask.doResourcesComeBack) {
-          subTask.status = 'way_back';
-        } else {
-          subTask.status = 'completed';
-        }
-      }
-
-      if (subTask.status === 'way_back' && subTask.cumulatedTime > subTask.travelTime) {
-        subTask.cumulatedTime -= subTask.travelTime;
-
-        this.launchEventsWhenResourcesComeBack(state, subTask);
-
         subTask.status = 'completed';
       }
-
-      this.subTasks[subTask.subTaskId] = { ...subTask };
 
       if (subTask.status === 'completed') {
         delete this.subTasks[subTask.subTaskId];
@@ -129,6 +109,8 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     });
 
     taskLogger.debug('Sub tasks after changes : ', JSON.stringify(Object.values(this.subTasks)));
+
+    return workingResourcesId;
   }
 
   private launchEventsAtStartTime(
@@ -138,6 +120,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     getLocalEventManager().queueLocalEvent(
       new MovePatientLocalEvent({
         parentEventId: subTask.parentEventId,
+        source: { type: 'task', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         patientId: subTask.patientId,
         location: {
@@ -150,6 +133,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     getLocalEventManager().queueLocalEvent(
       new MoveResourcesLocalEvent({
         parentEventId: subTask.parentEventId,
+        source: { type: 'task', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         ownerUid: subTask.ownerId,
         resourcesId: subTask.resources,
@@ -165,6 +149,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     getLocalEventManager().queueLocalEvent(
       new MovePatientLocalEvent({
         parentEventId: subTask.parentEventId,
+        source: { type: 'task', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         patientId: subTask.patientId,
         location: {
@@ -172,52 +157,6 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
           locationId: subTask.hospitalId,
           patientUnit: subTask.patientUnitId,
         },
-      })
-    );
-    if (subTask.doResourcesComeBack) {
-      // Send radio message on CASU about time needed to come back to incident when arriving at hospital
-      getLocalEventManager().queueLocalEvent(
-        new AddRadioMessageLocalEvent({
-          parentEventId: subTask.parentEventId,
-          simTimeStamp: state.getSimTime(),
-          senderName: RadioLogic.getResourceAsSenderName(),
-          message: subTask.feedbackWhenReturning,
-          channel: RadioType.CASU,
-          messageValues: [
-            getTranslation(
-              'mainSim-actions-tasks',
-              subTask.squadDef.mainVehicleTranslationNoun,
-              false
-            ),
-            getTranslation(
-              'mainSim-actions-tasks',
-              subTask.squadDef.healerPresenceTranslation,
-              false
-            ),
-            toMinutes(subTask.travelTime),
-          ],
-        })
-      );
-    }
-  }
-
-  private launchEventsWhenResourcesComeBack(
-    state: Readonly<MainSimulationState>,
-    subTask: EvacuationSubTask
-  ) {
-    getLocalEventManager().queueLocalEvent(
-      new MoveResourcesAtArrivalLocationLocalEvent({
-        parentEventId: subTask.parentEventId,
-        simTimeStamp: state.getSimTime(),
-        resourcesIds: subTask.resources,
-      })
-    );
-
-    getLocalEventManager().queueLocalEvent(
-      new AssignResourcesToWaitingTaskLocalEvent({
-        parentEventId: subTask.parentEventId,
-        simTimeStamp: state.getSimTime(),
-        resourcesId: subTask.resources,
       })
     );
   }

@@ -48,13 +48,12 @@ export class PorterSubTask extends SubTask {
   }
 }
 
-type EvacuationSubTaskStatus = 'started' | 'way_to_hospital' | 'way_back' | 'completed';
+type EvacuationSubTaskStatus = 'started' | 'way_to_hospital' | 'completed';
 
 export class EvacuationSubTask extends SubTask {
   public status: EvacuationSubTaskStatus;
   public hospitalId: HospitalId;
   public patientUnitId: PatientUnitId;
-  public doResourcesComeBack: boolean;
   public parentEventId: GlobalEventId;
   public ownerId: ActorId;
   public travelTime: number;
@@ -64,7 +63,6 @@ export class EvacuationSubTask extends SubTask {
     patientId: string,
     hospitalId: HospitalId,
     patientUnitId: PatientUnitId,
-    doResourcesComeBack: boolean,
     parentEventId: GlobalEventId,
     ownerId: ActorId,
     travelTime: number,
@@ -74,7 +72,6 @@ export class EvacuationSubTask extends SubTask {
     super(resources, patientId);
     this.hospitalId = hospitalId;
     this.patientUnitId = patientUnitId;
-    this.doResourcesComeBack = doResourcesComeBack;
     this.parentEventId = parentEventId;
     this.ownerId = ownerId;
     this.travelTime = travelTime;

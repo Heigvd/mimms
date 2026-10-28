@@ -37,25 +37,115 @@
   },
   "/maps/Avenches/buildings.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Avenches/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
   "/maps/Avenches/rails.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
   "/maps/Avenches/roads.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
   "/maps/Avenches/water.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-meyrin/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-meyrin/bbox.data" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-meyrin/buildings.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-meyrin/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-meyrin/rails.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-meyrin/roads.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-meyrin/water.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/bbox.data" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/buildings.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/rails.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/roads.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/water.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -73,25 +163,73 @@
   },
   "/maps/GVA-center/buildings.geojson" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/GVA-center/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
   "/maps/GVA-center/rails.geojson" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
   "/maps/GVA-center/roads.geojson" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
   "/maps/GVA-center/water.geojson" : {
     "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/GVA-lignon/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/GVA-lignon/bbox.data" : {
+    "description" : "",
     "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/GVA-lignon/buildings.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/GVA-lignon/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/GVA-lignon/rails.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/GVA-lignon/roads.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/GVA-lignon/water.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -109,25 +247,73 @@
   },
   "/maps/GVA/buildings.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/GVA/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
   "/maps/GVA/rails.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
   "/maps/GVA/roads.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
   "/maps/GVA/water.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Nice/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Nice/bbox.data" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Nice/buildings.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Nice/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Nice/rails.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Nice/roads.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Nice/water.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -173,7 +359,19 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/entreeChantier.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/helicopter-park.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/hospital.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
@@ -191,15 +389,9 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/mask _mimms.webp" : {
+  "/maps/mapIcons/white-background.svg" : {
     "description" : "",
-    "mimeType" : "image/webp",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/mask_drill.webp" : {
-    "description" : "",
-    "mimeType" : "image/webp",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -323,18 +515,6 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/patient/scales/colorScale_EN.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/scales/colorScale_FR.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/patient/scales/painsScale_EN.png" : {
     "description" : "",
     "mimeType" : "image/png",
@@ -344,18 +524,6 @@
   "/patient/scales/painsScale_FR.png" : {
     "description" : "",
     "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/texte_drill_pretri_droite_inverse.webp" : {
-    "description" : "",
-    "mimeType" : "image/webp",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/texte_mimms.webp" : {
-    "description" : "",
-    "mimeType" : "image/webp",
     "note" : "",
     "visibility" : "PRIVATE"
   },

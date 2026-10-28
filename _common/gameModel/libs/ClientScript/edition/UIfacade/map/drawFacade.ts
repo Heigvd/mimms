@@ -6,8 +6,8 @@ import {
 import { LOCATION_ENUM } from '../../../game/common/simulationState/locationState';
 import { scenarioEditionLogger } from '../../../tools/logger';
 import { getMapEntityController } from '../../controllers/controllerInstances';
-import { MapEntityCreationOptions } from '../../controllers/dataController';
 import { MapEntityUIState, SupportedDrawType } from '../../UIfacade/locationConfigFacade';
+import { MapEntityCreationOptions } from '../../controllers/mapEntityController';
 
 export function toggleDraw(type: SupportedDrawType): void {
   const drawActive = getMapEntityController().getLatestIState().drawActive;

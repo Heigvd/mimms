@@ -1,4 +1,5 @@
-/************************* Button size ****************************/
+/* - - - - -  B U T T O N  S I Z E  - - - */
+
 .button-S {
   border-radius: var(--L_borderRadius);
   padding: 8px 15px;
@@ -26,13 +27,15 @@
 	cursor: pointer;
 }
 
-/************************* Button color ****************************/
+
+/* - - - - -  B U T T O N  C O L O R  - - - */
+
 /** primary **/
 .button-primaryColor {
   color: var(--primary_base);
-	background-color: var(--grey_0);
+	background-color: var(--grey-white);
 	border: solid 3px var(--primary_base);
-  transition: color .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, box-shadow .3s ease-in-out;
+  transition: var(--button-transition);
 }
 
 .button-primaryColor:hover {
@@ -48,7 +51,7 @@
 	border-color: var(--primary_60);
 	box-shadow: var(--buttonInsetShadow);
 }
- 
+
 .button-primaryColor.current {
   font-weight: var(--boldWeight);
   color: var(--grey_0);
@@ -68,7 +71,7 @@
 .button-secondaryColor {
   color: var(--grey-white);
   background-color: var(--primary_base);
-  transition: color .3s ease-in-out, background-color .3s ease-in-out, box-shadow .3s ease-in-out;
+  transition: var(--button-transition);
 }
 
 .button-secondaryColor:hover {
@@ -89,6 +92,45 @@
 	cursor: default;
 }
 
+/* neutral */
+.button-neutralColor {
+  color: var(--grey-white);
+  background-color: var(--grey_80);
+  transition: var(--button-transition);
+}
+
+.button-neutralColor--outline {
+  color: var(--grey_80);
+	background-color: transparent;
+  outline: solid 3px var(--grey_80);
+  outline-offset: -3px;
+  transition: var(--button-transition);
+}
+
+.button-neutralColor:hover,
+.button-neutralColor--outline:hover {
+  color: var(--grey-white);
+  background-color: var(--grey_90);
+  outline-color: var(--grey_90);
+	box-shadow: var(--buttonShadow);
+	cursor: pointer;
+}
+
+.button-neutralColor:active,
+.button-neutralColor--outline:active {
+	background-color: var(--grey_90);
+	box-shadow: var(--buttonInsetShadow);
+}
+
+.disabled.button-neutralColor,
+.disabled.button-neutralColor--outline {
+  color: var(--grey_10);
+	background-color: var(--grey_20);
+  outline: none;
+  box-shadow: none;
+	cursor: default;
+}
+
 /** quaternary **/
 .quaternary-button {
   margin: 0;
@@ -98,7 +140,7 @@
   color: var(--primary_base);
   text-decoration: underline;
   background-color: transparent;
-  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+  transition: var(--button-transition);
 }
 
 .quaternary-button:hover {
@@ -107,50 +149,26 @@
   cursor: pointer;
 }
 
-/************************* Special button  ****************************/
 
-/***** ABORT *****/
-.abort {
-	background-color: var(--grey_60);
-}
+/* - - - - -  R E C T A N G L E  B U T T O N  - - - */
 
-.abort:hover {
-	background-color: var(--grey_70);
-	box-shadow: var(--buttonShadow);
-}
-
-/**** rectangles buttons ****/
+/* buttons in METHANE and in welcome page */
 .rectangleButton {
   margin: 0px;
 	font-size: var(--S_text);
 	font-weight: var(--boldWeight);
   color: var(--primary_base);
-	background-color: var(--grey_0);
+	background-color: var(--grey-white);
 	border: solid 2px var(--primary_base);
   border-radius: var(--XXS_borderRadius);
-  transition: color .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, box-shadow .3s ease-in-out;
+  transition: var(--button-transition);
 }
 
-/* buttons in METHANE and in welcome page */
 .rectangleButton:hover {
   color: var(--grey_0);
 	background-color: var(--primary_60);
 	border: solid 2px var(--primary_60);
 	box-shadow: var(--buttonShadow);
-}
-
-.disabled.rectangleButton {
-  color: var(--grey_50);
-  background-color:transparent;
-  border-color: var(--grey_50);
-  box-shadow: none;
-  /*cursor: default;*/
-}
-
-.selected.rectangleButton {
-	color: var(--grey_0);
-	background-color: var(--primary_base);
-	border: solid 2px var(--primary_base);
 }
 
 .rectangleButton:focus {
@@ -166,86 +184,60 @@
 	box-shadow: var(--buttonInsetShadow);
 }
 
-/*********************** NEXT BUTTON ***********************/
-.next-container {
-	z-index: 4;
-	position: absolute;
-	top: -85px;
-	right: 10px;
-  overflow: visible;
+.selected.rectangleButton {
+	color: var(--grey_0);
+	background-color: var(--primary_base);
+	border: solid 2px var(--primary_base);
 }
 
-/* The status about this button is unknown. It may be used in tools/abstractmatrix. Page 10 
-.confirmBtn{
-  position: relative;
-  bottom: 2.5rem;
-  right: 8.5rem;
+.disabled.rectangleButton {
+  color: var(--grey_50);
+  background-color: transparent;
+  border-color: var(--grey_50);
+  box-shadow: none;
 }
 
-.confirmBtn > *{
-  background-color: var(--primary_base);
-  border-color: var(--primary_base);
-}
-*/
 
-.nextActionBtn::before{
-  border:none;
-}
+/* - - - - -  R O L E  B U T T O N  - - - */
 
-.nextActionBtn { 
-  margin: 0.5em;
-  padding: 1.8em;
-  height: 3.5em;
-  max-width: 12.5em;
-  border-radius: 25px;
+.role-button,
+.role-button:hover { /* hover style identical to default style to overwrite wegas style */
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: var(--SM_text);
   font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  background-color: var(--grey-white);
+  border: 2px solid var(--primary_base);
+  border-radius: var(--L_borderRadius);
+}
+
+.role-button.current {
   color: var(--grey-white);
-  background-color: var(--primary_base); 
-  box-shadow: var(--buttonShadow);
-  transition: background-color .3s ease-in-out;
+  background-color: var(--primary_base);
 }
 
-.nextActionBtn:hover { /* à ajouter si on renlève le texte   > *    */
-  background: var(--primary_60);
-	cursor: pointer;
+.role-button.disabled {
+  background-color: var(--grey-white);
+  opacity: 50%;
 }
 
-.nextActionBtn > * > svg {
-	font-size: 1.6em;
-	margin: auto;
+/* - - - - -  P A T I E N T S  F L O W  B U T T O N  - - - */
+.patients-flow-button-container {
+  position: absolute;
+  top: 2.5rem;
+  right: 2.5rem;
+  z-index: 20;
 }
 
-.soft-warning {
-  width: fit-content;
-  height: fit-content;
-  padding: 20px;
-  font-size: var(--S_text);
-  color: var(--grey_100);
-  background-color: var(--notification_base);
-  border-radius: var(--S_borderRadius);
-  opacity: 0;
-  visibility: hidden;
+.patients-flow-button.iconOnly {
+  background-color: var(--grey-white);
+  border: 3px solid var(--grey_80);
+  box-shadow: var(--overlaysShadows);
 }
 
-.next-container:hover:has(.nextActionBtn:hover) .soft-warning {
-  animation: soft-warning-animation 2.6s forwards;
-}
-
-@keyframes soft-warning-animation {
-  0% {
-    opacity: 0;
-    visibility: hidden;
-  }
-  11.5% {
-    opacity: 1;
-    visibility: visible;
-  }
-  88.5% {
-    opacity: 1;
-    visibility: visible;
-  }
-  100% {
-    opacity: 0;
-    visibility: hidden;
-  }
+.patients-flow-button.notificationButton svg {
+  color: var(--grey_80);
 }

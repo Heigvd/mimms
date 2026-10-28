@@ -4,7 +4,7 @@ import { getActiveMapEntityFromBinding, LOCATION_ENUM } from '../simulationState
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { getRoleLongTranslation, getRoleShortTranslation } from './actorLogic';
 
-export const InterventionRoleTypeArray = ['AL', 'ACS', 'MCS', 'LEADPMA', 'EVASAN', 'CASU'] as const;
+export const InterventionRoleTypeArray = ['AL', 'ACS', 'MCS', 'EVASAN', 'CASU'] as const;
 
 export type InterventionRole = typeof InterventionRoleTypeArray[number];
 
@@ -14,9 +14,8 @@ export type InterventionRole = typeof InterventionRoleTypeArray[number];
 export const symbolicLocationMatrix: Record<InterventionRole, LOCATION_ENUM> = {
   ACS: LOCATION_ENUM.PC,
   MCS: LOCATION_ENUM.PC,
-  AL: LOCATION_ENUM.chantier,
+  AL: LOCATION_ENUM.entreeChantier,
   EVASAN: LOCATION_ENUM.PC,
-  LEADPMA: LOCATION_ENUM.PMA,
   CASU: LOCATION_ENUM.remote,
 };
 
@@ -31,7 +30,6 @@ type AuthorityLevel = number;
 export const hierarchyLevels: Record<InterventionRole, AuthorityLevel> = {
   ACS: 0,
   MCS: 0,
-  LEADPMA: 10,
   EVASAN: 20,
   AL: 30,
   CASU: 40,

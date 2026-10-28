@@ -107,78 +107,7 @@ var EventManager = (function () {
     return payload;
   }
 
-  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  function generateRandomId(length) {
-    var id = '';
-
-    for (var i = 0; i < length; i++) {
-      id += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-
-    return id;
-  }
-
-  function generateUniqueId() {
-    var existing = Variable.find(gameModel, 'characters').getInstance(self).getProperties();
-    var name = generateRandomId(3);
-    var counter = 0;
-    var id = 'char-' + name;
-
-    // make sure to avoid collisions by appending numeric suffix
-    while (existing.containsKey(id)) {
-      counter++;
-      id = 'char-' + name + '-' + counter;
-    }
-    return id;
-  }
-
-  // TODO get rid of character logic for player aka whoAmI
-  function instantiateCharacter(profileId, bagId) {
-    lock();
-    var charactersDesc = Variable.find(gameModel, 'characters');
-    var strProfile = charactersDesc.getProperty(profileId);
-
-    if (strProfile) {
-      var profile = JSON.parse(strProfile);
-      var skillId = profile.skillId;
-
-      var bodyFactoryParam = {
-        age: 30,
-        sex: Math.random() < 0.5 ? 'male' : 'female',
-        bmi: 22.5,
-        height_cm: 175,
-        lungDepth: 1,
-        scriptedEvents: [],
-        description: '',
-        skillId: skillId,
-      };
-      var id = generateUniqueId();
-      var jsonParam = JSON.stringify(bodyFactoryParam);
-
-      // persist data and set whoiAmI
-      Variable.find(gameModel, 'whoAmI').setValue(self, id);
-      charactersDesc.getInstance().setProperty(id, jsonParam);
-
-      if (bagId) {
-        var giveBagPayload = {
-          emitterPlayerId: self.getId(),
-          emitterCharacterId: id,
-          type: 'GiveBag',
-          targetType: 'Human',
-          targetId: id,
-          bagId: bagId,
-        };
-        sendNewEvent(giveBagPayload);
-      }
-
-      return id;
-    }
-    return '';
-  }
-
   return {
-    instantiateCharacter: instantiateCharacter,
     postNewEvent: sendNewEvent,
   };
 })();

@@ -3,12 +3,10 @@ import { ActDefinition, ItemDefinition } from '../HUMAn/pathology';
 import { upperCaseFirst } from './helper';
 import { translationLogger } from './logger';
 
-let cache: Record<string, SObjectDescriptor> = {};
-
 /**
  * @param category must be an object type
  * @param key is case insensitive
- * @param uppercase first letter, defaults to true
+ * @param upperCaseFirstLetter defaults to true
  * @param values interpolation values corresponding to {0}, {1},... placeholders in the translation string
  */
 export function getTranslation(
@@ -17,18 +15,18 @@ export function getTranslation(
   upperCaseFirstLetter = true,
   values: (string | number)[] = []
 ): string {
-  cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
-  if (cache[category]) {
-    const tr = cache[category]!.getProperties()[key.toLowerCase()];
-    if (tr) {
-      const t = JSON.parse(tr);
-      const translated = I18n.translate(t);
-      if (translated) {
-        const interpolated = interpolate(translated, values);
-        return upperCaseFirstLetter ? upperCaseFirst(interpolated) : interpolated;
-      }
+  const translationTable = Variable.find(gameModel, category) as SObjectDescriptor;
+  const tr = translationTable?.getProperties()[key.toLowerCase()];
+
+  if (tr) {
+    const t = JSON.parse(tr);
+    const translated = I18n.translate(t);
+    if (translated) {
+      const interpolated = interpolate(translated, values);
+      return upperCaseFirstLetter ? upperCaseFirst(interpolated) : interpolated;
     }
   }
+
   const fallback = '::' + category + '/' + key;
   translationLogger.info('Translation not found', fallback);
   return fallback;
@@ -116,14 +114,37 @@ export function getCurrentLanguageCode(): string {
   return I18n.currentLanguageCode;
 }
 
+/**
+ * active languages of the game model, used by the player language switcher
+ */
+export function getLanguageChoices(): { code: string; label: string }[] {
+  return gameModel
+    .getLanguages()
+    .filter(l => l.isActive())
+    .map(l => ({ code: l.getCode(), label: l.getCode().toUpperCase() }));
+}
+
+export function isCurrentLanguage(code: string): boolean {
+  return getCurrentLanguageCode().toUpperCase() === code.toUpperCase();
+}
+
+export function setPlayerLanguage(code: string): void {
+  Editor.setLanguage({ code });
+}
+
 export function createOrUpdateTranslation(
   value: string,
   existing: ITranslatableContent | undefined
 ): ITranslatableContent {
   if (existing && existing.translations) {
-    existing.translations[I18n.currentLanguageCode] = I18n.createTranslation(value);
-    existing.version++;
-    return existing;
+    return {
+      ...existing,
+      translations: {
+        ...existing.translations,
+        [I18n.currentLanguageCode]: I18n.createTranslation(value),
+      },
+      version: existing.version + 1,
+    };
   } else {
     return I18n.createTranslatableContent(value);
   }

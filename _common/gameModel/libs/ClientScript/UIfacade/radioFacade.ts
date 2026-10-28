@@ -1,4 +1,4 @@
-import { ActionBase, RadioDrivenAction } from '../game/common/actions/actionBase';
+import { ActionBase } from '../game/common/actions/actionBase';
 import { ActorId } from '../game/common/baseTypes';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import { CommType, NotifType, RadioType } from '../game/common/radio/communicationType';
@@ -15,12 +15,14 @@ import {
   InterfaceState,
   setInterfaceState,
 } from '../gameInterface/interfaceState';
-import { canCancelOnGoingAction, formatTime, getSimStartDateTime } from '../gameInterface/main';
+import { formatTime, getSimStartDateTime } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { getTranslation } from '../tools/translation';
 import { selectActorAndOpenMapLocation } from './actorFacade';
 import { isRadioSchemaActivated } from './flagsFacade';
 import { getSimTime } from './timeFacade';
+import { RadioDrivenAction } from '../game/common/actions/radioActions';
+import { SimFlag } from '../game/common/actions/actionTemplate/actionTemplateBase';
 
 // -------------------------------------------------------------------------------------------------
 // radio channels choice
@@ -262,22 +264,24 @@ function getUnreadMessagesCount(channel: RadioType): number {
  * Computing bullet not read messages for radio panel
  */
 export function getAllUnreadMessagesCountBullet(): number | undefined {
+  if (Context.interfaceState.state.selectedPanel === SelectedPanel.radios) {
+    return undefined;
+  }
+
   const readMsgsProperties = Variable.find(gameModel, 'readRadioMessagesByChannel')
     .getInstance(self)
     .getProperties();
-  let totalAmount = 0;
 
-  if (Context.interfaceState.state.selectedPanel !== SelectedPanel.radios) {
-    totalAmount = Object.entries(readMsgsProperties)
-      .filter(([k, _]) =>
-        [RadioType.CASU, RadioType.ACTORS, RadioType.RESOURCES, RadioType.EVASAN].includes(
-          k as RadioType
-        )
-      )
-      .reduce((prev, [k, v]) => {
-        return prev + getAvailableRadioMessagesForChannel(String(k) as RadioType).length - +v;
-      }, 0);
-  }
+  const radioSchemeActive = getCurrentState().isSimFlagEnabled(SimFlag.RADIO_SCHEMA_ACTIVATED);
+  const activeChannels = radioSchemeActive
+    ? [RadioType.CASU, RadioType.ACTORS, RadioType.RESOURCES, RadioType.EVASAN]
+    : [RadioType.CASU];
+  const totalAmount = Object.entries(readMsgsProperties)
+    .filter(([channel]) => activeChannels.includes(channel as RadioType))
+    .reduce((total, [channel, readCount]) => {
+      const availableCount = getAvailableRadioMessagesForChannel(channel as RadioType).length;
+      return total + availableCount - Number(readCount);
+    }, 0);
 
   return totalAmount > 0 ? totalAmount : undefined;
 }
@@ -342,22 +346,12 @@ export function getOngoingRadioMessagesOnChannelAsRadioMessages(
     senderName: undefined,
     recipientId: rm.getRecipientId(),
     timeStamp: getCurrentState().getSimTime(),
-    message: rm.getMessage(),
+    message: I18n.createTranslatableContent(rm.getMessage()),
     uid: rm.getEventId(),
     channel: rm.getChannel(),
     isRadioMessage: true,
     pending: true,
   }));
-}
-
-export function isChannelBusy(channel: RadioType): boolean {
-  if (
-    getOngoingRadioMessagesForActorOnChannel(Context.interfaceState.state.currentActorUid, channel)
-      .length > 0
-  ) {
-    return !canCancelOnGoingAction();
-  }
-  return false;
 }
 
 export function showActorNotifications(actorUid: ActorId) {

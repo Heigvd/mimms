@@ -12,8 +12,9 @@ type EffectDefinition = Definition<Effect, ActionValidationContext>;
 export type FlatEffect = MapToFlatType<Effect, 'effect'>;
 
 export function toFlatEffect(effect: Effect, parentId: Uid): FlatEffect {
+  const { impacts, ...flatEffect } = effect;
   return {
-    ...effect,
+    ...flatEffect,
     parent: parentId,
     superType: 'effect',
   };
@@ -34,7 +35,7 @@ export function getEffectDefinition(): EffectDefinition {
       type: 'effect',
       uid: generateId(10),
       index: 0,
-      tag: 'New effect',
+      tag: '',
       parent: 'no parent',
       impacts: [],
     }),

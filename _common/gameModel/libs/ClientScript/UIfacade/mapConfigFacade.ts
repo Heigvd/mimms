@@ -12,7 +12,7 @@ import {
   getEmptyFeatureCollection,
   getExtentCenter,
 } from '../gameMap/utils/mapUtils';
-import { parseExtent } from '../map/layersData';
+import { parseExtent } from '../mapAlgorithms/layersData';
 import { saveToObjectDescriptor } from '../tools/WegasHelper';
 
 const mapRef = Helpers.useRef<any>('map', null);

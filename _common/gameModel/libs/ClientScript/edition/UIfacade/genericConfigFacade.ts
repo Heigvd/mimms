@@ -1,5 +1,6 @@
 import { Uid } from '../../game/common/interfaces';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
+import { compareByIndex } from '../../tools/indexedSorting';
 import { scenarioEditionLogger } from '../../tools/logger';
 import {
   ControllerType,
@@ -11,7 +12,8 @@ import {
   FlatTypeBySuperType,
   FlatTypes,
   SuperTypeNames,
-} from '../controllers/dataController';
+} from '../controllers/dataControllerBase';
+import { getSiblings } from '../controllers/parentedUtils';
 import { getCurrentPage } from './mainMenuStateFacade';
 
 /**
@@ -45,22 +47,22 @@ export function unselect(itemType: SuperTypeNames): void {
   getCurrentController()?.unselect(itemType);
 }
 
-export function getSelected(itemType: SuperTypeNames): FlatTypes | undefined {
+export function getSelectedReadOnly(itemType: SuperTypeNames): Readonly<FlatTypes> | undefined {
   return getCurrentController()?.getSelected(itemType);
 }
 
-export function getSelectedTyped<S extends SuperTypeNames>(
+export function getSelectedTypedReadOnly<S extends SuperTypeNames>(
   superType: S
-): FlatTypeBySuperType[S] | undefined {
-  return getCurrentController()?.getSelected(superType) as FlatTypeBySuperType[S];
+): Readonly<FlatTypeBySuperType[S]> | undefined {
+  return getSelectedReadOnly(superType) as FlatTypeBySuperType[S];
 }
 
 export function isSelected(itemType: SuperTypeNames, uid: Uid): boolean {
-  return getSelected(itemType)?.uid === uid;
+  return getSelectedReadOnly(itemType)?.uid === uid;
 }
 
 export function isSomethingSelected(itemType: SuperTypeNames): boolean {
-  return getSelected(itemType) != undefined;
+  return getSelectedReadOnly(itemType) != undefined;
 }
 
 export function getSelectionColorClass(itemType: SuperTypeNames, uid: Uid): string {
@@ -73,23 +75,20 @@ export function getSelectionColorClass(itemType: SuperTypeNames, uid: Uid): stri
 //////////////////////////////////////////////////////////////////////////////////////
 // items
 
-export function getData(): Record<Uid, FlatTypes> {
-  return getCurrentController()?.getFlatDataClone() || {};
-}
-
-function getDataAsArray(): FlatTypes[] {
-  return Object.values(getData());
+function getDataReadOnly(): Readonly<Record<Uid, Readonly<FlatTypes>>> {
+  return getCurrentController()?.getFlatData() || {};
 }
 
 export function getItems(itemType: SuperTypeNames, parentType?: SuperTypeNames): FlatTypes[] {
   let result: FlatTypes[] = [];
 
+  const dataArray = Object.values(getDataReadOnly());
   if (parentType == undefined) {
-    result = getDataAsArray().filter(item => item.superType === itemType);
+    result = dataArray.filter(item => item.superType === itemType);
   } else {
-    const selectedParent = getSelected(parentType)?.uid;
+    const selectedParent = getSelectedReadOnly(parentType)?.uid;
     if (selectedParent !== undefined) {
-      result = getDataAsArray().filter(
+      result = dataArray.filter(
         item => item.superType === itemType && item.parent === selectedParent
       );
     }
@@ -128,7 +127,7 @@ export function addNew<T extends CreationOptionsBase>(
 ): FlatTypes | undefined {
   let parentId: Uid = '';
   if (parentType) {
-    parentId = getSelected(parentType)?.uid ?? '';
+    parentId = getSelectedReadOnly(parentType)?.uid ?? '';
   }
   const options: CreationOptionsBase = creationOptions ?? {};
   options.parentType = parentType;
@@ -156,6 +155,15 @@ export function deleteItem(itemId: Uid): void {
     controller.remove(itemId);
   } else {
     scenarioEditionLogger.warn(`No controller found, could not delete ${itemId}`);
+  }
+}
+
+export function duplicateItem(itemId: Uid): void {
+  const controller = getCurrentController();
+  if (controller) {
+    controller.duplicate(itemId);
+  } else {
+    scenarioEditionLogger.warn(`No controller found, could not duplicate ${itemId}`);
   }
 }
 
@@ -192,12 +200,40 @@ export function isAlone(itemId: Uid): boolean {
   return !canMoveUp(itemId) && !canMoveDown(itemId);
 }
 
+// an effect's first feedback impact is the one always guaranteed to exist, it must stay in place
+// (further feedback impacts a scenarist adds manually behave like regular impacts)
+function isLockedInPlace(item: FlatTypes | undefined): boolean {
+  if (item?.superType !== 'impact' || item.type !== 'feedback') {
+    return false;
+  }
+  const feedbackSiblings = Object.values(getSiblings(item.uid, getDataReadOnly()))
+    .filter(sibling => sibling.superType === 'impact' && sibling.type === 'feedback')
+    .sort(compareByIndex);
+  return feedbackSiblings[0]?.uid === item.uid;
+}
+
+function isMovable(itemId: Uid): boolean {
+  return !isLockedInPlace(getDataReadOnly()[itemId]);
+}
+
+// the sibling right above, sorted by index (undefined if itemId is already first)
+function getPreviousSibling(itemId: Uid): FlatTypes | undefined {
+  const data = getDataReadOnly();
+  const siblings = Object.values(getSiblings(itemId, data)).sort(compareByIndex);
+  const itemIndex = siblings.findIndex(sibling => sibling.uid === itemId);
+  return itemIndex > 0 ? siblings[itemIndex - 1] : undefined;
+}
+
 export function canMoveUp(itemId: Uid): boolean {
-  return getCurrentController()?.canMove(itemId, 'UP') || false;
+  return (
+    isMovable(itemId) &&
+    !isLockedInPlace(getPreviousSibling(itemId)) &&
+    (getCurrentController()?.canMove(itemId, 'UP') || false)
+  );
 }
 
 export function canMoveDown(itemId: Uid): boolean {
-  return getCurrentController()?.canMove(itemId, 'DOWN') || false;
+  return isMovable(itemId) && (getCurrentController()?.canMove(itemId, 'DOWN') || false);
 }
 
 export function moveUp(itemId: Uid): void {
@@ -209,18 +245,18 @@ export function moveDown(itemId: Uid): void {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-// deletion permission
+// deletion (& duplication) permission
 
 export function canBeDeleted(item: FlatTypes): boolean {
   if (item.superType === 'mapEntity') {
-    return item.binding !== LOCATION_ENUM.chantier;
+    return item.binding !== LOCATION_ENUM.chantier && item.binding !== LOCATION_ENUM.entreeChantier;
   }
 
   if (item.superType === 'action' || item.superType === 'trigger') {
     return !item.mandatory;
   }
 
-  return true;
+  return !isLockedInPlace(item);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

@@ -1,85 +1,77 @@
-@media screen and (min-width: 1200px){
-	.theGame-container{
-		/*width: 95vw;
-		height: 90vh;*/
-    width: 100%;
-    height: 100%;
-		padding: 0px;
-		margin: auto;
-	}
+/*** LOW SCREENS (ex: 1280×720 laptops) ***/
+/* selectors are prefixed to win over the base rules whatever the stylesheet order */
+@media screen and (max-height: 800px){
+  /* tighter spacing */
+  .drillPretriPage-container .welcome-page,
+  .drillPretriPage-container .ongoing-page,
+  .drillPretriPage-container .summary-page {
+    padding: 2rem 1.5rem 1.5rem;
+  }
 
-	.theGame{
-		padding: 0px;
-		margin: 0px;
-	}
+  /* top bar: compact timer and offsets matching the 2rem top padding */
+    .drillPretriPage-container .language-switcher-container {
+      top: 4px;
+      left: 1.5rem;
+    }
 
-	.westSide-container{
-		width: 40%;
-		padding: 0px;
-		margin: 0px;
-	}
+  .drillPretriPage-container .top-bar {
+    top: -30px;
+  }
 
-	.eastSide-container{
-		width: 60%;
-		padding: 0px;
-		margin: 0px;
-	}
+  .drillPretriPage-container .top-bar.text-meta {
+    top: -22px;
+  }
 
-	.leftPanel-container{
-		padding: 0px;
-		margin: 0px;
-		flex-basis: auto;
-		
-	}
+  .drillPretriPage-container .pretri-clock {
+    padding: .25rem .75rem;
+  }
 
-	
-	.information-container{
-		flex-basis: auto;
-		flex-grow:1;
-		flex-shrink: 1;
-	}
-	
+  .drillPretriPage-container .pretri-card {
+    padding: 1rem;
+  }
+
+  .drillPretriPage-container .pretri-medium-space {
+    gap: 1rem;
+  }
+
+  /* anatomical silhouette: zoom scales the image AND the fixed-size clickable zones together */
+  .ongoing-page .shadowMan {
+    zoom: .75;
+  }
+
+  /* bloody patient and pain smiley: smaller */
+  .ongoing-page .bloodyPatient-container,
+  .patient-summary__modal .bloodyPatient-container {
+    flex-basis: 140px;
+  }
+
+  .ongoing-page .painSmiley-container,
+  .patient-summary__modal .painSmiley-container {
+    flex-basis: 64px;
+  }
 }
 
-/*** SMALL SCREENS ***/
-@media screen and (max-width: 1199px){
-/* The general container for both sides */
-	.westSide-container{
-		width: 50%;
-		padding: 0px;
-		margin: 0px;
-	}
-
-	.eastSide-container{
-		width: 50%;
-		padding: 0px;
-		margin: 0px;
-	}
-	
-
-
-	.information-container{
-		flex-basis: auto;
-		flex-grow:1;
-		flex-shrink: 1;	
-	}
-
-
-	.leftPanel-container{
-		padding: 0px;
-		margin: 0px;
-	}
+/*** REVIEW MODAL: anatomical silhouette ***/
+/* Less room than in the game screen (modal frame + "Review" header): the silhouette is reduced more,
+   by steps on the screen height. zoom scales the image AND the clickable zones together, so they stay aligned */
+.patient-summary__modal .shadowMan {
+  zoom: .8;
 }
 
-/*** GINORMOUS SCREENS ***/
-@media screen and (min-width: 2500px){
-	.theGame-container{
-		width: 75vw;
-		/*height: 90vh;*/
-		padding: 0px;
-	}
+@media screen and (max-height: 900px) {
+  .patient-summary__modal .shadowMan {
+    zoom: .7;
+  }
+}
 
-	.fullSize{
-		width: 75vw;
-	}
+@media screen and (max-height: 800px) {
+  .patient-summary__modal .shadowMan {
+    zoom: .6;
+  }
+}
+
+@media screen and (max-height: 700px) {
+  .patient-summary__modal .shadowMan {
+    zoom: .5;
+  }
 }

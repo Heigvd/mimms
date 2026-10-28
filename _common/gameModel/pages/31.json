@@ -6,18 +6,44 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "choice-title",
+                "children" : [ {
+                  "props" : {
+                    "className" : "choice-title",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "title",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  I18n.translate(Context.choice.title);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "noMargin choice-title",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "duration",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { formatChoiceDuration } from \"./UIfacade/actionFacade\";\nformatChoiceDuration(Context.action, Context.choice);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "layout" : {
+                  "justifyContent" : "space-between"
+                },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "title",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "  I18n.translate(Context.choice.title);",
-                  "language" : "TypeScript"
-                }
+                "name" : "choice header",
+                "style" : { }
               },
-              "type" : "Text"
+              "type" : "FlexList"
             }, {
               "props" : {
                 "className" : "choice-description",
@@ -27,7 +53,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "  I18n.translate(Context.choice.description);",
+                  "content" : "const translation = I18n.translate(Context.choice.description);\n`${translation.replace(/\\n/g, '<br/>')}`;",
                   "language" : "TypeScript"
                 }
               },
@@ -70,6 +96,11 @@
           "@class" : "Script",
           "content" : "import { getAvailableChoices } from \"./UIfacade/actionFacade\";\ngetAvailableChoices(Context.action);",
           "language" : "TypeScript"
+        },
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { choiceHasContent, getAvailableChoices } from \"./UIfacade/actionFacade\";\n  const choices = getAvailableChoices(Context.action);\nchoices.length === 1 && !choiceHasContent(choices[0]);",
+          "language" : "typescript"
         },
         "itemKey" : "uid",
         "layout" : {

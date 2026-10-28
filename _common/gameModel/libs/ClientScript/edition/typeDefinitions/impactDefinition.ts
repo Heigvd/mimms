@@ -7,6 +7,7 @@ import {
 } from '../../game/common/impacts/implementation/activationImpact';
 import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
 import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
+import { FeedbackImpact } from '../../game/common/impacts/implementation/feedbackImpact';
 import { NotificationMessageImpact } from '../../game/common/impacts/implementation/notificationImpact';
 import { RadioMessageImpact } from '../../game/common/impacts/implementation/radioImpact';
 import { Uid } from '../../game/common/interfaces';
@@ -14,12 +15,13 @@ import { RadioType } from '../../game/common/radio/communicationType';
 import { generateId } from '../../tools/helper';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { createOrUpdateTranslation } from '../../tools/translation';
-import { SuperTypeNames } from '../controllers/dataController';
+import { SuperTypeNames } from '../controllers/dataControllerBase';
 import { ALL_EDITABLE, Definition, MapToDefinition, MapToFlatType } from './definition';
 import {
   activationImpactValidator,
   choiceEffectValidator,
   emptyImpactValidator,
+  feedbackImpactValidator,
   mapActivationImpactValidator,
   notificationMessageImpactValidator,
   radioMessageImpactValidator,
@@ -68,6 +70,9 @@ export function getImpactDefinition(
     case 'empty':
       definition = getEmptyImpactDef();
       break;
+    case 'feedback':
+      definition = getFeedbackImpactDef();
+      break;
   }
 
   if (definition?.type !== type) {
@@ -106,6 +111,7 @@ export function getActivationImpactDef(): Definition<ActivationImpact, ImpactVal
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
+      delayFrom: 'end',
       activableType: undefined,
       target: '',
       option: 'activate',
@@ -116,6 +122,7 @@ export function getActivationImpactDef(): Definition<ActivationImpact, ImpactVal
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
+      delayFrom: ALL_EDITABLE,
       activableType: ALL_EDITABLE,
       target: ALL_EDITABLE,
       option: ALL_EDITABLE,
@@ -134,6 +141,7 @@ export function getChoiceEffectSelectionImpactDef(): Definition<
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
+      delayFrom: 'end',
       target: '',
       targetEffect: '',
     }),
@@ -143,6 +151,7 @@ export function getChoiceEffectSelectionImpactDef(): Definition<
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
+      delayFrom: ALL_EDITABLE,
       target: ALL_EDITABLE,
       targetEffect: ALL_EDITABLE,
     },
@@ -159,6 +168,7 @@ export function getNotificationImpactDef(
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
+      delayFrom: 'end',
       message: createOrUpdateTranslation('', undefined),
       roles: {
         ACS: false,
@@ -166,8 +176,7 @@ export function getNotificationImpactDef(
         AL: false,
         CASU: false,
         EVASAN: false,
-        LEADPMA: false,
-        Initiator: parentType === 'effect' ? true : false,
+        Initiator: parentType === 'effect',
       },
     }),
     validator: notificationMessageImpactValidator,
@@ -176,6 +185,7 @@ export function getNotificationImpactDef(
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
+      delayFrom: ALL_EDITABLE,
       message: ALL_EDITABLE,
       roles: {} as any, // TODO ALL_EDITABLE,
     },
@@ -190,6 +200,7 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact, ImpactValida
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
+      delayFrom: 'end',
       message: createOrUpdateTranslation('', undefined),
       channel: RadioType.CASU,
     }),
@@ -199,6 +210,7 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact, ImpactValida
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
+      delayFrom: ALL_EDITABLE,
       message: ALL_EDITABLE,
       channel: ALL_EDITABLE,
     },
@@ -216,6 +228,7 @@ export function getMapActivationImpactDef(): Definition<
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
+      delayFrom: 'end',
       activableType: 'mapEntity',
       target: '',
       option: 'activate',
@@ -227,9 +240,33 @@ export function getMapActivationImpactDef(): Definition<
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
+      delayFrom: ALL_EDITABLE,
       option: ALL_EDITABLE,
       target: ALL_EDITABLE,
       buildStatus: ALL_EDITABLE,
+    },
+  };
+}
+
+export function getFeedbackImpactDef(): Definition<FeedbackImpact, ImpactValidationContext> {
+  return {
+    type: 'feedback',
+    getDefault: () => ({
+      type: 'feedback',
+      uid: generateId(10),
+      index: 0,
+      delaySeconds: 0,
+      message: createOrUpdateTranslation('', undefined),
+      delayFrom: 'start',
+    }),
+    validator: feedbackImpactValidator,
+    view: {
+      type: ALL_EDITABLE,
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      delaySeconds: ALL_EDITABLE,
+      message: ALL_EDITABLE,
+      delayFrom: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
     },
   };
 }

@@ -1,5 +1,5 @@
 import { FeatureCollection } from '../../gameMap/types/featureTypes';
-import { add, mul, Point, sub } from '../../map/point2D';
+import { add, mul, Point, sub } from '../../tools/point2D';
 
 /**
  * Convert Point to PointLikeObject

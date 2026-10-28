@@ -1,22 +1,18 @@
 import { Actor } from '../game/common/actors/actor';
 import { ActorId } from '../game/common/baseTypes';
-import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { getInterfaceConfiguration } from '../gameInterface/interfaceConfiguration';
-import { openOverlayItem } from '../gameMap/mapEntities';
 import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
-import * as TaskFacade from './taskFacade';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
-import { OnTheRoadAction } from '../game/common/actions/actionBase';
 import {
   getTypedInterfaceState,
   InterfaceState,
   setInterfaceState,
 } from '../gameInterface/interfaceState';
 import { canActorPlanAction } from '../gameInterface/main';
-import { getTranslation } from '../tools/translation';
 import { refreshActivableLayer, refreshSelectionLayer } from '../gameMap/main';
+import { OnTheRoadAction } from '../game/common/actions/actorActions';
+import { bringOverlayItemToFront } from './mapFacade';
 
 /**
  * @returns All currently present actors
@@ -25,13 +21,16 @@ export function getAllActors(): Readonly<Actor[]> {
   return getCurrentState().getAllActors();
 }
 
+//
+export function getSelectedActor(): Readonly<Actor> | undefined {
+  return getActor(getTypedInterfaceState()?.currentActorUid || 0);
+}
+
 // used in page 43
 export function selectActor(id: ActorId): InterfaceState {
   const newState = Helpers.cloneDeep(getTypedInterfaceState());
 
   newState.currentActorUid = id;
-  newState.resources.allocateResources.currentTaskId =
-    TaskFacade.initResourceManagementCurrentTaskId(id, getActor(id)?.Location, CommMedia.Direct);
   setInterfaceState(newState);
   refreshSelectionLayer();
   refreshActivableLayer();
@@ -41,7 +40,7 @@ export function selectActor(id: ActorId): InterfaceState {
 // used in page 43
 export function selectActorAndOpenMapLocation(id: ActorId): InterfaceState {
   const newState = selectActor(id);
-  openOverlayItem(getActorLocation(id)!);
+  bringOverlayItemToFront(getActorLocation(id)!);
   return newState;
 }
 
@@ -63,41 +62,10 @@ export function getPlayerIdleActors(): Readonly<Actor[]> {
 }
 
 /**
- * When the player clicks on continue a soft warning is shown if an actor is idle
- * This boolean forces deactivation of this warning
- */
-let hideSoftWarning = false;
-
-export function hideSoftWarningTemporarily(): void {
-  hideSoftWarning = true;
-  setTimeout(() => (hideSoftWarning = false), 2000);
-}
-
-/**
- * @returns true if there are actors available to the current player that can plan a new action
- */
-export function isSoftWarningActive(): boolean {
-  return getPlayerIdleActors().length > 0 && hideSoftWarning == false;
-}
-
-/**
- * @returns a message if the player hasn't assigned an action to one/several actors
- */
-export function getIdleActorsWarningMessage(): string {
-  return (
-    getPlayerIdleActors()
-      .map(actor => actor.ShortName)
-      .join(', ') + getTranslation('mainSim-interface', 'soft-warning')
-  );
-}
-
-/**
  * @returns All actors visible to the current player (in the timeline)
  */
 export function getVisibleActorsInTimelineForCurrentPlayer() {
-  return getInterfaceConfiguration().timeline.viewNonPlayerActors
-    ? getAllActors().filter(actor => actor.Role != 'CASU')
-    : getCurrentPlayerActors();
+  return getAllActors().filter(actor => actor.Role != 'CASU');
 }
 
 /**
@@ -151,8 +119,6 @@ export function getInterfaceColorClass(id: ActorId): string {
         return 'theme-mcs';
       case 'EVASAN':
         return 'theme-evasan';
-      case 'LEADPMA':
-        return 'theme-leadpma';
     }
   }
   return 'theme-al';
